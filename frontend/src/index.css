@@ -55,6 +55,16 @@ footer section {
   font-size: 1.5em;
 }
 
+@media (max-width: 1350px) {
+  footer section {
+    display: flex;
+    flex-direction: row;
+  }
+  footer section Button {
+    width: 20%;
+  }
+}
+
 @media (max-width: 900px) {
   header {
     flex-direction: column;
@@ -70,6 +80,9 @@ footer section {
   footer section {
     display: flex;
     flex-direction: column;
+  }
+  footer section Button {
+    width: 100%;
   }
 }
 

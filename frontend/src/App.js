@@ -2,6 +2,7 @@ import React from 'react';
 import Header from "./components/Header";
 import Button from "./components/Button";
 import LoginForm from "./pages/LoginForm";
+import SetsPage from "./pages/SetsPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -28,6 +29,12 @@ class App extends React.Component {
                     { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
                 ];
                 break;
+            case "sets":
+                options = [
+                    { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
+                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
+                ]
+                break;
             default:
                 options = [];
                 break;
@@ -43,11 +50,6 @@ class App extends React.Component {
         if (prevState.currentPage !== this.state.currentPage) {
             this.updateOptions(this.state.currentPage);
         }
-    }
-
-    handleCloseLoginForm = () => {
-        console.log('Close login form');
-        this.setState({ showLoginForm: false });
     }
 
     handlePageChange = (page) => {
@@ -82,9 +84,8 @@ class App extends React.Component {
                         </footer>
                     </>
                 )}
-                {currentPage === "login" && (
-                    <LoginForm onClose={this.handleCloseLoginForm} />
-                )}
+                {currentPage === "login" && ( <LoginForm /> )}
+                {currentPage === "sets" && ( <SetsPage /> )}
             </div>
         );
     }
