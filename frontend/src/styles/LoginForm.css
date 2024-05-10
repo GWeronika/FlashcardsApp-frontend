@@ -8,7 +8,7 @@
 
 .login-form {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 1em;
     padding: 20px 40px 20px 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 30%;
@@ -16,7 +16,7 @@
 
 .login-form-input {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 1em;
     padding: 20px;
 }
 
@@ -34,7 +34,7 @@
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 0.5em;
 }
 
 .login-form Button {

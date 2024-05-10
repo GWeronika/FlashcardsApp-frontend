@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Button from "./components/Button";
 import LoginForm from "./pages/LoginForm";
 import SetsPage from "./pages/SetsPage";
+import CreateSetForm from "./pages/CreateSetForm";
 
 class App extends React.Component {
     constructor(props) {
@@ -30,6 +31,12 @@ class App extends React.Component {
                 ];
                 break;
             case "sets":
+                options = [
+                    { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
+                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
+                ]
+                break;
+            case "create":
                 options = [
                     { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
                     { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
@@ -86,6 +93,7 @@ class App extends React.Component {
                 )}
                 {currentPage === "login" && ( <LoginForm /> )}
                 {currentPage === "sets" && ( <SetsPage /> )}
+                {currentPage === "create" && ( <CreateSetForm /> )}
             </div>
         );
     }

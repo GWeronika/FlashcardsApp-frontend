@@ -16,12 +16,15 @@
     padding: 0.7em;
     border-radius: 0.8rem;
     background-color: rgba(220, 67, 69, 0.18);
+    border: none;
+    margin-right: 5px;
 }
 
 .search-div button {
     width: 10%;
     background-color: #DC4345;
     border-radius: 0.8rem;
+    border: none;
 }
 
 .search-div button:hover {

@@ -1,0 +1,101 @@
+.create-form-container {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(43, 128, 128, 0.35);
+    border-radius: 5px;
+}
+
+.name-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.create-form {
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-form input {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.create-form button {
+    width: 50%;
+    padding: 10px 20px;
+    background-color: #359E9E;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 20%;
+}
+
+.create-form button:hover {
+    background-color: #2b8080;
+    text-decoration: underline;
+}
+
+.created-div {
+    margin-top: 20px;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.flashcard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.flashcard {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.flashcard-item {
+    margin-bottom: 5px;
+}
+
+.flashcard-title {
+    font-weight: bold;
+}
+
+.flashcard-value {
+    margin-left: 10px;
+}
+
+.star {
+    font-size: 2em;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.star.is-favourite {
+    color: gold;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 150%;
+}
