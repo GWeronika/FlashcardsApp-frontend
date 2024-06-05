@@ -4,6 +4,7 @@ import Button from "./components/Button";
 import LoginForm from "./pages/LoginForm";
 import SetsPage from "./pages/SetsPage";
 import CreateSetForm from "./pages/CreateSetForm";
+import RegisterForm from "./pages/RegisterForm";
 
 class App extends React.Component {
     constructor(props) {
@@ -32,13 +33,19 @@ class App extends React.Component {
                 break;
             case "sets":
                 options = [
-                    { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
-                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
+                    { onClick: () => this.handlePageChange("create"), icon: "fa-solid fa-square-plus", text: "Create" },
+                    { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
                 ]
                 break;
             case "create":
                 options = [
-                    { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
+                    { onClick: () => this.handlePageChange("sets"), icon: "fa-solid fa-book-bookmark", text: "Sets" },
+                    { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
+                ]
+                break;
+            case "register":
+                options = [
+                    { onClick: () => this.handlePageChange("login"), icon: "fa-solid fa-user", text: "Log in" },
                     { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
                 ]
                 break;
@@ -72,7 +79,7 @@ class App extends React.Component {
                 <Header
                     currentPage={currentPage}
                     options={options}
-                    onPageChange={this.handlePageChange}
+                    onLogoClick={() => this.handlePageChange("home")}
                 />
                 {currentPage === "home" && (
                     <>
@@ -94,6 +101,7 @@ class App extends React.Component {
                 {currentPage === "login" && ( <LoginForm /> )}
                 {currentPage === "sets" && ( <SetsPage /> )}
                 {currentPage === "create" && ( <CreateSetForm /> )}
+                {currentPage === "register" && ( <RegisterForm /> )}
             </div>
         );
     }

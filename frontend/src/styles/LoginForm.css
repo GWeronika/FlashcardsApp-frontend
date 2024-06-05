@@ -6,6 +6,10 @@
     background-color: rgba(53, 158, 158, 0.24);
 }
 
+.change-color {
+    background-color: rgba(220, 67, 69, 0.24);
+}
+
 .login-form {
     background-color: white;
     border-radius: 1em;
@@ -17,7 +21,7 @@
 .login-form-input {
     background-color: white;
     border-radius: 1em;
-    padding: 20px;
+    padding: 0 20px;
 }
 
 .login-form h2 {
@@ -43,8 +47,16 @@
     background-color: #359E9E;
 }
 
+.change-color-button Button {
+    background-color: #DC4345;
+}
+
 .login-form Button:hover {
     background-color: #216262;
+}
+
+.change-color-button Button:hover {
+    background-color: #9d3034;
 }
 
 .login-form-options {
