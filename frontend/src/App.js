@@ -101,7 +101,7 @@ class App extends React.Component {
                 {currentPage === "login" && ( <LoginForm /> )}
                 {currentPage === "sets" && ( <SetsPage /> )}
                 {currentPage === "create" && ( <CreateSetForm /> )}
-                {currentPage === "register" && ( <RegisterForm /> )}
+                {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
             </div>
         );
     }

@@ -19,10 +19,28 @@ const RegisterForm = ({ onClose }) => {
         setRepeatPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Rejestracja...');
-        onClose();
+        if (password !== repeat_password) {
+            alert("Passwords do not match");
+            return;
+        }
+        try {
+            const response = await fetch('/api/user/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+                body: new URLSearchParams({
+                    name: username,
+                    password: password,
+                })
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            onClose();
+        } catch (error) {
+            alert(`Failed to register user: ${error.message}`);
+        }
     };
 
     return (
