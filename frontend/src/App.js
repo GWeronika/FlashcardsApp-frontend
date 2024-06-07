@@ -98,7 +98,7 @@ class App extends React.Component {
                         </footer>
                     </>
                 )}
-                {currentPage === "login" && ( <LoginForm /> )}
+                {currentPage === "login" && ( <LoginForm onClose={() => this.handlePageChange("sets")} /> )}
                 {currentPage === "sets" && ( <SetsPage /> )}
                 {currentPage === "create" && ( <CreateSetForm /> )}
                 {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
