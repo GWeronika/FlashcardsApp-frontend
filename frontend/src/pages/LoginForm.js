@@ -9,15 +9,32 @@ const LoginForm = ({ onClose }) => {
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
-
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Logowanie...');
-        onClose();
+        try {
+            const formData = new URLSearchParams();
+            formData.append('username', username);
+            formData.append('password', password);
+
+            const response = await fetch('/api/user/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+                body: formData,
+            });
+            if (response.ok) {
+                alert('Successfully logged in.');
+                onClose();
+            } else {
+                const errorMessage = await response.text();
+                console.error('Login failed:', errorMessage);
+            }
+        } catch (error) {
+            console.error('An error occurred during login:', error);
+        }
     };
 
     return (
