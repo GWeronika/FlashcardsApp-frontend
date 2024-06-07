@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    /*padding: 20px;*/
 }
 
 .search-div {
@@ -15,20 +15,21 @@
     width: 90%;
     padding: 0.7em;
     border-radius: 0.8rem;
-    background-color: rgba(220, 67, 69, 0.18);
+    background-color: rgba(197, 190, 191, 0.18);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border: none;
     margin-right: 5px;
 }
 
 .search-div button {
     width: 10%;
-    background-color: #DC4345;
+    background-color: rgba(53, 158, 158, 0.24);
     border-radius: 0.8rem;
     border: none;
 }
 
 .search-div button:hover {
-    background-color: #b73a3d;
+    background-color: rgba(53, 158, 158, 0.49);
 }
 
 .sets-div {
@@ -38,7 +39,7 @@
 }
 
 .set-box {
-    background-color: #fff;
+    background-color: rgba(53, 158, 158, 0.24);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -48,10 +49,18 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    text-align: center;
 }
 
 .set-description {
     margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    text-align: justify;
+    font-size: 0.8em;
 }
 
 .flashcards {
