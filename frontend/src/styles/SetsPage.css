@@ -2,11 +2,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*padding: 20px;*/
 }
 
 .search-div {
-    margin: 2em;
+    margin: 1em;
     width: 70%;
     display: flex;
 }
@@ -16,7 +15,6 @@
     padding: 0.7em;
     border-radius: 0.8rem;
     background-color: rgba(197, 190, 191, 0.18);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border: none;
     margin-right: 5px;
 }
@@ -33,16 +31,22 @@
 }
 
 .sets-div {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    /*display: grid;*/
+    /*grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));*/
+    /*gap: 20px;*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .set-box {
+    width: 18em;
     background-color: rgba(53, 158, 158, 0.24);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    margin: 0.7em;
 }
 
 .set-title {
@@ -53,24 +57,22 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1em;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    position: relative;
 }
 
 .set-description {
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 1em;
     text-align: justify;
     font-size: 0.8em;
-}
-
-.flashcards {
-    display: flex;
-    flex-direction: column;
+    font-weight: normal;
 }
 
 .flashcard {
-    background-color: #f0f0f0;
     border-radius: 5px;
     margin-top: 10px;
     padding: 10px;
+    text-align: center;
 }

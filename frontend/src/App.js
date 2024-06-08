@@ -67,7 +67,6 @@ class App extends React.Component {
     }
 
     handlePageChange = (page) => {
-        console.log('Page changed to:', page);
         this.setState({ currentPage: page });
     }
 
