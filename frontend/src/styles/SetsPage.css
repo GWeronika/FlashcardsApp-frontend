@@ -133,7 +133,7 @@
     text-align: center;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
     .actions-div {
         display: flex;
         flex-direction: column;

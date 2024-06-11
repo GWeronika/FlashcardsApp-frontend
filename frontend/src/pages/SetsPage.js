@@ -10,10 +10,12 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
     const [showMySets, setShowMySets] = useState(false);
     const setsPerPage = 12;
 
-    const fetchSets = useCallback(async (showMySets, ascending = true) => {
+    const fetchSets = useCallback(async (showMySets, ascending = true, searchTerm = '') => {
         try {
             let url;
-            if (showMySets && isLoggedIn) {
+            if (searchTerm) {
+                url = `/api/set/search?searchTerm=${searchTerm}`;
+            } else if (showMySets && isLoggedIn) {
                 url = `/api/set/select/userid?userID=${currentUser.userId}`;
             } else {
                 url = `/api/set/sort-date?ascending=${ascending}`;
@@ -47,12 +49,11 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
 
     useEffect(() => {
         const ascending = filterOption === 'Latest';
-        fetchSets(showMySets, ascending);
-    }, [filterOption, showMySets, fetchSets]);
+        fetchSets(showMySets, ascending, searchTerm);
+    }, [filterOption, showMySets, searchTerm, fetchSets]);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        //TODO: filtering logic
     };
 
     const handlePageChange = (pageNumber) => {
@@ -102,10 +103,6 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
                                 <option value="Oldest">Oldest</option>
                             </select>
                         </label>
-                        <input
-                            type="date"
-                            onChange={(e) => console.log(`Date filter: ${e.target.value}`)}
-                        />
                     </div>
                     <div className="my-sets-div">
                         <button onClick={handleMySetsClick}>

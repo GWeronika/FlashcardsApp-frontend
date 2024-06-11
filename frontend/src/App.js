@@ -28,7 +28,6 @@ class App extends React.Component {
 
     handleLogin = (user) => {
         this.setState({ isLoggedIn: true, currentUser: user });
-        console.log(`user id: ${user.userId}`);
     }
 
     handleLogout = () => {
