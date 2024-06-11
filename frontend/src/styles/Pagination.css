@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .pagination button {
@@ -18,12 +18,12 @@
 }
 
 .pagination button.active {
-    background-color: #216262;
+    background-color: #359E9E;
     color: white;
 }
 
 .pagination button:hover:not(.active) {
-    background-color: #359E9E;
+    background-color: rgba(53, 158, 158, 0.60);
 }
 
 .pagination button:disabled {

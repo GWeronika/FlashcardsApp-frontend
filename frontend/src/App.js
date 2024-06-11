@@ -10,9 +10,31 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoggedIn: false,
             currentPage: "home",
             options: [],
+            currentUser: null,
         };
+    }
+
+    componentDidMount() {
+        this.updateOptions(this.state.currentPage);
+        const token = localStorage.getItem('token');
+        const currentUser = localStorage.getItem('currentUser');
+        if (token && currentUser) {
+            this.setState({ isLoggedIn: true, currentUser: JSON.parse(currentUser) });
+        }
+    }
+
+    handleLogin = (user) => {
+        this.setState({ isLoggedIn: true, currentUser: user });
+        console.log(`user id: ${user.userId}`);
+    }
+
+    handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
+        this.setState({ isLoggedIn: false, currentUser: null });
     }
 
     updateOptions = (page) => {
@@ -56,22 +78,12 @@ class App extends React.Component {
         this.setState({ options });
     }
 
-    componentDidMount() {
-        this.updateOptions(this.state.currentPage);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.currentPage !== this.state.currentPage) {
-            this.updateOptions(this.state.currentPage);
-        }
-    }
-
     handlePageChange = (page) => {
         this.setState({ currentPage: page });
     }
 
     render() {
-        const { currentPage, options } = this.state;
+        const { currentPage, options, isLoggedIn, currentUser } = this.state;
 
         return (
             <div>
@@ -79,6 +91,9 @@ class App extends React.Component {
                     currentPage={currentPage}
                     options={options}
                     onLogoClick={() => this.handlePageChange("home")}
+                    isLoggedIn={isLoggedIn}
+                    onLogout={this.handleLogout}
+                    currentUser={{currentUser}}
                 />
                 {currentPage === "home" && (
                     <>
@@ -97,8 +112,8 @@ class App extends React.Component {
                         </footer>
                     </>
                 )}
-                {currentPage === "login" && ( <LoginForm onClose={() => this.handlePageChange("sets")} /> )}
-                {currentPage === "sets" && ( <SetsPage /> )}
+                {currentPage === "login" && ( <LoginForm onClose={() => this.handlePageChange("sets")} onLogin={this.handleLogin} /> )}
+                {currentPage === "sets" && ( <SetsPage isLoggedIn={isLoggedIn} currentUser={currentUser} /> )}
                 {currentPage === "create" && ( <CreateSetForm /> )}
                 {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
             </div>

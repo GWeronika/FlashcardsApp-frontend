@@ -30,10 +30,61 @@
     background-color: rgba(53, 158, 158, 0.49);
 }
 
+.actions-div {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: rgba(53, 158, 158, 0.24);
+    padding: 0.2em 0;
+    border-radius: 1em;
+    justify-content: center;
+}
+
+.my-sets-div {
+    display: flex;
+}
+
+.my-sets-div button {
+    padding: 0.8em 1.7em;
+    background-color: #359E9E;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 8.4em;
+    margin-right: 1em;
+}
+
+.my-sets-div button i {
+    margin-right: 10px;
+}
+
+.filter-div {
+    display: flex;
+    align-items: center;
+    padding: 0.4em 0.8em;
+    border-radius: 0.5em;
+    margin-right: 25%;
+}
+
+.filter-div select {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    margin: 0 1em;
+    background-color: #fff;
+}
+
+.filter-div input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
 .sets-div {
-    /*display: grid;*/
-    /*grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));*/
-    /*gap: 20px;*/
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -47,6 +98,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 0.7em;
+}
+
+.set-box:hover {
+    cursor: pointer;
+    background-color: rgba(53, 158, 158, 0.50);
 }
 
 .set-title {
@@ -75,4 +131,21 @@
     margin-top: 10px;
     padding: 10px;
     text-align: center;
+}
+
+@media (max-width: 1200px) {
+    .actions-div {
+        display: flex;
+        flex-direction: column;
+    }
+    .my-sets-div {
+        display: flex;
+        margin-right: 0;
+    }
+    .my-sets-div button {
+        margin: 0 1em 0.5em;
+    }
+    .filter-div {
+        margin-right: 0;
+    }
 }
