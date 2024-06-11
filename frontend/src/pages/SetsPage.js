@@ -15,7 +15,7 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
             let url;
             if (searchTerm) {
                 url = `/api/set/search?searchTerm=${searchTerm}`;
-            } else if (showMySets && isLoggedIn) {
+            } else if (showMySets && isLoggedIn && currentUser && currentUser.userId) {
                 url = `/api/set/select/userid?userID=${currentUser.userId}`;
             } else {
                 url = `/api/set/sort-date?ascending=${ascending}`;
@@ -45,7 +45,7 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
         } catch (error) {
             console.error('Error fetching sets:', error);
         }
-    }, [isLoggedIn, currentUser.userId]);
+    }, [isLoggedIn, currentUser]);
 
     useEffect(() => {
         const ascending = filterOption === 'Latest';
@@ -93,7 +93,7 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-            {isLoggedIn && (
+            {isLoggedIn && currentUser && (
                 <div className="actions-div">
                     <div className="filter-div">
                         <label>

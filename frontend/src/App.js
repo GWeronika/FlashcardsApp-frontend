@@ -1,3 +1,5 @@
+// App.js
+
 import React from 'react';
 import Header from "./components/Header";
 import Button from "./components/Button";
@@ -43,8 +45,11 @@ class App extends React.Component {
                 options = [
                     { onClick: () => this.handlePageChange("sets"), icon: "fa-solid fa-book-bookmark", text: "Sets" },
                     { onClick: () => this.handlePageChange("create"), icon: "fa-solid fa-square-plus", text: "Create" },
-                    { onClick: () => this.handlePageChange("login"), icon: "fa-solid fa-user", text: "Log in" },
-                ];
+                    this.state.isLoggedIn ?
+                        { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" } :
+                        { onClick: () => this.handlePageChange("login"), icon: "fa-solid fa-user", text: "Log in" },
+                    this.state.isLoggedIn && { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
+                ].filter(Boolean);
                 break;
             case "login":
                 options = [
@@ -56,13 +61,15 @@ class App extends React.Component {
                 options = [
                     { onClick: () => this.handlePageChange("create"), icon: "fa-solid fa-square-plus", text: "Create" },
                     { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
-                ]
+                    { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
+                ];
                 break;
             case "create":
                 options = [
                     { onClick: () => this.handlePageChange("sets"), icon: "fa-solid fa-book-bookmark", text: "Sets" },
                     { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
-                ]
+                    { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
+                ];
                 break;
             case "register":
                 options = [
@@ -90,9 +97,6 @@ class App extends React.Component {
                     currentPage={currentPage}
                     options={options}
                     onLogoClick={() => this.handlePageChange("home")}
-                    isLoggedIn={isLoggedIn}
-                    onLogout={this.handleLogout}
-                    currentUser={{currentUser}}
                 />
                 {currentPage === "home" && (
                     <>
