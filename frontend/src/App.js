@@ -1,5 +1,3 @@
-// App.js
-
 import React from 'react';
 import Header from "./components/Header";
 import Button from "./components/Button";
@@ -29,13 +27,18 @@ class App extends React.Component {
     }
 
     handleLogin = (user) => {
-        this.setState({ isLoggedIn: true, currentUser: user });
+        this.setState({ isLoggedIn: true, currentUser: user }, () => {
+            this.updateOptions(this.state.currentPage);
+        });
     }
 
     handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
-        this.setState({ isLoggedIn: false, currentUser: null });
+        this.setState({ isLoggedIn: false, currentUser: null }, () => {
+            this.updateOptions("home");
+            this.handlePageChange("home");
+        });
     }
 
     updateOptions = (page) => {

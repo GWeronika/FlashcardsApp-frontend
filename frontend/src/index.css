@@ -65,18 +65,21 @@ footer section {
   }
 }
 
-@media (max-width: 900px) {
-  header {
-    flex-direction: column;
-  }
+@media (max-width: 1000px) {
   .logo img {
     width: 20rem;
+  }
+  header {
+    flex-direction: column;
   }
   .menu ul {
     display: flex;
     justify-content: center;
     margin: 0 0 1rem;
   }
+}
+
+@media (max-width: 900px) {
   footer section {
     display: flex;
     flex-direction: column;

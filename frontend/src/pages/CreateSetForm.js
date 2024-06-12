@@ -3,6 +3,7 @@ import '../styles/CreateSetForm.css';
 
 const CreateSetsForm = () => {
     const [setName, setSetName] = useState('');
+    const [setDescription, setSetDescription] = useState('');
     const [newFlashcard, setNewFlashcard] = useState({
         word: '',
         definition: '',
@@ -14,9 +15,25 @@ const CreateSetsForm = () => {
         setSetName(e.target.value);
     };
 
-    const handleFlashcardChange = (e) => {
-        const { name, value } = e.target;
-        setNewFlashcard({ ...newFlashcard, [name]: value });
+    const handleSetDescriptionChange = (e) => {
+        const { value } = e.target;
+        setSetDescription(value);
+    };
+
+    const handleSetWordChange = (e) => {
+        const { value } = e.target;
+        setNewFlashcard(prevState => ({
+            ...prevState,
+            word: value
+        }));
+    };
+
+    const handleSetDefinitionChange = (e) => {
+        const { value } = e.target;
+        setNewFlashcard(prevState => ({
+            ...prevState,
+            definition: value
+        }));
     };
 
     const handleAddFlashcard = (e) => {
@@ -34,21 +51,25 @@ const CreateSetsForm = () => {
                     value={setName}
                     onChange={handleSetNameChange}
                 />
+                <textarea
+                    placeholder="Description"
+                    value={setDescription}
+                    onChange={handleSetDescriptionChange}
+                    rows={1}
+                />
             </div>
             <form onSubmit={handleAddFlashcard} className="create-form">
                 <input
                     type="text"
                     placeholder="Word"
-                    name="word"
                     value={newFlashcard.word}
-                    onChange={handleFlashcardChange}
+                    onChange={handleSetWordChange}
                 />
                 <input
                     type="text"
                     placeholder="Definition"
-                    name="definition"
                     value={newFlashcard.definition}
-                    onChange={handleFlashcardChange}
+                    onChange={handleSetDefinitionChange}
                 />
                 <span
                     className={`star ${newFlashcard.isFavourite ? 'is-favourite' : ''}`}
@@ -57,7 +78,7 @@ const CreateSetsForm = () => {
                     aria-label="Add to favorites"
                 >
                     <div className="tooltip">Add to favourites</div>
-                                    &#9733;
+                    &#9733;
                 </span>
                 <button type="submit">Add Flashcard</button>
             </form>
