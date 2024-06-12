@@ -120,7 +120,7 @@ class App extends React.Component {
                 )}
                 {currentPage === "login" && ( <LoginForm onClose={() => this.handlePageChange("sets")} onLogin={this.handleLogin} /> )}
                 {currentPage === "sets" && ( <SetsPage isLoggedIn={isLoggedIn} currentUser={currentUser} /> )}
-                {currentPage === "create" && ( <CreateSetForm /> )}
+                {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} /> )}
                 {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
             </div>
         );

@@ -6,6 +6,29 @@
     border-radius: 5px;
 }
 
+.modal {
+    text-align: center;
+}
+
+.modal h2 {
+    color: #646464;
+    border-radius: 5px;
+}
+
+.modal button {
+    background-color: #359E9E;
+    color: #fff;
+    font-size: 1em;
+    padding: 0.8em 1.7em;
+}
+
+.modal button:hover {
+    background-color: #216262;
+}
+
+.flashcard,
+.modal input,
+.modal textarea,
 .name-form input,
 .name-form textarea,
 .create-form input,
@@ -21,6 +44,7 @@
     font-family: "Comic Sans MS", sans-serif;
 }
 
+.modal textarea,
 .name-form textarea,
 .create-form textarea {
     width: 100%;
@@ -28,7 +52,6 @@
     min-width: 100%;
     height: auto;
 }
-
 
 .create-form {
     width: 100%;
@@ -48,7 +71,7 @@
 }
 
 .create-form button {
-    width: 50%;
+    width: 10%;
     background-color: #359E9E;
     color: #fff;
     cursor: pointer;
@@ -60,50 +83,34 @@
     text-decoration: underline;
 }
 
-.created-div {
-    margin-top: 20px;
-    overflow-y: auto;
-    max-height: 300px;
-}
-
 .flashcard-container {
+    margin-top: 1.5em;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1em;
 }
 
 .flashcard {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
+    width: 70%;
     background-color: #f9f9f9;
-}
-
-.flashcard-item {
-    margin-bottom: 5px;
 }
 
 .flashcard-title {
     font-weight: bold;
 }
 
-.flashcard-value {
-    margin-left: 10px;
-}
-
-.star {
-    font-size: 2em;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    margin-top: -0.3em;
-}
-
-.star:hover,
-.star.is-favourite {
-    color: gold;
-}
-
-.tooltip {
-    position: absolute;
-    bottom: 150%;
+@media (min-width: 1200px) {
+    .flashcard-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+    }
+    .flashcard {
+        width: 75%;
+    }
 }
