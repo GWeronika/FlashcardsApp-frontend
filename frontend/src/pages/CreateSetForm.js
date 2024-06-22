@@ -7,7 +7,7 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
     const [setDescription, setSetDescription] = useState('');
     const [newFlashcard, setNewFlashcard] = useState({
         word: '',
-        definition: '',
+        description: '',
         isFavourite: false
     });
     const [flashcards, setFlashcards] = useState([]);
@@ -41,19 +41,38 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
         const { value } = e.target;
         setNewFlashcard(prevState => ({
             ...prevState,
-            definition: value
+            description: value
         }));
     };
 
     const handleAddFlashcard = (e) => {
         e.preventDefault();
         setFlashcards([...flashcards, newFlashcard]);
-        setNewFlashcard({ word: '', definition: '', isFavourite: false });
+        setNewFlashcard({ word: '', description: '', isFavourite: false });
     };
 
-    const handleCreateSet = () => {
+    const handleCreateSet = async () => {
         if (setName.trim() !== '' && setDescription.trim() !== '') {
             setIsModalOpen(false);
+            const params = new URLSearchParams();
+            params.append('name', setName);
+            params.append('date', new Date().toISOString().split('T')[0]);
+            params.append('description', setDescription);
+            params.append('userJson', JSON.stringify(currentUser));
+
+            try {
+                const response = await fetch('/api/set/add/description', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: params.toString()
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                alert("Set added successfully.");
+            } catch (error) {
+                alert(`Failed to add set: ${error.message}`);
+            }
         }
     };
 
@@ -108,7 +127,7 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
                             <input
                                 type="text"
                                 placeholder="Definition"
-                                value={newFlashcard.definition}
+                                value={newFlashcard.description}
                                 onChange={handleSetDefinitionChange}
                             />
                             <Button text={<>Add</>} onClick={handleAddFlashcard} />
@@ -118,7 +137,7 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
                         {flashcards.map((flashcard, index) => (
                             <button key={index} className="flashcard" onClick={() => handleFlashcardClick(index)}>
                                 <h3 className="flashcard-title">{flashcard.word}</h3>
-                                <p className="flashcard-description">{flashcard.definition}</p>
+                                <p className="flashcard-description">{flashcard.description}</p>
                             </button>
                         ))}
                     </div>

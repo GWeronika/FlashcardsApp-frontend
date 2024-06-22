@@ -66,6 +66,12 @@
     margin-top: 1em;
 }
 
+.create-form-word {
+    font-weight: bold;
+    color: #646464;
+    padding: 0.5em;
+}
+
 .create-form input {
     max-width: 30vw;
 }

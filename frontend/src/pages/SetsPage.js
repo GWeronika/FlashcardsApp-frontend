@@ -122,8 +122,8 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
                         <div className="flashcards">
                             {set.firstFlashcard && (
                                 <div>
-                                    <div className="flashcard">{set.firstFlashcard.word}</div>
-                                    <div className="flashcard">{set.firstFlashcard.description}</div>
+                                    <div className="flashcard-set">{set.firstFlashcard.word}</div>
+                                    <div className="flashcard-set">{set.firstFlashcard.description}</div>
                                 </div>
                             )}
                         </div>
