@@ -99,12 +99,41 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
     };
 
     const handleConfirmFlashcard = () => {
+        handleUpdateSet();
         alert("Successfully added");
         onRedirectToSetsPage();
     };
 
     const handleFlashcardClick = (index) => {
         console.log(`Clicked on flashcard ${index}`);
+    };
+
+    const handleUpdateSet = async () => {
+        if (setObject) {
+            const updateNameParams = new URLSearchParams();
+            updateNameParams.append('id', setObject.setId);
+            updateNameParams.append('newName', setName);
+
+            const updateDescriptionParams = new URLSearchParams();
+            updateDescriptionParams.append('id', setObject.setId);
+            updateDescriptionParams.append('description', setDescription);
+
+            try {
+                const responseName = await fetch(`/api/set/edit?${updateNameParams.toString()}`, {
+                    method: 'GET',
+                });
+
+                const responseDescription = await fetch(`/api/set/edit/description?${updateDescriptionParams.toString()}`, {
+                    method: 'GET',
+                });
+
+                if (!responseName.ok || !responseDescription.ok) {
+                    throw new Error(`HTTP error! status: ${responseName.status}, ${responseDescription.status}`);
+                }
+            } catch (error) {
+                alert(`Failed to update set: ${error.message}`);
+            }
+        }
     };
 
     return (
@@ -168,6 +197,10 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
                             <button key={index} className="flashcard" onClick={() => handleFlashcardClick(index)}>
                                 <h3 className="flashcard-title">{flashcard.word}</h3>
                                 <p className="flashcard-description">{flashcard.description}</p>
+                                <div className="flashcard-options">
+                                    <i className="fa-solid fa-trash-can"></i>
+                                    <i className="fa-solid fa-pen"></i>
+                                </div>
                             </button>
                         ))}
                     </div>
