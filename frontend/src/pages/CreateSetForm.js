@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import '../styles/CreateSetForm.css';
 import Button from "../components/Button";
 
-const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage }) => {
+const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage }) => {
     const [setName, setSetName] = useState('');
     const [setDescription, setSetDescription] = useState('');
     const [newFlashcard, setNewFlashcard] = useState({
         word: '',
         description: ''
     });
-    const [flashcards, setFlashcards] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [setObject, setSetObject] = useState(null);
+    const [flashcards, setFlashcards] = useState([]);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -19,6 +19,12 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
             setTimeout(onRedirect, 500);
         }
     }, [isLoggedIn, onRedirect]);
+
+    useEffect(() => {
+        if (setObject) {
+            fetchFlashcardsBySetId(setObject.setId);
+        }
+    }, [setObject]);
 
     const handleSetNameChange = (e) => {
         setSetName(e.target.value);
@@ -65,8 +71,9 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            setFlashcards([...flashcards, newFlashcard]);
             setNewFlashcard({ word: '', description: '' });
+
+            await fetchFlashcardsBySetId(setObject.setId);
         } catch (error) {
             alert(`Failed to add flashcard: ${error.message}`);
         }
@@ -98,41 +105,86 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
         }
     };
 
-    const handleConfirmFlashcard = () => {
-        handleUpdateSet();
+    const handleDeleteFlashcardsInSet = async () => {
+        if (!setObject) return;
+
+        try {
+            const response = await fetch(`/api/flashcard/select/setid?setId=${setObject.setId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const flashcardsData = await response.json();
+
+            for (let flashcard of flashcardsData) {
+                await handleDeleteFlashcard(flashcard.flashcardId);
+            }
+
+            setFlashcards([]);
+        } catch (error) {
+            console.error(`Failed to delete flashcards: ${error.message}`);
+            throw error;
+        }
+    };
+
+    const handleDeleteSet = async () => {
+        try {
+            const response = await fetch(`/api/set/delete?id=${setObject.setId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            setSetObject(null);
+            setSetName('');
+            setSetDescription('');
+        } catch (error) {
+            console.error(`Failed to delete set: ${error.message}`);
+        }
+    };
+
+    const handleDeleteButtonClick = async () => {
+        try {
+            await handleDeleteFlashcardsInSet();
+            await handleDeleteSet();
+            onRedirectToSetsPage();
+        } catch (error) {
+            console.error(`Failed to delete set and flashcards: ${error.message}`);
+        }
+    };
+
+    const handleConfirmFlashcard = async () => {
+        await handleAddFlashcard();
         alert("Successfully added");
         onRedirectToSetsPage();
     };
 
-    const handleFlashcardClick = (index) => {
-        console.log(`Clicked on flashcard ${index}`);
+    const handleDeleteFlashcard = async (flashcardId) => {
+        try {
+            const response = await fetch(`/api/flashcard/delete?id=${flashcardId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            await fetchFlashcardsBySetId(setObject.setId);
+        } catch (error) {
+            console.error(`Failed to delete flashcard: ${error.message}`);
+        }
     };
 
-    const handleUpdateSet = async () => {
-        if (setObject) {
-            const updateNameParams = new URLSearchParams();
-            updateNameParams.append('id', setObject.setId);
-            updateNameParams.append('newName', setName);
-
-            const updateDescriptionParams = new URLSearchParams();
-            updateDescriptionParams.append('id', setObject.setId);
-            updateDescriptionParams.append('description', setDescription);
-
-            try {
-                const responseName = await fetch(`/api/set/edit?${updateNameParams.toString()}`, {
-                    method: 'GET',
-                });
-
-                const responseDescription = await fetch(`/api/set/edit/description?${updateDescriptionParams.toString()}`, {
-                    method: 'GET',
-                });
-
-                if (!responseName.ok || !responseDescription.ok) {
-                    throw new Error(`HTTP error! status: ${responseName.status}, ${responseDescription.status}`);
-                }
-            } catch (error) {
-                alert(`Failed to update set: ${error.message}`);
+    const fetchFlashcardsBySetId = async (setId) => {
+        try {
+            const response = await fetch(`/api/flashcard/select/setid?setId=${setId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const flashcardsData = await response.json();
+            setFlashcards(flashcardsData);
+        } catch (error) {
+            console.error(`Failed to fetch flashcards: ${error.message}`);
         }
     };
 
@@ -160,6 +212,7 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
                 <>
                     <div className="create-form-inner">
                         <div className="name-form">
+                            <div className="name-form-left">
                             <input
                                 type="text"
                                 placeholder="Set Name"
@@ -172,6 +225,10 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
                                 onChange={handleSetDescriptionChange}
                                 rows={3}
                             />
+                            </div>
+                            <div className="name-form-right">
+                                <i className="fa-solid fa-trash-can" onClick={handleDeleteButtonClick}></i>
+                            </div>
                         </div>
                         <div className="create-form">
                             <input
@@ -193,13 +250,13 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
                         </div>
                     </div>
                     <div className="flashcard-container">
-                        {flashcards.map((flashcard, index) => (
-                            <button key={index} className="flashcard" onClick={() => handleFlashcardClick(index)}>
+                        {flashcards.map((flashcard) => (
+                            <button key={flashcard.flashcardId} className="flashcard">
                                 <h3 className="flashcard-title">{flashcard.word}</h3>
                                 <p className="flashcard-description">{flashcard.description}</p>
                                 <div className="flashcard-options">
-                                    <i className="fa-solid fa-trash-can"></i>
-                                    <i className="fa-solid fa-pen"></i>
+                                    <i className="fa-solid fa-trash-can" onClick={() => handleDeleteFlashcard(flashcard.flashcardId)}></i>
+                                    {/*<i className="fa-solid fa-pen" onClick={() => handleUpdateFlashcard(flashcard)}></i>*/}
                                 </div>
                             </button>
                         ))}
@@ -210,4 +267,4 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsP
     );
 };
 
-export default CreateSetsForm;
+export default CreateSetForm;

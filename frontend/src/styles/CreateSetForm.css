@@ -53,6 +53,20 @@
     height: auto;
 }
 
+.name-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+}
+.name-form-left {
+    width: 90%;
+}
+
+.name-form-right i {
+    font-size: 2vw;
+}
+
 .create-form {
     width: 100%;
     padding: 10px;
