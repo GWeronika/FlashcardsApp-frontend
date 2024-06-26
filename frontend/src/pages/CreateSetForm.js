@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import '../styles/CreateSetForm.css';
 import Button from "../components/Button";
 
-const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
+const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage }) => {
     const [setName, setSetName] = useState('');
     const [setDescription, setSetDescription] = useState('');
     const [newFlashcard, setNewFlashcard] = useState({
         word: '',
-        description: '',
-        isFavourite: false
+        description: ''
     });
     const [flashcards, setFlashcards] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(true);
+    const [setObject, setSetObject] = useState(null);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -45,10 +45,31 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
         }));
     };
 
-    const handleAddFlashcard = (e) => {
+    const handleAddFlashcard = async (e) => {
         e.preventDefault();
-        setFlashcards([...flashcards, newFlashcard]);
-        setNewFlashcard({ word: '', description: '', isFavourite: false });
+        if (!setObject) {
+            alert("Set object is not available. Create a set first.");
+            return;
+        }
+
+        const params = new URLSearchParams();
+        params.append('word', newFlashcard.word);
+        params.append('description', newFlashcard.description);
+
+        try {
+            const response = await fetch(`/api/flashcard/add?${params.toString()}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(setObject)
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            setFlashcards([...flashcards, newFlashcard]);
+            setNewFlashcard({ word: '', description: '' });
+        } catch (error) {
+            alert(`Failed to add flashcard: ${error.message}`);
+        }
     };
 
     const handleCreateSet = async () => {
@@ -69,11 +90,17 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                alert("Set added successfully.");
+                const result = await response.json();
+                setSetObject(result);
             } catch (error) {
                 alert(`Failed to add set: ${error.message}`);
             }
         }
+    };
+
+    const handleConfirmFlashcard = () => {
+        alert("Successfully added");
+        onRedirectToSetsPage();
     };
 
     const handleFlashcardClick = (index) => {
@@ -130,7 +157,10 @@ const CreateSetsForm = ({ isLoggedIn, currentUser, onRedirect }) => {
                                 value={newFlashcard.description}
                                 onChange={handleSetDefinitionChange}
                             />
-                            <Button text={<>Add</>} onClick={handleAddFlashcard} />
+                            <div className="create-form-buttons">
+                                <Button text={<>Add</>} onClick={handleAddFlashcard} />
+                                <Button text={<>Finish</>} onClick={handleConfirmFlashcard} />
+                            </div>
                         </div>
                     </div>
                     <div className="flashcard-container">

@@ -76,12 +76,17 @@
     max-width: 30vw;
 }
 
-.create-form button {
-    width: 10%;
+.create-form-buttons {
+    justify-content: center;
+    margin-left: -4em;
+}
+
+.create-form-buttons button {
+    width: 150%;
     background-color: #359E9E;
     color: #fff;
     cursor: pointer;
-    margin: 0 20%;
+    margin: 4% 20%;
 }
 
 .create-form button:hover {
