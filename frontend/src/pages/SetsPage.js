@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Pagination from '../components/Pagination';
 import '../styles/SetsPage.css';
 
@@ -27,18 +27,17 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
             });
             if (response.ok) {
                 const setsData = await response.json();
-                const setsWithFirstFlashcard = await Promise.all(setsData.map(async (set) => {
+                const setsWithFlashcards = await Promise.all(setsData.map(async (set) => {
                     const flashcardsResponse = await fetch(`/api/flashcard/select/setid?setId=${set.setId}`, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' },
                     });
                     if (flashcardsResponse.ok) {
-                        const flashcardsData = await flashcardsResponse.json();
-                        set.firstFlashcard = flashcardsData[0];
+                        set.flashcards = await flashcardsResponse.json();
                     }
                     return set;
                 }));
-                setSets(setsWithFirstFlashcard);
+                setSets(setsWithFlashcards);
             } else {
                 console.error('Failed to fetch sets');
             }
@@ -48,7 +47,7 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
     }, [isLoggedIn, currentUser]);
 
     useEffect(() => {
-        const ascending = filterOption === 'Latest';
+        const ascending = filterOption === 'Oldest';
         fetchSets(showMySets, ascending, searchTerm);
     }, [filterOption, showMySets, searchTerm, fetchSets]);
 
@@ -62,11 +61,11 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
 
     const handleSetClick = (set) => {
         console.log(`Set ${set.setId} clicked`);
-    }
+    };
 
     const handleFilterChange = (event) => {
         setFilterOption(event.target.value);
-    }
+    };
 
     const handleMySetsClick = () => {
         setShowMySets(true);
@@ -74,7 +73,7 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
 
     const handleAllSetsClick = () => {
         setShowMySets(false);
-    }
+    };
 
     const indexOfLastSet = currentPage * setsPerPage;
     const indexOfFirstSet = indexOfLastSet - setsPerPage;
@@ -120,12 +119,12 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
                         <div className="set-title">{set.name}</div>
                         <div className="set-title set-description">{set.description}</div>
                         <div className="flashcards">
-                            {set.firstFlashcard && (
-                                <div>
-                                    <div className="flashcard-set">{set.firstFlashcard.word}</div>
-                                    <div className="flashcard-set">{set.firstFlashcard.description}</div>
+                            {set.flashcards && set.flashcards.map((flashcard, index) => (
+                                <div key={index} className="flashcard-set">
+                                    <h3>{flashcard.word}</h3>
+                                    <div>{flashcard.description}</div>
                                 </div>
-                            )}
+                            ))}
                         </div>
                     </div>
                 ))}

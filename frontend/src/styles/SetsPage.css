@@ -93,11 +93,13 @@
 
 .set-box {
     width: 18em;
+    height: auto;
     background-color: rgba(53, 158, 158, 0.24);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 0.7em;
+    overflow-y: hidden;
 }
 
 .set-box:hover {
@@ -126,6 +128,11 @@
     font-weight: normal;
 }
 
+.flashcards {
+    max-height: 8em;
+    overflow-y: auto;
+}
+
 .flashcard-set {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -133,6 +140,13 @@
     margin-top: 10px;
     padding: 10px;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flashcard-set h3 {
+    margin: 0;
 }
 
 @media (max-width: 900px) {
