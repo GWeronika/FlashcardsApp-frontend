@@ -1,0 +1,82 @@
+.options-set-page {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #bddede;
+    padding: 1.3em;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 600px;
+}
+
+.set-details {
+    margin-bottom: 20px;
+}
+
+.set-title {
+    border-radius: 5px;
+}
+
+.set-description {
+    margin-top: 18px;
+}
+
+.options-set-page-bottom {
+    display: flex;
+}
+
+.flashcards-set {
+    max-height: 10em;
+    width: 70%;
+    overflow-y: auto;
+    border: none;
+    padding: 10px;
+}
+
+.options-set {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 10px;
+}
+
+.option-button {
+    width: 170%;
+    padding: 10px;
+    border: none;
+    color: white;
+    background-color: #266e6e;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.option-button:hover {
+    background-color: rgba(43, 128, 128, 0.35);
+    text-decoration: underline;
+}
+
+.close-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-button {
+    padding: 10px;
+    margin-top: 1em;
+    border: none;
+    background-color: #6c757d;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.close-button:hover {
+    background-color: #5a6268;
+}

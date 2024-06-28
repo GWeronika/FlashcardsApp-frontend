@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
+import OptionsSetPage from './OptionsSetPage';
 import '../styles/SetsPage.css';
 
 const SetsPage = ({ isLoggedIn, currentUser }) => {
@@ -8,6 +9,8 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterOption, setFilterOption] = useState('Latest');
     const [showMySets, setShowMySets] = useState(false);
+    const [selectedSet, setSelectedSet] = useState(null);
+
     const setsPerPage = 12;
 
     const fetchSets = useCallback(async (showMySets, ascending = true, searchTerm = '') => {
@@ -60,7 +63,7 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
     };
 
     const handleSetClick = (set) => {
-        console.log(`Set ${set.setId} clicked`);
+        setSelectedSet(set);
     };
 
     const handleFilterChange = (event) => {
@@ -75,12 +78,17 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
         setShowMySets(false);
     };
 
+    const handleCloseOptions = () => {
+        setSelectedSet(null);
+    };
+
     const indexOfLastSet = currentPage * setsPerPage;
     const indexOfFirstSet = indexOfLastSet - setsPerPage;
     const currentSets = sets.slice(indexOfFirstSet, indexOfLastSet);
 
     return (
         <div className="sets-page-container">
+            {selectedSet && <div className="modal-backdrop"></div>}
             <div className="search-div">
                 <input
                     type="text"
@@ -135,6 +143,13 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
                 currentPage={currentPage}
                 onPageChange={handlePageChange}
             />
+            {selectedSet && (
+                <OptionsSetPage
+                    selectedSet={selectedSet}
+                    onClose={handleCloseOptions}
+                    currentUser={currentUser}
+                />
+            )}
         </div>
     );
 };
