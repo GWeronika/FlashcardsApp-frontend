@@ -5,6 +5,8 @@ import LoginForm from "./pages/LoginForm";
 import SetsPage from "./pages/SetsPage";
 import CreateSetForm from "./pages/CreateSetForm";
 import RegisterForm from "./pages/RegisterForm";
+import AccountPage from './pages/AccountPage';
+
 
 class App extends React.Component {
     constructor(props) {
@@ -27,7 +29,10 @@ class App extends React.Component {
     }
 
     handleLogin = (user) => {
-        this.setState({ isLoggedIn: true, currentUser: user }, () => {
+        this.setState(() => ({
+            isLoggedIn: true,
+            currentUser: user
+        }), () => {
             this.updateOptions(this.state.currentPage);
         });
     }
@@ -42,43 +47,38 @@ class App extends React.Component {
     }
 
     updateOptions = (page) => {
+        const baseOptions = [
+            { onClick: () => this.handlePageChange("sets"), icon: "fa-solid fa-book-bookmark", text: "Sets" },
+            { onClick: () => this.handlePageChange("create"), icon: "fa-solid fa-square-plus", text: "Create" },
+            { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
+            { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
+        ];
+
+        const guestOptions = [
+            { onClick: () => this.handlePageChange("login"), icon: "fa-solid fa-user", text: "Log in" }
+        ];
+
         let options;
+
         switch (page) {
             case "home":
-                options = [
-                    { onClick: () => this.handlePageChange("sets"), icon: "fa-solid fa-book-bookmark", text: "Sets" },
-                    { onClick: () => this.handlePageChange("create"), icon: "fa-solid fa-square-plus", text: "Create" },
-                    this.state.isLoggedIn ?
-                        { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" } :
-                        { onClick: () => this.handlePageChange("login"), icon: "fa-solid fa-user", text: "Log in" },
-                    this.state.isLoggedIn && { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
-                ].filter(Boolean);
+                options = this.state.isLoggedIn ? baseOptions : [...baseOptions.slice(0, 2), ...guestOptions];
                 break;
             case "login":
                 options = [
                     { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
-                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
+                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" }
                 ];
                 break;
             case "sets":
-                options = [
-                    { onClick: () => this.handlePageChange("create"), icon: "fa-solid fa-square-plus", text: "Create" },
-                    { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
-                    { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
-                ];
-                break;
             case "create":
-                options = [
-                    { onClick: () => this.handlePageChange("sets"), icon: "fa-solid fa-book-bookmark", text: "Sets" },
-                    { onClick: () => this.handlePageChange("account"), icon: "fa-solid fa-circle-user", text: "My Account" },
-                    { onClick: this.handleLogout, icon: "fa-solid fa-right-from-bracket", text: "Log out" }
-                ];
+                options = baseOptions;
                 break;
             case "register":
                 options = [
                     { onClick: () => this.handlePageChange("login"), icon: "fa-solid fa-user", text: "Log in" },
-                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" },
-                ]
+                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" }
+                ];
                 break;
             default:
                 options = [];
@@ -122,7 +122,7 @@ class App extends React.Component {
                 {currentPage === "sets" && ( <SetsPage isLoggedIn={isLoggedIn} currentUser={currentUser} /> )}
                 {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}
                 {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
-            </div>
+                {currentPage === "account" && ( <AccountPage user={currentUser} /> )}            </div>
         );
     }
 }

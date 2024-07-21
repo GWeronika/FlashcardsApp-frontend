@@ -3,7 +3,7 @@ import Pagination from '../components/Pagination';
 import OptionsSetPage from './OptionsSetPage';
 import '../styles/SetsPage.css';
 
-const SetsPage = ({ isLoggedIn, currentUser }) => {
+const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sets, setSets] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -16,38 +16,53 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
     const fetchSets = useCallback(async (showMySets, ascending = true, searchTerm = '') => {
         try {
             let url;
-            if (searchTerm) {
-                url = `/api/set/search?searchTerm=${searchTerm}`;
-            } else if (showMySets && isLoggedIn && currentUser && currentUser.userId) {
-                url = `/api/set/select/userid?userID=${currentUser.userId}`;
+            if(mySetsOnly === true) {
+                if (mySetsOnly) {
+                    if (isLoggedIn && currentUser && currentUser.userId) {
+                        url = `/api/set/select/userid?userID=${currentUser.userId}`;
+                    } else {
+                        console.error('User is not logged in or user ID is not available');
+                        return;
+                    }
+                }
             } else {
-                url = `/api/set/sort-date?ascending=${ascending}`;
+                url = searchTerm
+                    ? `/api/set/search?searchTerm=${searchTerm}`
+                    : showMySets && isLoggedIn && currentUser && currentUser.userId
+                        ? `/api/set/select/userid?userID=${currentUser.userId}`
+                        : `/api/set/sort-date?ascending=${ascending}`;
             }
-
             const response = await fetch(url, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
             });
-            if (response.ok) {
-                const setsData = await response.json();
-                const setsWithFlashcards = await Promise.all(setsData.map(async (set) => {
-                    const flashcardsResponse = await fetch(`/api/flashcard/select/setid?setId=${set.setId}`, {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' },
-                    });
-                    if (flashcardsResponse.ok) {
-                        set.flashcards = await flashcardsResponse.json();
-                    }
-                    return set;
-                }));
-                setSets(setsWithFlashcards);
-            } else {
-                console.error('Failed to fetch sets');
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const setsData = await response.json();
+            const setsWithFlashcards = await Promise.all(setsData.map(async (set) => {
+                const flashcardsResponse = await fetch(`/api/flashcard/select/setid?setId=${set.setId}`, {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                });
+
+                if (flashcardsResponse.ok) {
+                    set.flashcards = await flashcardsResponse.json();
+                } else {
+                    console.error('Failed to fetch flashcards');
+                }
+                return set;
+            }));
+
+            setSets(setsWithFlashcards);
         } catch (error) {
             console.error('Error fetching sets:', error);
         }
-    }, [isLoggedIn, currentUser]);
+    }, [isLoggedIn, currentUser, mySetsOnly]);
+
+
 
     useEffect(() => {
         const ascending = filterOption === 'Oldest';
@@ -89,18 +104,20 @@ const SetsPage = ({ isLoggedIn, currentUser }) => {
     return (
         <div className="sets-page-container">
             {selectedSet && <div className="modal-backdrop"></div>}
-            <div className="search-div">
-                <input
-                    type="text"
-                    placeholder="Search collection..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                />
-                <button onClick={() => console.log("Search sets clicked!")}>
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-            {isLoggedIn && currentUser && (
+            {!hideActions && (
+                <div className="search-div">
+                    <input
+                        type="text"
+                        placeholder="Search collection..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                    />
+                    <button onClick={() => console.log(" ")}>
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            )}
+            {isLoggedIn && currentUser && !hideActions && (
                 <div className="actions-div">
                     <div className="filter-div">
                         <label>
