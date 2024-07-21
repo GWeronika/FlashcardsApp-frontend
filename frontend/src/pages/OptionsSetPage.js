@@ -33,8 +33,8 @@ const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet }) => {
     return (
         <div className="options-set-page">
             <div className="set-details">
-                <div className="set-title">{selectedSet.name}</div>
-                <div className="set-description">{selectedSet.description}</div>
+                <div className="options-set-title set-title">{selectedSet.name}</div>
+                <div className="options-set-description set-description">{selectedSet.description}</div>
             </div>
             <div className="options-set-page-bottom">
                 <div className="flashcards-set">
