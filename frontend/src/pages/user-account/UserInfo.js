@@ -1,22 +1,36 @@
 import React, { useState } from 'react';
 import EditProfileModal from './EditProfileModal';
+import ChangePasswordModal from './ChangePasswordModal';
 import '../../styles/UserInfo.css';
 
 const UserInfo = ({ user, updateUser }) => {
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
+    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
+    const handleOpenEditModal = () => {
+        setEditModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
+    const handleCloseEditModal = () => {
+        setEditModalOpen(false);
+    };
+
+    const handleOpenPasswordModal = () => {
+        setPasswordModalOpen(true);
+    };
+
+    const handleClosePasswordModal = () => {
+        setPasswordModalOpen(false);
     };
 
     const handleSaveProfile = (newUsername, newEmail) => {
         const updatedUser = { ...user, name: newUsername, email: newEmail };
         updateUser(updatedUser);
-        handleCloseModal();
+        handleCloseEditModal();
+    };
+
+    const handleSavePassword = () => {
+        handleClosePasswordModal();
     };
 
     if (!user || !user.userId) {
@@ -27,19 +41,26 @@ const UserInfo = ({ user, updateUser }) => {
         <div className="user-info">
             <h2>{user.name}</h2>
             <p>{user.email}</p>
-            <button className="edit-button" onClick={handleOpenModal}>
+            <button className="edit-button" onClick={handleOpenEditModal}>
                 <i className="fa-solid fa-pen-to-square"></i>
                 Edit profile
             </button>
-            <button className="change-password-button">
+            <button className="change-password-button" onClick={handleOpenPasswordModal}>
                 <i className="fa-solid fa-key"></i>
                 Change password
             </button>
-            {isModalOpen && (
+            {isEditModalOpen && (
                 <EditProfileModal
                     user={user}
-                    onClose={handleCloseModal}
+                    onClose={handleCloseEditModal}
                     onSave={handleSaveProfile}
+                />
+            )}
+            {isPasswordModalOpen && (
+                <ChangePasswordModal
+                    user={user}
+                    onClose={handleClosePasswordModal}
+                    onSave={handleSavePassword}
                 />
             )}
         </div>

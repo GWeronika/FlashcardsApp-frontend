@@ -15,7 +15,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
     const handleSave = async () => {
         try {
             const response = await fetch(`/api/user/edit/profile?id=${user.userId}&name=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`, {
-                method: 'GET',
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
