@@ -27,18 +27,21 @@ const LoginForm = ({ onClose, onLogin }) => {
                 body: formData,
                 credentials: 'include',
             });
+
             if (response.ok) {
                 const userData = await response.json();
                 alert('Login successful.');
                 onLogin(userData);
                 onClose();
+            } else if (response.status === 401) {
+                alert('Invalid username or password. Please try again.');
             } else {
-                const errorMessage = await response.text();
-                console.error('Login failed:', errorMessage);
-                alert('Login unsuccessful.');
+                console.error('Unexpected response status:', response.status);
+                alert('Login unsuccessful. Please try again later.');
             }
         } catch (error) {
             console.error('An error occurred during login:', error);
+            alert('An unexpected error occurred. Please try again later.');
         }
     };
 
