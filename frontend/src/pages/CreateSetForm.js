@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/CreateSetForm.css';
-import Button from "../components/Button";
+import Button from '../components/Button';
+import CreateSetModal from './create-set/CreateSetModal';
 
-const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage }) => {
+const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage, enableModal = true }) => {
     const [setName, setSetName] = useState('');
     const [setDescription, setSetDescription] = useState('');
     const [newFlashcard, setNewFlashcard] = useState({
         word: '',
         description: ''
     });
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(enableModal);
     const [setObject, setSetObject] = useState(null);
     const [flashcards, setFlashcards] = useState([]);
     const [editingFlashcard, setEditingFlashcard] = useState(null);
-    const [, setIsEditingModalOpen] = useState(false);
 
     useEffect(() => {
         if (!isLoggedIn) {
-            alert("To create a set, an account is required.");
+            alert('To create a set, an account is required.');
             setTimeout(onRedirect, 500);
         }
     }, [isLoggedIn, onRedirect]);
@@ -33,29 +33,26 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
     };
 
     const handleSetDescriptionChange = (e) => {
-        const {value} = e.target;
-        setSetDescription(value);
+        setSetDescription(e.target.value);
     };
 
     const handleSetWordChange = (e) => {
-        const {value} = e.target;
-        setNewFlashcard(prevState => ({
+        setNewFlashcard((prevState) => ({
             ...prevState,
-            word: value
+            word: e.target.value
         }));
     };
 
     const handleSetDefinitionChange = (e) => {
-        const {value} = e.target;
-        setNewFlashcard(prevState => ({
+        setNewFlashcard((prevState) => ({
             ...prevState,
-            description: value
+            description: e.target.value
         }));
     };
 
     const handleAddFlashcard = async () => {
         if (!setObject) {
-            alert("Set object is not available. Create a set first.");
+            alert('Set object is not available. Create a set first.');
             return;
         }
 
@@ -66,13 +63,13 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
         try {
             const response = await fetch(`/api/flashcard/add?${params.toString()}`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(setObject)
             });
             if (!response.ok) {
                 console.error(`HTTP error! status: ${response.status}`);
             }
-            setNewFlashcard({word: '', description: ''});
+            setNewFlashcard({ word: '', description: '' });
 
             await fetchFlashcardsBySetId(setObject.setId);
         } catch (error) {
@@ -92,7 +89,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
             try {
                 const response = await fetch('/api/set/add/description', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: params.toString()
                 });
                 if (!response.ok) {
@@ -131,7 +128,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
         try {
             const response = await fetch(`/api/set/delete?id=${setObject.setId}`, {
                 method: 'DELETE',
-                headers: {'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' }
             });
             if (!response.ok) {
                 console.error(`HTTP error! status: ${response.status}`);
@@ -157,7 +154,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
     const handleConfirmFlashcard = async () => {
         await updateSetName();
         await updateSetDescription();
-        alert("Successfully added and updated");
+        alert('Successfully added and updated');
         onRedirectToSetsPage();
     };
 
@@ -166,7 +163,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
             try {
                 const response = await fetch(`/api/set/edit?id=${setObject.setId}&newName=${setName}`, {
                     method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: { 'Content-Type': 'application/json' }
                 });
                 if (!response.ok) {
                     console.error(`HTTP error! status: ${response.status}`);
@@ -182,7 +179,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
             try {
                 const response = await fetch(`/api/set/edit/description?id=${setObject.setId}&description=${setDescription}`, {
                     method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: { 'Content-Type': 'application/json' }
                 });
                 if (!response.ok) {
                     console.error(`HTTP error! status: ${response.status}`);
@@ -197,7 +194,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
         try {
             const response = await fetch(`/api/flashcard/delete?id=${flashcardId}`, {
                 method: 'DELETE',
-                headers: {'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' }
             });
             if (!response.ok) {
                 console.error(`HTTP error! status: ${response.status}`);
@@ -224,15 +221,18 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
 
     const handleUpdateFlashcardConfirm = async () => {
         try {
-            const {word, description} = editingFlashcard;
-            const response = await fetch(`/api/flashcard/edit?id=${editingFlashcard.flashcardId}&word=${word}&description=${description}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'}
-            });
+            const { word, description } = editingFlashcard;
+            const response = await fetch(
+                `/api/flashcard/edit?id=${editingFlashcard.flashcardId}&word=${word}&description=${description}`,
+                {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
             if (!response.ok) {
                 console.error(`HTTP error! status: ${response.status}`);
             }
-            alert("Flashcard updated successfully");
+            alert('Flashcard updated successfully');
             setEditingFlashcard(null);
             await fetchFlashcardsBySetId(setObject.setId);
         } catch (error) {
@@ -242,16 +242,24 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
 
     const openEditModal = (flashcard) => {
         setEditingFlashcard(flashcard);
-        setIsEditingModalOpen(true);
     };
 
     const closeEditModal = () => {
         setEditingFlashcard(null);
-        setIsEditingModalOpen(false);
     };
 
     return (
         <>
+            <CreateSetModal
+                isOpen={isModalOpen}
+                title="Create new set"
+                setName={setName}
+                setDescription={setDescription}
+                onSetNameChange={handleSetNameChange}
+                onSetDescriptionChange={handleSetDescriptionChange}
+                onSubmit={handleCreateSet}
+                onCancel={() => setIsModalOpen(false)}
+            />
             {editingFlashcard && (
                 <div className="modal-overlay">
                     <div className="change-modal">
@@ -260,40 +268,35 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                             type="text"
                             placeholder="Word"
                             value={editingFlashcard.word}
-                            onChange={(e) => setEditingFlashcard({...editingFlashcard, word: e.target.value})}
+                            onChange={(e) =>
+                                setEditingFlashcard({
+                                    ...editingFlashcard,
+                                    word: e.target.value
+                                })
+                            }
                         />
                         <input
                             type="text"
                             placeholder="Description"
                             value={editingFlashcard.description}
-                            onChange={(e) => setEditingFlashcard({...editingFlashcard, description: e.target.value})}
+                            onChange={(e) =>
+                                setEditingFlashcard({
+                                    ...editingFlashcard,
+                                    description: e.target.value
+                                })
+                            }
                         />
                         <div className="modal-buttons">
-                            <Button text={<>Update</>} onClick={handleUpdateFlashcardConfirm}/>
-                            <Button text={<>Cancel</>} onClick={closeEditModal}/>
+                            <Button
+                                text={<>Update</>}
+                                onClick={handleUpdateFlashcardConfirm}
+                            />
+                            <Button text={<>Cancel</>} onClick={closeEditModal} />
                         </div>
                     </div>
                 </div>
             )}
             <div className="create-form-container">
-                {isModalOpen && (
-                    <div className="modal">
-                        <h2>Create new set</h2>
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            value={setName}
-                            onChange={handleSetNameChange}
-                        />
-                        <textarea
-                            placeholder="Description"
-                            value={setDescription}
-                            onChange={handleSetDescriptionChange}
-                            rows={1}
-                        />
-                        <Button text={<>Create</>} onClick={handleCreateSet}/>
-                    </div>
-                )}
                 {!isModalOpen && (
                     <>
                         <div className="create-form-inner">
@@ -313,7 +316,10 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                     />
                                 </div>
                                 <div className="name-form-right">
-                                    <i className="fa-solid fa-trash-can" onClick={handleDeleteButtonClick}></i>
+                                    <i
+                                        className="fa-solid fa-trash-can"
+                                        onClick={handleDeleteButtonClick}
+                                    ></i>
                                 </div>
                             </div>
                             <div className="create-form">
@@ -330,20 +336,44 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                     onChange={handleSetDefinitionChange}
                                 />
                                 <div className="create-form-buttons">
-                                    <Button text={<>Add</>} onClick={handleAddFlashcard}/>
-                                    <Button text={<>Finish</>} onClick={handleConfirmFlashcard}/>
+                                    <Button
+                                        text={<>Add</>}
+                                        onClick={handleAddFlashcard}
+                                    />
+                                    <Button
+                                        text={<>Finish</>}
+                                        onClick={handleConfirmFlashcard}
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="flashcard-container">
                             {flashcards.map((flashcard) => (
-                                <div key={flashcard.flashcardId} className="flashcard">
-                                    <h3 className="flashcard-title">{flashcard.word}</h3>
-                                    <p className="flashcard-description">{flashcard.description}</p>
+                                <div
+                                    key={flashcard.flashcardId}
+                                    className="flashcard"
+                                >
+                                    <h3 className="flashcard-title">
+                                        {flashcard.word}
+                                    </h3>
+                                    <p className="flashcard-description">
+                                        {flashcard.description}
+                                    </p>
                                     <div className="flashcard-options">
-                                        <i className="fa-solid fa-trash-can"
-                                           onClick={() => handleDeleteFlashcard(flashcard.flashcardId)}></i>
-                                        <i className="fa-solid fa-pen" onClick={() => openEditModal(flashcard)}></i>
+                                        <i
+                                            className="fa-solid fa-trash-can"
+                                            onClick={() =>
+                                                handleDeleteFlashcard(
+                                                    flashcard.flashcardId
+                                                )
+                                            }
+                                        ></i>
+                                        <i
+                                            className="fa-solid fa-pen"
+                                            onClick={() =>
+                                                openEditModal(flashcard)
+                                            }
+                                        ></i>
                                     </div>
                                 </div>
                             ))}
