@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import '../../styles/FlashcardPage.css';
 
-const FlashcardPage = ({ currentUser }) => {
+const FlashcardPage = ({ selectedSet }) => {
     const [flashcards, setFlashcards] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [showDescription, setShowDescription] = useState(false);
     const [unknownCards, setUnknownCards] = useState([]);
 
     const fetchFlashcards = useCallback(async () => {
+        if (!selectedSet || !selectedSet.setId) {
+            console.error('selectedSet is undefined or missing setId');
+            return;
+        }
+
         try {
-            const response = await fetch(`/api/flashcard/select/userid?userID=${currentUser.userId}`, {
+            const response = await fetch(`/api/flashcard/select/setid?setId=${selectedSet.setId}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -19,11 +24,16 @@ const FlashcardPage = ({ currentUser }) => {
             }
 
             const cardsData = await response.json();
-            setFlashcards(shuffleArray(cardsData));
+
+            if (Array.isArray(cardsData)) {
+                setFlashcards(shuffleArray(cardsData));
+            } else {
+                console.error('Unexpected response format:', cardsData);
+            }
         } catch (error) {
             console.error('Error fetching flashcards:', error);
         }
-    }, [currentUser]);
+    }, [selectedSet]);
 
     useEffect(() => {
         fetchFlashcards();
@@ -58,7 +68,7 @@ const FlashcardPage = ({ currentUser }) => {
         <div className="flashcard-page-container">
             <div className="top-bar">
                 <button className="settings-btn">•••</button>
-                <button className="back-btn">←</button>
+                <button className="back-btn" onClick={() => window.history.back()}>←</button>
             </div>
             <div className="side-boxes">
                 <div className="side-button left" onClick={() => handleCardDragEnd('left')}>
