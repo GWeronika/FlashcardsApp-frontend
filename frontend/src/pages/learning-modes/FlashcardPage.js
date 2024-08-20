@@ -5,7 +5,7 @@ const FlashcardPage = ({ selectedSet }) => {
     const [flashcards, setFlashcards] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [showDescription, setShowDescription] = useState(false);
-    const [unknownCards, setUnknownCards] = useState([]);
+    const [initialFlashcardsCount, setInitialFlashcardsCount] = useState(0);
 
     const fetchFlashcards = useCallback(async () => {
         if (!selectedSet || !selectedSet.setId) {
@@ -27,6 +27,7 @@ const FlashcardPage = ({ selectedSet }) => {
 
             if (Array.isArray(cardsData)) {
                 setFlashcards(shuffleArray(cardsData));
+                setInitialFlashcardsCount(cardsData.length);
             } else {
                 console.error('Unexpected response format:', cardsData);
             }
@@ -39,6 +40,12 @@ const FlashcardPage = ({ selectedSet }) => {
         fetchFlashcards();
     }, [fetchFlashcards]);
 
+    useEffect(() => {
+        if (flashcards.length === 0) {
+            alert("You have successfully learned all flashcards. Congratulations!");
+        }
+    }, [flashcards]);
+
     const shuffleArray = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
@@ -48,21 +55,28 @@ const FlashcardPage = ({ selectedSet }) => {
     };
 
     const handleCardDragEnd = (direction) => {
-        if (direction === 'left') {
-            setUnknownCards([...unknownCards, flashcards[currentCardIndex]]);
-        }
+        if (direction === 'right') {
+            const updatedFlashcards = flashcards.filter((_, index) => index !== currentCardIndex);
 
-        if (currentCardIndex < flashcards.length - 1) {
-            setCurrentCardIndex(currentCardIndex + 1);
+            setFlashcards(updatedFlashcards);
+
+            if (currentCardIndex < updatedFlashcards.length) {
+                setCurrentCardIndex(currentCardIndex);
+            } else if (updatedFlashcards.length > 0) {
+                setCurrentCardIndex(0);
+            }
+
             setShowDescription(false);
-        } else if (unknownCards.length > 0) {
-            setFlashcards(shuffleArray(unknownCards));
-            setUnknownCards([]);
-            setCurrentCardIndex(0);
+        } else if (direction === 'left') {
+            setCurrentCardIndex((prevIndex) =>
+                prevIndex < flashcards.length - 1 ? prevIndex + 1 : prevIndex
+            );
+            setShowDescription(false);
         }
     };
 
     const currentCard = flashcards[currentCardIndex];
+    const learnedCount = initialFlashcardsCount - flashcards.length;
 
     return (
         <div className="flashcard-page-container">
@@ -70,8 +84,14 @@ const FlashcardPage = ({ selectedSet }) => {
                 <button className="settings-btn">•••</button>
                 <button className="back-btn" onClick={() => window.history.back()}>←</button>
             </div>
+            <div className="counter">
+                <h2>{learnedCount}/{initialFlashcardsCount} Learned</h2>
+            </div>
             <div className="side-boxes">
-                <div className="side-button left" onClick={() => handleCardDragEnd('left')}>
+                <div
+                    className="side-button left"
+                    onClick={() => handleCardDragEnd('left')}
+                >
                     <div className="side-button-content">I don't know</div>
                 </div>
                 <div
@@ -88,7 +108,10 @@ const FlashcardPage = ({ selectedSet }) => {
                         <div className="flashcard-content">No more cards</div>
                     )}
                 </div>
-                <div className="side-button right" onClick={() => handleCardDragEnd('right')}>
+                <div
+                    className="side-button right"
+                    onClick={() => handleCardDragEnd('right')}
+                >
                     <div className="side-button-content">I know</div>
                 </div>
             </div>
