@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
-import OptionsSetPage from './OptionsSetPage';
 import '../styles/SetsPage.css';
 
-const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly }) => {
+const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sets, setSets] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [filterOption, setFilterOption] = useState('Latest');
     const [showMySets, setShowMySets] = useState(false);
-    const [selectedSet, setSelectedSet] = useState(null);
 
     const setsPerPage = 12;
 
@@ -77,10 +75,6 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly }) => {
         setCurrentPage(pageNumber);
     };
 
-    const handleSetClick = (set) => {
-        setSelectedSet(set);
-    };
-
     const handleFilterChange = (event) => {
         setFilterOption(event.target.value);
     };
@@ -93,17 +87,12 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly }) => {
         setShowMySets(false);
     };
 
-    const handleCloseOptions = () => {
-        setSelectedSet(null);
-    };
-
     const indexOfLastSet = currentPage * setsPerPage;
     const indexOfFirstSet = indexOfLastSet - setsPerPage;
     const currentSets = sets.slice(indexOfFirstSet, indexOfLastSet);
 
     return (
         <div className="sets-page-container">
-            {selectedSet && <div className="modal-backdrop"></div>}
             {!hideActions && (
                 <div className="search-div">
                     <input
@@ -140,7 +129,7 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly }) => {
             )}
             <div className="sets-div">
                 {currentSets.map((set) => (
-                    <div key={set.setId} className="set-box" onClick={() => handleSetClick(set)}>
+                    <div key={set.setId} className="set-box" onClick={() => onSetClick(set)}>
                         <div className="set-title">{set.name}</div>
                         <div className="set-title set-description">{set.description}</div>
                         <div className="flashcards">
@@ -160,15 +149,9 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly }) => {
                 currentPage={currentPage}
                 onPageChange={handlePageChange}
             />
-            {selectedSet && (
-                <OptionsSetPage
-                    selectedSet={selectedSet}
-                    onClose={handleCloseOptions}
-                    currentUser={currentUser}
-                />
-            )}
         </div>
     );
+
 };
 
 export default SetsPage;

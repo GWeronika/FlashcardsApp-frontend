@@ -6,6 +6,8 @@ import SetsPage from "./pages/SetsPage";
 import CreateSetForm from "./pages/CreateSetForm";
 import RegisterForm from "./pages/RegisterForm";
 import AccountPage from './pages/AccountPage';
+import OptionsSetPage from "./pages/OptionsSetPage";
+import FlashcardPage from "./pages/learning-modes/FlashcardPage";
 
 
 class App extends React.Component {
@@ -87,12 +89,12 @@ class App extends React.Component {
         this.setState({ options });
     }
 
-    handlePageChange = (page) => {
-        this.setState({ currentPage: page });
+    handlePageChange = (page, extraParams = {}) => {
+        this.setState({ currentPage: page, ...extraParams });
     }
 
     render() {
-        const { currentPage, options, isLoggedIn, currentUser } = this.state;
+        const { currentPage, options, isLoggedIn, currentUser, selectedSet } = this.state;
 
         return (
             <div>
@@ -119,8 +121,19 @@ class App extends React.Component {
                     </>
                 )}
                 {currentPage === "login" && ( <LoginForm onClose={() => this.handlePageChange("sets")} onLogin={this.handleLogin} /> )}
-                {currentPage === "sets" && ( <SetsPage isLoggedIn={isLoggedIn} currentUser={currentUser} /> )}
-                {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}
+                {currentPage === "sets" && ( <SetsPage isLoggedIn={isLoggedIn} currentUser={currentUser} onSetClick={(set) => this.handlePageChange("options", { selectedSet: set })} /> )}
+                {currentPage === "options" && selectedSet && (
+                    <OptionsSetPage
+                        selectedSet={selectedSet}
+                        currentUser={currentUser}
+                        onClose={() => this.handlePageChange("sets")}
+                        onEditSet={() => this.handlePageChange("edit", { selectedSet })}
+                        onFlashcards={() => this.handlePageChange("flashcards", { selectedSet })}
+                    />
+                )}
+                {currentPage === "flashcards" && selectedSet && (
+                    <FlashcardPage currentUser={currentUser} selectedSet={selectedSet} />
+                )}                {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}
                 {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
                 {currentPage === "account" && ( <AccountPage user={currentUser} /> )}            </div>
         );
