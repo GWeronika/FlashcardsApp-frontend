@@ -8,6 +8,7 @@ import RegisterForm from "./pages/RegisterForm";
 import AccountPage from './pages/AccountPage';
 import OptionsSetPage from "./pages/OptionsSetPage";
 import FlashcardPage from "./pages/learning-modes/FlashcardPage";
+import WritePage from "./pages/learning-modes/WritePage";
 
 
 class App extends React.Component {
@@ -129,6 +130,7 @@ class App extends React.Component {
                         onClose={() => this.handlePageChange("sets")}
                         onEditSet={() => this.handlePageChange("edit", { selectedSet })}
                         onFlashcards={() => this.handlePageChange("flashcards", { selectedSet })}
+                        onWrite={() => this.handlePageChange("write")}
                     />
                 )}
                 {currentPage === "flashcards" && selectedSet && (
@@ -136,6 +138,12 @@ class App extends React.Component {
                         currentUser={currentUser}
                         selectedSet={selectedSet}
                         onBackClick={() => this.handlePageChange("sets")}
+                    />
+                )}
+                {currentPage === "write" && selectedSet && (
+                    <WritePage
+                        selectedSet={selectedSet}
+                        onBackClick={() => this.handlePageChange("options", { selectedSet })}
                     />
                 )}
                 {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}

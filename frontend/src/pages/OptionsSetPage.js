@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/OptionsSetPage.css';
 
-const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet, onFlashcards }) => {
+const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet, onFlashcards, onWrite }) => {
     const [flashcards, setFlashcards] = useState([]);
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet, onFlashc
                 </div>
                 <div className="options-set">
                     <button className="option-button" onClick={onFlashcards}>Flashcards</button>
-                    <button className="option-button">Write</button>
+                    <button className="option-button" onClick={onWrite}>Write</button>
                     <button className="option-button">Test</button>
                     {selectedSet.user.userId === currentUser.userId && (
                         <><button className="option-button" onClick={handleEditClick}>Edit</button></>
