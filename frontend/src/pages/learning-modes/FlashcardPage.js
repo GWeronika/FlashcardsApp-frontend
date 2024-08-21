@@ -1,119 +1,125 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import '../../styles/FlashcardPage.css';
+import React, { useState } from "react";
+import "../../styles/FlashcardPage.css";
 
-const FlashcardPage = ({ selectedSet }) => {
-    const [flashcards, setFlashcards] = useState([]);
+const FlashcardPage = ({ selectedSet, onBackClick }) => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
-    const [showDescription, setShowDescription] = useState(false);
-    const [initialFlashcardsCount, setInitialFlashcardsCount] = useState(0);
+    const [flipped, setFlipped] = useState(false);
+    const [hoveredSide, setHoveredSide] = useState(null);
+    const [languageMode, setLanguageMode] = useState("en-pl");
+    const [unlearnedCards, setUnlearnedCards] = useState(selectedSet.flashcards);
+    const [learnedCount, setLearnedCount] = useState(0);
 
-    const fetchFlashcards = useCallback(async () => {
-        if (!selectedSet || !selectedSet.setId) {
-            console.error('selectedSet is undefined or missing setId');
-            return;
-        }
-
-        try {
-            const response = await fetch(`/api/flashcard/select/setid?setId=${selectedSet.setId}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const cardsData = await response.json();
-
-            if (Array.isArray(cardsData)) {
-                setFlashcards(shuffleArray(cardsData));
-                setInitialFlashcardsCount(cardsData.length);
-            } else {
-                console.error('Unexpected response format:', cardsData);
-            }
-        } catch (error) {
-            console.error('Error fetching flashcards:', error);
-        }
-    }, [selectedSet]);
-
-    useEffect(() => {
-        fetchFlashcards();
-    }, [fetchFlashcards]);
-
-    useEffect(() => {
-        if (flashcards.length === 0) {
-            alert("You have successfully learned all flashcards. Congratulations!");
-        }
-    }, [flashcards]);
-
-    const shuffleArray = (array) => {
-        return array.sort(() => Math.random() - 0.5);
+    const handleFlip = () => {
+        setFlipped(!flipped);
     };
 
-    const handleCardClick = () => {
-        setShowDescription(!showDescription);
-    };
-
-    const handleCardDragEnd = (direction) => {
-        if (direction === 'right') {
-            const updatedFlashcards = flashcards.filter((_, index) => index !== currentCardIndex);
-
-            setFlashcards(updatedFlashcards);
-
-            if (currentCardIndex < updatedFlashcards.length) {
-                setCurrentCardIndex(currentCardIndex);
-            } else if (updatedFlashcards.length > 0) {
+    const handleDrop = (known) => {
+        if (known) {
+            const updatedCards = [...unlearnedCards];
+            updatedCards.splice(currentCardIndex, 1);
+            setUnlearnedCards(updatedCards);
+            setLearnedCount((prevCount) => prevCount + 1);
+            if (currentCardIndex >= updatedCards.length) {
                 setCurrentCardIndex(0);
             }
-
-            setShowDescription(false);
-        } else if (direction === 'left') {
-            setCurrentCardIndex((prevIndex) =>
-                prevIndex < flashcards.length - 1 ? prevIndex + 1 : prevIndex
-            );
-            setShowDescription(false);
+        } else {
+            const updatedCards = [...unlearnedCards];
+            const [movedCard] = updatedCards.splice(currentCardIndex, 1);
+            updatedCards.push(movedCard);
+            setUnlearnedCards(updatedCards);
         }
+        setFlipped(false);
+        setHoveredSide(null);
     };
 
-    const currentCard = flashcards[currentCardIndex];
-    const learnedCount = initialFlashcardsCount - flashcards.length;
+    const handleDragEnd = () => {
+        setHoveredSide(null);
+    };
+
+    const handleKnowClick = () => {
+        handleDrop(true);
+    };
+
+    const handleDontKnowClick = () => {
+        handleDrop(false);
+    };
+
+    const toggleLanguageMode = () => {
+        setLanguageMode(languageMode === "en-pl" ? "pl-en" : "en-pl");
+        setFlipped(false);
+    };
+
+    const totalCards = selectedSet.flashcards.length;
+    const flashcard = unlearnedCards[currentCardIndex];
+    const frontText = languageMode === "en-pl" ? flashcard?.word : flashcard?.description;
+    const backText = languageMode === "en-pl" ? flashcard?.description : flashcard?.word;
 
     return (
         <div className="flashcard-page-container">
             <div className="top-bar">
-                <button className="settings-btn">•••</button>
-                <button className="back-btn" onClick={() => window.history.back()}>←</button>
-            </div>
-            <div className="counter">
-                <h2>{learnedCount}/{initialFlashcardsCount} Learned</h2>
+                <button
+                    className="settings-btn"
+                    onClick={toggleLanguageMode}
+                    onMouseEnter={() => setHoveredSide("settings")}
+                    onMouseLeave={() => setHoveredSide(null)}
+                >
+                    {hoveredSide === "settings" && <div className="tooltip">Change language</div>}
+                    <i className="fa-solid fa-rotate"></i>
+                </button>
+                <button
+                    className="back-btn"
+                    onClick={onBackClick}
+                    onMouseEnter={() => setHoveredSide("back")}
+                    onMouseLeave={() => setHoveredSide(null)}
+                >
+                    {hoveredSide === "back" && <div className="tooltip">Go back</div>}
+                    <i className="fa-solid fa-right-long"></i>
+                </button>
             </div>
             <div className="side-boxes">
                 <div
-                    className="side-button left"
-                    onClick={() => handleCardDragEnd('left')}
+                    className={`side-button left ${hoveredSide === "dont-know" ? "hover" : ""}`}
+                    onClick={handleDontKnowClick}
+                    onDragEnter={() => setHoveredSide("dont-know")}
+                    onDragLeave={() => setHoveredSide(null)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => handleDrop(false)}
                 >
                     <div className="side-button-content">I don't know</div>
                 </div>
                 <div
-                    className="flashcard-box"
-                    onClick={handleCardClick}
+                    className={`flashcard-box ${flipped ? "flipped" : ""}`}
                     draggable
-                    onDragEnd={() => handleCardDragEnd(showDescription ? 'right' : 'left')}
+                    onDragEnd={handleDragEnd}
+                    onClick={handleFlip}
                 >
-                    {currentCard ? (
-                        <div className="flashcard-content">
-                            {showDescription ? currentCard.description : currentCard.word}
-                        </div>
-                    ) : (
-                        <div className="flashcard-content">No more cards</div>
-                    )}
+                    <div className="flashcard-inner">
+                        {learnedCount === totalCards ? (
+                            <div className="completion-message">
+                                <span className="small-text">You have learned all flashcards from this set. </span>
+                                <span>Congratulations!</span>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="flashcard-face flashcard-front">{frontText}</div>
+                                <div className="flashcard-face flashcard-back">{backText}</div>
+                            </>
+                        )}
+                    </div>
                 </div>
                 <div
-                    className="side-button right"
-                    onClick={() => handleCardDragEnd('right')}
+                    className={`side-button right ${hoveredSide === "know" ? "hover" : ""}`}
+                    onClick={handleKnowClick}
+                    onDragEnter={() => setHoveredSide("know")}
+                    onDragLeave={() => setHoveredSide(null)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => handleDrop(true)}
                 >
                     <div className="side-button-content">I know</div>
                 </div>
+            </div>
+            <div className="counter">
+                {learnedCount}/{totalCards}
             </div>
         </div>
     );

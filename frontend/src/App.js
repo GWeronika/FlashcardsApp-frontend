@@ -132,8 +132,13 @@ class App extends React.Component {
                     />
                 )}
                 {currentPage === "flashcards" && selectedSet && (
-                    <FlashcardPage currentUser={currentUser} selectedSet={selectedSet} />
-                )}                {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}
+                    <FlashcardPage
+                        currentUser={currentUser}
+                        selectedSet={selectedSet}
+                        onBackClick={() => this.handlePageChange("sets")}
+                    />
+                )}
+                {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}
                 {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
                 {currentPage === "account" && ( <AccountPage user={currentUser} /> )}            </div>
         );
