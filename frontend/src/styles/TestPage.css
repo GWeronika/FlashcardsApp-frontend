@@ -1,0 +1,110 @@
+.test-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 32.8em;
+    background-color: rgba(53, 158, 158, 0.24);
+    padding: 1em;
+}
+
+.top-bar {
+    margin-right: 3em;
+    gap: 0.6em;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.settings-btn,
+.back-btn {
+    position: relative;
+    background-color: #359E9E;
+    color: white;
+    border: none;
+    border-radius: 0.5em;
+    padding: 1.5em;
+    cursor: pointer;
+}
+
+.flashcard-box {
+    width: 60%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 0.5em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    overflow-y: auto;
+    max-height: 47vh;
+}
+
+.flashcard-box form {
+    height: 400px;
+}
+
+.flashcard-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.flashcard-word {
+    font-size: 1.2em;
+    flex: 1;
+    text-align: left;
+}
+
+.flashcard-input {
+    flex: 1;
+    font-size: 1em;
+    border-radius: 0.5em;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: right;
+    margin-top: 1em;
+}
+
+.finish-btn {
+    padding: 0.8em 2em;
+    font-size: 1em;
+    color: white;
+    background-color: #359E9E;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+    margin-bottom: 2em;
+}
+
+.finish-btn:hover {
+    background-color: rgb(43, 128, 128);
+}
+
+.results-box {
+    width: 40%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 0.5em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 2em;
+    text-align: center;
+}
+
+.results-summary {
+    font-size: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.incorrect-list {
+    margin-top: 1.5em;
+    text-align: left;
+}
+
+.incorrect-list ul {
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 1.5em;
+    overflow-y: auto;
+    max-height: 30vh;
+}

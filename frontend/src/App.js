@@ -9,6 +9,7 @@ import AccountPage from './pages/AccountPage';
 import OptionsSetPage from "./pages/OptionsSetPage";
 import FlashcardPage from "./pages/learning-modes/FlashcardPage";
 import WritePage from "./pages/learning-modes/WritePage";
+import TestPage from './pages/learning-modes/TestPage';
 
 
 class App extends React.Component {
@@ -116,7 +117,7 @@ class App extends React.Component {
                             <section>
                                 <Button text={<><strong className="bold-text">Register</strong> to discover new possibilities</>} onClick={() => this.handlePageChange("register")} />
                                 <Button text={<><strong className="bold-text">Log in</strong> to make progress</>} onClick={() => this.handlePageChange("login")} />
-                                <Button text={<><strong className="bold-text">Create a set</strong> to make a difference</>} onClick={() => this.handlePageChange("create")} />
+                                <Button text={<><strong className="bold-text">Create a set</strong> to go all the way</>} onClick={() => this.handlePageChange("create")} />
                             </section>
                         </footer>
                     </>
@@ -130,7 +131,8 @@ class App extends React.Component {
                         onClose={() => this.handlePageChange("sets")}
                         onEditSet={() => this.handlePageChange("edit", { selectedSet })}
                         onFlashcards={() => this.handlePageChange("flashcards", { selectedSet })}
-                        onWrite={() => this.handlePageChange("write")}
+                        onWrite={() => this.handlePageChange("write", { selectedSet })}
+                        onTest={() => this.handlePageChange("test", { selectedSet })}
                     />
                 )}
                 {currentPage === "flashcards" && selectedSet && (
@@ -142,6 +144,12 @@ class App extends React.Component {
                 )}
                 {currentPage === "write" && selectedSet && (
                     <WritePage
+                        selectedSet={selectedSet}
+                        onBackClick={() => this.handlePageChange("options", { selectedSet })}
+                    />
+                )}
+                {currentPage === "test" && selectedSet && (
+                    <TestPage
                         selectedSet={selectedSet}
                         onBackClick={() => this.handlePageChange("options", { selectedSet })}
                     />
