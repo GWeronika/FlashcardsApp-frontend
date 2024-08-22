@@ -92,12 +92,14 @@
 }
 
 .completion-message {
+    padding: 50% 1em;
     text-align: center;
 }
 
 .small-text {
     font-size: 18px;
     display: block;
+    margin-bottom: 1em;
 }
 
 .side-button {

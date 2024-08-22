@@ -63,15 +63,15 @@ const TestPage = ({ selectedSet, onBackClick }) => {
                 </button>
             </div>
             {!showResults ? (
-                <div className="flashcard-box">
+                <div className="test-flashcard-box">
                     <form>
                         {selectedSet.flashcards.map((flashcard, index) => (
-                            <div key={index} className="flashcard-row">
-                                <div className="flashcard-word">
+                            <div key={index} className="test-flashcard-row">
+                                <div className="test-flashcard-word">
                                     {languageMode === "en-pl" ? flashcard.word : flashcard.description}
                                 </div>
                                 <input
-                                    className="flashcard-input"
+                                    className="test-flashcard-input"
                                     value={userAnswers[flashcard.word] || ""}
                                     onChange={(e) => handleInputChange(e, flashcard.word)}
                                     placeholder="Word"
