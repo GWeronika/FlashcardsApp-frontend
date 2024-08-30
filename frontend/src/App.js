@@ -122,8 +122,20 @@ class App extends React.Component {
                         </footer>
                     </>
                 )}
-                {currentPage === "login" && ( <LoginForm onClose={() => this.handlePageChange("sets")} onLogin={this.handleLogin} /> )}
-                {currentPage === "sets" && ( <SetsPage isLoggedIn={isLoggedIn} currentUser={currentUser} onSetClick={(set) => this.handlePageChange("options", { selectedSet: set })} /> )}
+                {currentPage === "login" && (
+                    <LoginForm
+                        onClose={() => this.handlePageChange("sets")}
+                        onLogin={this.handleLogin}
+                        onRegister={() => this.handlePageChange("register")}
+                    />
+                )}
+                {currentPage === "sets" && (
+                    <SetsPage
+                        isLoggedIn={isLoggedIn}
+                        currentUser={currentUser}
+                        onSetClick={(set) => this.handlePageChange("options", { selectedSet: set })}
+                    />
+                )}
                 {currentPage === "options" && selectedSet && (
                     <OptionsSetPage
                         selectedSet={selectedSet}
@@ -154,9 +166,25 @@ class App extends React.Component {
                         onBackClick={() => this.handlePageChange("options", { selectedSet })}
                     />
                 )}
-                {currentPage === "create" && ( <CreateSetForm isLoggedIn={isLoggedIn} currentUser={currentUser} onRedirect={() => this.handlePageChange("login")} onRedirectToSetsPage={() => this.handlePageChange("sets")} /> )}
-                {currentPage === "register" && ( <RegisterForm onClose={() => this.handlePageChange("login")} /> )}
-                {currentPage === "account" && ( <AccountPage user={currentUser} /> )}            </div>
+                {currentPage === "create" && (
+                    <CreateSetForm
+                        isLoggedIn={isLoggedIn}
+                        currentUser={currentUser}
+                        onRedirect={() => this.handlePageChange("login")}
+                        onRedirectToSetsPage={() => this.handlePageChange("sets")}
+                    />
+                )}
+                {currentPage === "register" && (
+                    <RegisterForm
+                        onClose={() => this.handlePageChange("login")}
+                    />
+                )}
+                {currentPage === "account" && (
+                    <AccountPage
+                        user={currentUser}
+                    />
+                )}
+            </div>
         );
     }
 }

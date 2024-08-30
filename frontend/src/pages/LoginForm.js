@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import '../styles/LoginForm.css';
 import Button from "../components/Button";
+import ResetPasswordForm from "./password-reset/ResetPasswordForm";
+import TextField from '@mui/material/TextField'; // Import Material UI TextField
 
-const LoginForm = ({ onClose, onLogin }) => {
+const LoginForm = ({ onClose, onLogin, onRegister }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -12,6 +15,10 @@ const LoginForm = ({ onClose, onLogin }) => {
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+    };
+
+    const handleForgotPasswordClick = () => {
+        setForgotPasswordOpen(true);
     };
 
     const handleSubmit = async (event) => {
@@ -47,36 +54,50 @@ const LoginForm = ({ onClose, onLogin }) => {
 
     return (
         <div className="login-form-container">
+            {isForgotPasswordOpen && (
+                <ResetPasswordForm
+                    show={isForgotPasswordOpen}
+                    handleClose={() => setForgotPasswordOpen(false)}
+                />
+            )}
             <form onSubmit={handleSubmit} className="login-form">
+                <div className="login-form-icon">
+                    <i className="fa-solid fa-circle-user"></i>
+                </div>
                 <h2>Log in</h2>
-                <div className="login-form-input">
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={handleUsernameChange}
-                    />
-                </div>
-                <div className="login-form-input">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                </div>
-                <Button text={<>Log in</>} onClick={() => console.log('Button clicked')} />
+                <TextField
+                    id="username"
+                    label="Username"
+                    variant="outlined"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    fullWidth
+                />
+                <TextField
+                    id="password"
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    fullWidth
+                />
+                <Button text="Log in" />
                 <div className="login-form-options">
                     <div className="login-form-option">
                         <label htmlFor="register">
-                            Don't have an account? <a href="/register">Register</a>
+                            Don't have an account?
+                            <a onClick={onRegister}>
+                                Register
+                            </a>
                         </label>
                     </div>
                     <div className="login-form-option">
                         <label htmlFor="forgot-password">
-                            Forgot your password? <a href="/forgot-password">Forgot password</a>
+                            Forgot your password?
+                            <a onClick={handleForgotPasswordClick}>
+                                Forgot password
+                            </a>
                         </label>
                     </div>
                 </div>
