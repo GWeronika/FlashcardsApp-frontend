@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../../components/Button';
 import '../../styles/CreateSetForm.css';
+import TextField from "@mui/material/TextField";
 
 const CreateSetModal = ({
                             isOpen,
@@ -18,17 +19,20 @@ const CreateSetModal = ({
         <div className="create-form-container">
             <div className="modal">
                 <h2>{title}</h2>
-                <input
-                    type="text"
-                    placeholder="Name"
+                <TextField
+                    label="Name"
+                    variant="outlined"
                     value={setName}
                     onChange={onSetNameChange}
+                    fullWidth
                 />
-                <textarea
-                    placeholder="Description"
+                <TextField
+                    label="Description"
+                    variant="outlined"
                     value={setDescription}
                     onChange={onSetDescriptionChange}
-                    rows={1}
+                    multiline
+                    fullWidth
                 />
                 <div className="modal-buttons">
                     <Button text="Submit" onClick={onSubmit} />

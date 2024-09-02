@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/CreateSetForm.css';
 import Button from '../components/Button';
 import CreateSetModal from './create-set/CreateSetModal';
+import TextField from "@mui/material/TextField";
 
 const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage, enableModal = true }) => {
     const [setName, setSetName] = useState('');
@@ -264,9 +265,10 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                 <div className="modal-overlay">
                     <div className="change-modal">
                         <h2>Edit Flashcard</h2>
-                        <input
-                            type="text"
-                            placeholder="Word"
+                        <TextField
+                            id="word"
+                            label="Word"
+                            variant="outlined"
                             value={editingFlashcard.word}
                             onChange={(e) =>
                                 setEditingFlashcard({
@@ -274,10 +276,12 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                     word: e.target.value
                                 })
                             }
+                            fullWidth
                         />
-                        <input
-                            type="text"
-                            placeholder="Description"
+                        <TextField
+                            id="description"
+                            label="Description"
+                            variant="outlined"
                             value={editingFlashcard.description}
                             onChange={(e) =>
                                 setEditingFlashcard({
@@ -285,13 +289,11 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                     description: e.target.value
                                 })
                             }
+                            fullWidth
                         />
                         <div className="modal-buttons">
-                            <Button
-                                text={<>Update</>}
-                                onClick={handleUpdateFlashcardConfirm}
-                            />
-                            <Button text={<>Cancel</>} onClick={closeEditModal} />
+                            <button onClick={handleUpdateFlashcardConfirm}>Update</button>
+                            <button onClick={closeEditModal}>Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -302,17 +304,20 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                         <div className="create-form-inner">
                             <div className="name-form">
                                 <div className="name-form-left">
-                                    <input
-                                        type="text"
-                                        placeholder="Set Name"
+                                    <TextField
+                                        label="Set name"
+                                        variant="outlined"
                                         value={setName}
                                         onChange={handleSetNameChange}
+                                        fullWidth
                                     />
-                                    <textarea
-                                        placeholder="Description"
+                                    <TextField
+                                        label="Description"
+                                        variant="outlined"
                                         value={setDescription}
                                         onChange={handleSetDescriptionChange}
-                                        rows={3}
+                                        multiline
+                                        fullWidth
                                     />
                                 </div>
                                 <div className="name-form-right">
@@ -323,17 +328,19 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                 </div>
                             </div>
                             <div className="create-form">
-                                <input
-                                    type="text"
-                                    placeholder="Word"
+                                <TextField
+                                    label="Word"
+                                    variant="outlined"
                                     value={newFlashcard.word}
                                     onChange={handleSetWordChange}
+                                    fullWidth
                                 />
-                                <input
-                                    type="text"
-                                    placeholder="Definition"
+                                <TextField
+                                    label="Definition"
+                                    variant="outlined"
                                     value={newFlashcard.description}
                                     onChange={handleSetDefinitionChange}
+                                    fullWidth
                                 />
                                 <div className="create-form-buttons">
                                     <Button
@@ -360,16 +367,14 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                         {flashcard.description}
                                     </p>
                                     <div className="flashcard-options">
-                                        <i
-                                            className="fa-solid fa-trash-can"
+                                        <i className="fa-solid fa-trash-can"
                                             onClick={() =>
                                                 handleDeleteFlashcard(
                                                     flashcard.flashcardId
                                                 )
                                             }
                                         ></i>
-                                        <i
-                                            className="fa-solid fa-pen"
+                                        <i className="fa-solid fa-pen"
                                             onClick={() =>
                                                 openEditModal(flashcard)
                                             }
