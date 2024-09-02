@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TextField from "@mui/material/TextField";
 
 const EditProfileModal = ({ user, onClose, onSave }) => {
     const [username, setUsername] = useState(user.name);
@@ -32,22 +33,19 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
             <div className="modal-content">
                 <h2>Edit Profile</h2>
                 <div className="modal-field">
-                    <label className="modal-field-one">
-                        Username:
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={handleUsernameChange}
-                        />
-                    </label>
-                    <label>
-                        Email:
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                    </label>
+                    <TextField
+                        label="Username"
+                        variant="outlined"
+                        value={username}
+                        onChange={handleUsernameChange}
+                    />
+                    <TextField
+                        label="Email"
+                        type="email"
+                        variant="outlined"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
                 </div>
                 <div className="modal-buttons">
                     <button className="confirm-button" onClick={handleSave}>Confirm</button>

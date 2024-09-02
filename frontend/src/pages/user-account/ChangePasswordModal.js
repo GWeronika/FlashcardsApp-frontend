@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TextField from "@mui/material/TextField";
 
 const ChangePasswordModal = ({ user, onClose, onSave }) => {
     const [oldPassword, setOldPassword] = useState('');
@@ -61,30 +62,30 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
             <div className="modal-content">
                 <h2>Change Password</h2>
                 <div className="modal-field">
-                    <label>
-                        Current Password:
-                        <input
-                            type="password"
-                            value={oldPassword}
-                            onChange={handleOldPasswordChange}
-                        />
-                    </label>
-                    <label>
-                        New Password:
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={handleNewPasswordChange}
-                        />
-                    </label>
-                    <label>
-                        Repeat New Password:
-                        <input
-                            type="password"
-                            value={repeatPassword}
-                            onChange={handleRepeatPasswordChange}
-                        />
-                    </label>
+                    <TextField
+                        label="Current password"
+                        type="password"
+                        variant="outlined"
+                        value={oldPassword}
+                        onChange={handleOldPasswordChange}
+                        required
+                    />
+                    <TextField
+                        label="New password"
+                        type="password"
+                        variant="outlined"
+                        value={newPassword}
+                        onChange={handleNewPasswordChange}
+                        required
+                    />
+                    <TextField
+                        label="Repeat password"
+                        type="password"
+                        variant="outlined"
+                        value={repeatPassword}
+                        onChange={handleRepeatPasswordChange}
+                        required
+                    />
                 </div>
                 {error && <p className="error-message">{error}</p>}
                 <div className="modal-buttons">

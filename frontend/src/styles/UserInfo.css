@@ -27,16 +27,9 @@
     width: 100%;
 }
 
-.modal-field label {
-    display: block;
-}
-
-.modal-field input {
-    width: 93%;
-    padding: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 1em;
+.modal-field .MuiTextField-root {
+    width: 100%;
+    margin: 1rem 0;
 }
 
 .confirm-button,
