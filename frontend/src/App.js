@@ -182,6 +182,7 @@ class App extends React.Component {
                 {currentPage === "account" && (
                     <AccountPage
                         user={currentUser}
+                        onSetClick={(set) => this.handlePageChange("options", { selectedSet: set })}
                     />
                 )}
             </div>

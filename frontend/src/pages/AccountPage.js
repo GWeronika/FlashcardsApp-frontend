@@ -3,7 +3,7 @@ import UserInfo from './user-account/UserInfo';
 import MySetsBox from './user-account/MySetsBox';
 import '../styles/AccountPage.css';
 
-const AccountPage = ({ user }) => {
+const AccountPage = ({ user, onSetClick }) => {
     const [appUser, setAppUser] = useState(user || {});
 
     const updateUser = (updateUser) => {
@@ -21,7 +21,7 @@ const AccountPage = ({ user }) => {
                     <UserInfo user={appUser} updateUser={updateUser} />
                 </div>
                 <div className="right-column">
-                    <MySetsBox user={appUser} />
+                    <MySetsBox user={appUser} onSetClick={onSetClick} />
                 </div>
             </div>
         </div>
