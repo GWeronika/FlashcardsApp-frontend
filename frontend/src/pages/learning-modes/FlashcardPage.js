@@ -94,10 +94,11 @@ const FlashcardPage = ({ selectedSet, onBackClick }) => {
                     onClick={handleFlip}
                 >
                     <div className="flashcard-inner">
-                        {learnedCount === totalCards ? (
+                        {learnedCount >= totalCards ? (
                             <div className="completion-message">
                                 <span className="small-text">You have learned all flashcards from this set. </span>
                                 <span>Congratulations!</span>
+                                <button onClick={onBackClick}>Another set</button>
                             </div>
                         ) : (
                             <>
@@ -119,7 +120,11 @@ const FlashcardPage = ({ selectedSet, onBackClick }) => {
                 </div>
             </div>
             <div className="counter">
-                {learnedCount}/{totalCards}
+                {learnedCount <= totalCards ? (
+                    `${learnedCount}/${totalCards}`
+                ) : (
+                    `${totalCards}/${totalCards}`
+                )}
             </div>
         </div>
     );
