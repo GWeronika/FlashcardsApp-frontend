@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/TestPage.css";
+import TextField from "@mui/material/TextField";
 
 const TestPage = ({ selectedSet, onBackClick }) => {
     const [userAnswers, setUserAnswers] = useState({});
@@ -70,17 +71,16 @@ const TestPage = ({ selectedSet, onBackClick }) => {
                                 <div className="test-flashcard-word">
                                     {languageMode === "en-pl" ? flashcard.word : flashcard.description}
                                 </div>
-                                <input
-                                    className="test-flashcard-input"
+                                <TextField
+                                    id="test-flashcard-input"
+                                    label={languageMode === "en-pl" ? flashcard.word : flashcard.description}
+                                    variant="outlined"
                                     value={userAnswers[flashcard.word] || ""}
                                     onChange={(e) => handleInputChange(e, flashcard.word)}
-                                    placeholder="Word"
                                 />
                             </div>
                         ))}
-                        <button className="finish-btn" onClick={handleFinish}>
-                            Finish
-                        </button>
+                    <div><button className="finish-btn" onClick={handleFinish}>Finish</button></div>
                     </form>
                 </div>
             ) : (
@@ -96,6 +96,9 @@ const TestPage = ({ selectedSet, onBackClick }) => {
                                     <li key={index}>{`${flashcard.word} - ${flashcard.description}`}</li>
                                 ))}
                             </ul>
+                            <div className="completion-message">
+                                <button onClick={onBackClick}>Another set</button>
+                            </div>
                         </div>
                     )}
                 </div>

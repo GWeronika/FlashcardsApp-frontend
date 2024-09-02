@@ -35,15 +35,15 @@
     padding: 1em;
     overflow-y: auto;
     max-height: 47vh;
-    justify-content: center;
-
-    .form {
-        height: 400px;
-    }
 }
 
 .test-flashcard-box form {
     height: 400px;
+}
+
+.test-flashcard-box div {
+    display: flex;
+    justify-content: center;
 }
 
 .test-flashcard-row {
@@ -59,15 +59,8 @@
     text-align: left;
 }
 
-.test-flashcard-input {
-    flex: 1;
-    font-size: 1em;
-    padding: 0.5em;
-    border-radius: 0.5em;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: right;
-    margin-top: 0.5em;
+.test-flashcard-row .MuiTextField-root {
+    width: 50%;
 }
 
 .finish-btn {
@@ -103,7 +96,6 @@
 
 .incorrect-list {
     margin-top: 1.5em;
-    text-align: left;
 }
 
 .incorrect-list ul {

@@ -95,7 +95,7 @@ const FlashcardPage = ({ selectedSet, onBackClick }) => {
                 >
                     <div className="flashcard-inner">
                         {learnedCount >= totalCards ? (
-                            <div className="completion-message">
+                            <div className="completion-message message-with-space">
                                 <span className="small-text">You have learned all flashcards from this set. </span>
                                 <span>Congratulations!</span>
                                 <button onClick={onBackClick}>Another set</button>
