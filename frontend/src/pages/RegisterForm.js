@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/LoginForm.css';
 import Button from "../components/Button";
+import TextField from "@mui/material/TextField";
 
 const RegisterForm = ({ onClose }) => {
     const [username, setUsername] = useState('');
@@ -55,22 +56,38 @@ const RegisterForm = ({ onClose }) => {
         <div className="login-form-container change-color">
             <form onSubmit={handleSubmit} className="login-form">
                 <h2>Register</h2>
-                <div className="login-form-input">
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" id="username" value={username} onChange={handleUsernameChange} />
-                </div>
-                <div className="login-form-input">
-                    <label htmlFor="email">Email:</label>
-                    <input type="text" id="email" value={email} onChange={handleEmailChange} />
-                </div>
-                <div className="login-form-input">
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" value={password} onChange={handlePasswordChange} />
-                </div>
-                <div className="login-form-input">
-                    <label htmlFor="repeat-password">Repeat password:</label>
-                    <input type="password" id="repeat-password" value={repeat_password} onChange={handleRepeatPasswordChange} />
-                </div>
+                <TextField
+                    label="Username"
+                    variant="outlined"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    fullWidth
+                    required
+                />
+                <TextField
+                    label="Email"
+                    variant="outlined"
+                    value={email}
+                    onChange={handleEmailChange}
+                    fullWidth
+                    required
+                />
+                <TextField
+                    label="Password"
+                    variant="outlined"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    fullWidth
+                    required
+                />
+                <TextField
+                    label="RepeatPassword"
+                    variant="outlined"
+                    value={repeat_password}
+                    onChange={handleRepeatPasswordChange}
+                    fullWidth
+                    required
+                />
                 <div className="change-color-button">
                     <Button text={<>Register</>} onClick={() => console.log('Button clicked')} />
                 </div>

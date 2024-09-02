@@ -11,11 +11,15 @@
 }
 
 .login-form {
+    display: flex;
+    flex-direction: column;
     background-color: white;
     border-radius: 1em;
     padding: 20px 40px 20px 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 30%;
+    align-content: center;
+    align-items: center;
 }
 
 .login-form-icon {
@@ -43,7 +47,6 @@
 }
 
 .login-form Button {
-    margin: 7% 37%;
     padding: 12px;
     background-color: #359E9E;
 }
@@ -76,6 +79,12 @@
 
 @media (max-width: 900px) {
     .login-form {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-form .MuiTextField-root {
         width: 70%;
     }
 }
