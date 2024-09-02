@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/WritePage.css";
+import TextField from "@mui/material/TextField";
 
 const WritePage = ({ selectedSet, onBackClick }) => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -8,6 +9,8 @@ const WritePage = ({ selectedSet, onBackClick }) => {
     const [languageMode, setLanguageMode] = useState("en-pl");
     const [unlearnedCards, setUnlearnedCards] = useState(selectedSet.flashcards);
     const [learnedCount, setLearnedCount] = useState(0);
+
+    const totalCards = selectedSet.flashcards.length;
 
     const handleCheck = () => {
         const flashcard = unlearnedCards[currentCardIndex];
@@ -69,35 +72,49 @@ const WritePage = ({ selectedSet, onBackClick }) => {
                     <i className="fa-solid fa-right-long"></i>
                 </button>
             </div>
-            <div className="flashcard-box">
-                <div className="flashcard-content">
-                    <div className="flashcard-word">
-                        {feedback ? '' : frontText}
+            <div className="flashcard-box write-page-box">
+                {learnedCount === totalCards ? (
+                    <div className="completion-message">
+                        <span className="small-text">You have learned all flashcards from this set.</span>
+                        <span>Congratulations!</span>
+                        <button onClick={onBackClick}>Another set</button>
                     </div>
-                    {!feedback && (
-                        <input
-                            className="flashcard-input"
-                            value={userInput}
-                            onChange={(e) => setUserInput(e.target.value)}
-                            placeholder={languageMode === "en-pl" ? "Word" : "Słowo"}
-                        />
-                    )}
-                    {!feedback && (
-                        <button className="check-btn" onClick={handleCheck}>Check</button>
-                    )}
-                    {feedback && (
-                        <div className="feedback-message" dangerouslySetInnerHTML={{ __html: feedback }}></div>
-                    )}
-                    {feedback && (
-                        <button className="ok-btn" onClick={handleOkClick}>OK</button>
-                    )}
-                </div>
-                {!feedback && (
+                ) : (
+                    <div className="flashcard-content">
+                        <div className="flashcard-word">
+                            {feedback ? '' : frontText}
+                        </div>
+                        {!feedback && (
+                            <TextField
+                                id="flashcard-input"
+                                label={languageMode === "en-pl" ? "Word" : "Słowo"}
+                                variant="outlined"
+                                value={userInput}
+                                onChange={(e) => setUserInput(e.target.value)}
+                                fullWidth
+                            />
+                        )}
+                        {!feedback && (
+                            <button className="check-btn" onClick={handleCheck}>Check</button>
+                        )}
+                        {feedback && (
+                            <div className="feedback-message" dangerouslySetInnerHTML={{ __html: feedback }}></div>
+                        )}
+                        {feedback && (
+                            <button className="ok-btn" onClick={handleOkClick}>OK</button>
+                        )}
+                    </div>
+                )}
+                {!feedback && learnedCount !== totalCards && (
                     <div className="help-text" onClick={handleHelp}>I need help!</div>
                 )}
             </div>
             <div className="counter">
-                {learnedCount}/{selectedSet.flashcards.length}
+                {learnedCount <= totalCards ? (
+                    `${learnedCount}/${totalCards}`
+                ) : (
+                    `${totalCards}/${totalCards}`
+                )}
             </div>
         </div>
     );
