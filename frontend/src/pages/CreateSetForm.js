@@ -254,8 +254,50 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
         setIsOptionsListVisible(prevState => !prevState);
     };
 
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+            if (allowedTypes.includes(file.type)) {
+                setTimeout(() => {
+                    handleFileUpload(file);
+                }, 0);
+            } else {
+                alert('Nieprawidłowy format pliku. Proszę wybrać plik Excel (.xlsx).');
+            }
+        }
+    };
+
     const handleImportButtonClick = () => {
-        alert('Import set functionality is not yet implemented.');
+        document.getElementById('file-input').click();
+    };
+
+    const handleFileUpload = async (file) => {
+        if (!file || !setObject) {
+            alert('Nie wybrano pliku lub nie wybrano zestawu.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('setId', setObject.setId);
+
+        try {
+            const response = await fetch('/api/set/import', {
+                method: 'POST',
+                body: formData,
+            });
+            if (!response.ok) {
+                console.error(`HTTP error! status: ${response.status}`);
+                alert('Wystąpił błąd podczas importowania pliku.');
+            } else {
+                alert('Plik został zaimportowany pomyślnie.');
+                await fetchFlashcardsBySetId(setObject.setId);
+            }
+        } catch (error) {
+            console.error(`Failed to upload file: ${error.message}`);
+            alert('Wystąpił błąd podczas przesyłania pliku.');
+        }
     };
 
     return (
@@ -307,6 +349,13 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                     </div>
                 </div>
             )}
+            <input
+                id="file-input"
+                type="file"
+                style={{ display: 'none' }}
+                accept=".xlsx"
+                onChange={handleFileChange}
+            />
             <div className="create-form-container">
                 {!isModalOpen && (
                     <>
