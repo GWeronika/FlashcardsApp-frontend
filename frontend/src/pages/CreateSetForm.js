@@ -15,6 +15,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
     const [setObject, setSetObject] = useState(null);
     const [flashcards, setFlashcards] = useState([]);
     const [editingFlashcard, setEditingFlashcard] = useState(null);
+    const [isOptionsListVisible, setIsOptionsListVisible] = useState(false);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -249,6 +250,14 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
         setEditingFlashcard(null);
     };
 
+    const toggleOptionsList = () => {
+        setIsOptionsListVisible(prevState => !prevState);
+    };
+
+    const handleImportButtonClick = () => {
+        alert('Import set functionality is not yet implemented.');
+    };
+
     return (
         <>
             <CreateSetModal
@@ -321,10 +330,18 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                                     />
                                 </div>
                                 <div className="name-form-right">
-                                    <i
-                                        className="fa-solid fa-trash-can"
-                                        onClick={handleDeleteButtonClick}
-                                    ></i>
+                                    <div className="name-form-right">
+                                        <i
+                                            className="fa-solid fa-ellipsis-vertical"
+                                            onClick={toggleOptionsList}
+                                        ></i>
+                                        {isOptionsListVisible && (
+                                            <div className="options-list">
+                                                <button onClick={handleDeleteButtonClick}>Delete set</button>
+                                                <button onClick={handleImportButtonClick}>Import set</button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <div className="create-form">
