@@ -10,7 +10,7 @@ import OptionsSetPage from "./pages/OptionsSetPage";
 import FlashcardPage from "./pages/learning-modes/FlashcardPage";
 import WritePage from "./pages/learning-modes/WritePage";
 import TestPage from './pages/learning-modes/TestPage';
-
+import EditSetPage from "./pages/edit-set/EditSetPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -20,6 +20,8 @@ class App extends React.Component {
             currentPage: "home",
             options: [],
             currentUser: null,
+            selectedSet: null,
+            editingSet: null
         };
     }
 
@@ -96,7 +98,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { currentPage, options, isLoggedIn, currentUser, selectedSet } = this.state;
+        const { currentPage, options, isLoggedIn, currentUser, selectedSet, editingSet } = this.state;
 
         return (
             <div>
@@ -141,10 +143,16 @@ class App extends React.Component {
                         selectedSet={selectedSet}
                         currentUser={currentUser}
                         onClose={() => this.handlePageChange("sets")}
-                        onEditSet={() => this.handlePageChange("edit", { selectedSet })}
+                        onEditSet={(set) => this.handlePageChange("edit", { editingSet: set })}
                         onFlashcards={() => this.handlePageChange("flashcards", { selectedSet })}
                         onWrite={() => this.handlePageChange("write", { selectedSet })}
                         onTest={() => this.handlePageChange("test", { selectedSet })}
+                    />
+                )}
+                {currentPage === "edit" && editingSet && (
+                    <EditSetPage
+                        setObject={editingSet}
+                        onRedirectToSetsPage={() => this.handlePageChange("sets", { selectedSet: null, editingSet: null })}
                     />
                 )}
                 {currentPage === "flashcards" && selectedSet && (

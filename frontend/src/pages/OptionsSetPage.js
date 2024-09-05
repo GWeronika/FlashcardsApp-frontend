@@ -50,7 +50,7 @@ const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet, onFlashc
                     <button className="option-button" onClick={onWrite}>Write</button>
                     <button className="option-button" onClick={onTest}>Test</button>
                     {selectedSet.user.userId === currentUser.userId && (
-                        <><button className="option-button" onClick={handleEditClick}>Edit</button></>
+                        <button className="option-button" onClick={handleEditClick}>Edit</button>
                     )}
                 </div>
             </div>
