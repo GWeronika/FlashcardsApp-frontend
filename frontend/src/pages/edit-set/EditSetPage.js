@@ -9,6 +9,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     const [isOptionsListVisible, setIsOptionsListVisible] = useState(false);
     const [setName, setSetName] = useState(setObject?.name || '');
     const [setDescription, setSetDescription] = useState(setObject?.description || '');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (setObject) {
@@ -186,12 +187,15 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     };
 
     const handleDeleteButtonClick = async () => {
+        setIsLoading(true);
         try {
             await handleDeleteFlashcardsInSet();
             await handleDeleteSet();
             await onRedirectToSetsPage();
         } catch (error) {
             console.error(`Failed to delete set and flashcards: ${error.message}`);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -348,35 +352,43 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flashcard-container">
-                            {flashcards.map((flashcard) => (
-                                <div
-                                    key={flashcard.flashcardId}
-                                    className="flashcard"
-                                >
-                                    <h3 className="flashcard-title">
-                                        {flashcard.word}
-                                    </h3>
-                                    <p className="flashcard-description">
-                                        {flashcard.description}
-                                    </p>
-                                    <div className="flashcard-options">
-                                        <i className="fa-solid fa-trash-can"
-                                           onClick={() =>
-                                               handleDeleteFlashcard(
-                                                   flashcard.flashcardId
-                                               )
-                                           }
-                                        ></i>
-                                        <i className="fa-solid fa-pen"
-                                           onClick={() =>
-                                               openEditModal(flashcard)
-                                           }
-                                        ></i>
+                        {!isLoading ? (
+                            <div className="flashcard-container">
+                                {flashcards.map((flashcard) => (
+                                    <div
+                                        key={flashcard.flashcardId}
+                                        className="flashcard"
+                                    >
+                                        <h3 className="flashcard-title">
+                                            {flashcard.word}
+                                        </h3>
+                                        <p className="flashcard-description">
+                                            {flashcard.description}
+                                        </p>
+                                        <div className="flashcard-options">
+                                            <i className="fa-solid fa-trash-can"
+                                               onClick={() =>
+                                                   handleDeleteFlashcard(
+                                                       flashcard.flashcardId
+                                                   )
+                                               }
+                                            ></i>
+                                            <i className="fa-solid fa-pen"
+                                               onClick={() =>
+                                                   openEditModal(flashcard)
+                                               }
+                                            ></i>
+                                        </div>
                                     </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="loading-container">
+                                <div className="spinner">
+                                    <i className="fa-solid fa-gear"></i>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        )}
                     </>
             </div>
         </>
