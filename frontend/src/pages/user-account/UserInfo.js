@@ -39,6 +39,9 @@ const UserInfo = ({ user, updateUser }) => {
 
     return (
         <div className="user-info">
+            <div className="login-form-icon">
+                <i className="fa-solid fa-address-card"></i>
+            </div>
             <h2>{user.name}</h2>
             <p>{user.email}</p>
             <button className="edit-button" onClick={handleOpenEditModal}>

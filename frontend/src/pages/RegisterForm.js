@@ -55,6 +55,9 @@ const RegisterForm = ({ onClose }) => {
     return (
         <div className="login-form-container change-color">
             <form onSubmit={handleSubmit} className="login-form">
+                <div className="login-form-icon register-form-icon">
+                    <i className="fa-solid fa-id-card"></i>
+                </div>
                 <h2>Register</h2>
                 <TextField
                     label="Username"

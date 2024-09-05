@@ -250,6 +250,9 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
             {editingFlashcard && (
                 <div className="modal-overlay">
                     <div className="change-modal">
+                        <div className="login-form-icon">
+                            <i className="fa-solid fa-pen-to-square"></i>
+                        </div>
                         <h2>Edit Flashcard</h2>
                         <TextField
                             id="word"

@@ -28,9 +28,13 @@
     margin: 2rem;
 }
 
-.login-form i {
+.login-form-icon i {
     color: #216262;
     font-size: 3rem;
+}
+
+.register-form-icon i {
+    color: #DC4345;
 }
 
 .login-form h2 {
@@ -53,6 +57,7 @@
 
 .change-color-button Button {
     background-color: #DC4345;
+    color: #fff;
 }
 
 .login-form Button:hover {

@@ -18,6 +18,9 @@ const CreateSetModal = ({
     return (
         <div className="create-form-container">
             <div className="modal">
+                <div className="login-form-icon">
+                    <i className="fa-solid fa-square-plus"></i>
+                </div>
                 <h2>{title}</h2>
                 <TextField
                     label="Name"
