@@ -8,21 +8,23 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
     const [currentPage, setCurrentPage] = useState(1);
     const [filterOption, setFilterOption] = useState('Latest');
     const [showMySets, setShowMySets] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const setsPerPage = 12;
 
-    const fetchSets = useCallback(async (showMySets, ascending = true, searchTerm = '') => {
+    const fetchSets = useCallback(async (showMySets, ascending = true, searchTerm = '', categoryId = null) => {
         try {
             let url;
-            if(mySetsOnly === true) {
-                if (mySetsOnly) {
-                    if (isLoggedIn && currentUser && currentUser.userId) {
-                        url = `/api/set/select/userid?userID=${currentUser.userId}`;
-                    } else {
-                        console.error('User is not logged in or user ID is not available');
-                        return;
-                    }
+            if (mySetsOnly) {
+                if (isLoggedIn && currentUser && currentUser.userId) {
+                    url = `/api/set/select/userid?userID=${currentUser.userId}`;
+                } else {
+                    console.error('User is not logged in or user ID is not available');
+                    return;
                 }
+            } else if (categoryId) {
+                url = `/api/set/select/category?categoryId=${categoryId}`;
             } else {
                 url = searchTerm
                     ? `/api/set/search?searchTerm=${searchTerm}`
@@ -30,6 +32,7 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
                         ? `/api/set/select/userid?userID=${currentUser.userId}`
                         : `/api/set/sort-date?ascending=${ascending}`;
             }
+
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'},
@@ -60,12 +63,33 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
         }
     }, [isLoggedIn, currentUser, mySetsOnly]);
 
-
-
     useEffect(() => {
         const ascending = filterOption === 'Oldest';
-        fetchSets(showMySets, ascending, searchTerm);
-    }, [filterOption, showMySets, searchTerm, fetchSets]);
+        fetchSets(showMySets, ascending, searchTerm, selectedCategory);
+    }, [filterOption, showMySets, searchTerm, selectedCategory, fetchSets]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('/api/category/select/all', {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const categoriesData = await response.json();
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -109,13 +133,22 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
             {isLoggedIn && currentUser && !hideActions && (
                 <div className="actions-div">
                     <div className="filter-div">
-                        <label>
-                            Filter
-                            <select value={filterOption} onChange={handleFilterChange}>
-                                <option value="Latest">Latest</option>
-                                <option value="Oldest">Oldest</option>
-                            </select>
-                        </label>
+                        <select value={filterOption} onChange={handleFilterChange}>
+                            <option value="Latest">Latest</option>
+                            <option value="Oldest">Oldest</option>
+                        </select>
+                        <select
+                            value={selectedCategory || ''}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                            <option value="">All categories</option>
+                            {categories.map((category) => (
+                                <option key={category.categoryId} value={category.categoryId}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+
                     </div>
                     <div className="my-sets-div">
                         <button onClick={handleMySetsClick}>
@@ -129,7 +162,7 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
             )}
             <div className="sets-div">
                 {currentSets.map((set) => (
-                    <div key={set.setId} className="set-box" onClick={() => onSetClick(set)}>
+                    <div key={set.setId} className="set-box" onClick={() => onSetClick(set)} style={{ backgroundColor: set.category?.colour || 'white' }}>
                         <div className="set-title">{set.name}</div>
                         <div className="set-title set-description">{set.description}</div>
                         <div className="flashcards">
