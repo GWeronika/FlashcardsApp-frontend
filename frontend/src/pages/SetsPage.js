@@ -148,7 +148,6 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
                                 </option>
                             ))}
                         </select>
-
                     </div>
                     <div className="my-sets-div">
                         <button onClick={handleMySetsClick}>

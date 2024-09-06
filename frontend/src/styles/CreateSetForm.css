@@ -31,7 +31,9 @@
 .modal .MuiTextField-root,
 .name-form .MuiTextField-root,
 .create-form .MuiTextField-root,
-.create-form button {
+.create-form button,
+.name-form-left button,
+.modal button {
     background-color: #fff;
     margin-bottom: 10px;
     border: none;
@@ -57,12 +59,25 @@
 
 .name-form-right {
     position: relative;
-    align-items: center;
     margin-left: 16px;
 }
 
 .name-form-right i {
     font-size: 25px;
+}
+
+.modal select {
+    padding: 10px;
+    border: rgba(100, 100, 100, 0.41) solid 0.1px;
+    border-radius: 4px;
+    margin-right: 1em;
+    background-color: #fff;
+}
+
+.modal button {
+    background-color: #359E9E;
+    padding: 0.8rem 2rem;
+    transition: background-color 0.3s;
 }
 
 .create-form {

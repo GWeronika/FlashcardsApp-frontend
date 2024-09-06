@@ -6,6 +6,7 @@ import EditSetPage from "./edit-set/EditSetPage";
 const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPage, enableModal = true }) => {
     const [setName, setSetName] = useState('');
     const [setDescription, setSetDescription] = useState('');
+    const [setCategory, setSetCategory] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(enableModal);
     const [setObject, setSetObject] = useState(null);
 
@@ -18,6 +19,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
 
     const handleSetNameChange = (e) => setSetName(e.target.value);
     const handleSetDescriptionChange = (e) => setSetDescription(e.target.value);
+    const handleSetCategoryChange = (e) => setSetCategory(e.target.value);
 
     const handleCreateSet = async () => {
         if (setName.trim() !== '' && setDescription.trim() !== '') {
@@ -27,9 +29,10 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
             params.append('date', new Date().toISOString().split('T')[0]);
             params.append('description', setDescription);
             params.append('userJson', JSON.stringify(currentUser));
+            params.append('categoryId', setCategory);
 
             try {
-                const response = await fetch('/api/set/add/description', {
+                const response = await fetch('/api/set/add/category', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: params.toString()
@@ -39,6 +42,7 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                 }
                 const result = await response.json();
                 setSetObject(result);
+                // Hide the modal and show EditSetPage
             } catch (error) {
                 alert(`Failed to add set: ${error.message}`);
             }
@@ -47,16 +51,19 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
 
     return (
         <>
-            <CreateSetModal
-                isOpen={isModalOpen}
-                title="Create new set"
-                setName={setName}
-                setDescription={setDescription}
-                onSetNameChange={handleSetNameChange}
-                onSetDescriptionChange={handleSetDescriptionChange}
-                onSubmit={handleCreateSet}
-                onCancel={onRedirectToSetsPage}
-            />
+            {isModalOpen && (
+                <CreateSetModal
+                    isOpen={isModalOpen}
+                    title="Create new set"
+                    setName={setName}
+                    setDescription={setDescription}
+                    onSetNameChange={handleSetNameChange}
+                    onSetDescriptionChange={handleSetDescriptionChange}
+                    onSetCategoryChange={handleSetCategoryChange}
+                    onSubmit={handleCreateSet}
+                    onCancel={onRedirectToSetsPage}
+                />
+            )}
             {!isModalOpen && setObject && (
                 <EditSetPage setObject={setObject} onRedirectToSetsPage={onRedirectToSetsPage} />
             )}

@@ -90,12 +90,6 @@
     background-color: #fff;
 }
 
-.filter-div input {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-}
-
 .sets-div {
     display: flex;
     flex-wrap: wrap;
