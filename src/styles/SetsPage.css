@@ -1,0 +1,173 @@
+.sets-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+}
+
+.search-div {
+    margin: 1em;
+    width: 70%;
+    display: flex;
+}
+
+.search-div input {
+    width: 90%;
+    padding: 0.7em;
+    border-radius: 0.8rem;
+    background-color: rgba(197, 190, 191, 0.18);
+    border: none;
+    margin-right: 5px;
+}
+
+.search-div button {
+    width: 10%;
+    background-color: rgba(53, 158, 158, 0.24);
+    border-radius: 0.8rem;
+    border: none;
+}
+
+.search-div button:hover {
+    background-color: rgba(53, 158, 158, 0.49);
+}
+
+.actions-div {
+    width: 40rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: rgba(53, 158, 158, 0.24);
+    padding: 0.2em 0;
+    border-radius: 1em;
+    justify-content: center;
+}
+
+.my-sets-div {
+    display: flex;
+}
+
+.my-sets-div button {
+    padding: 0.8em 1.7em;
+    background-color: #359E9E;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 8.4em;
+    margin-right: 1em;
+}
+
+.my-sets-div button i {
+    margin-right: 10px;
+}
+
+.filter-div {
+    display: flex;
+    align-items: center;
+    padding: 0.4em 0.8em;
+    border-radius: 0.5em;
+    margin-right: 10%;
+}
+
+.filter-div select {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 1em;
+    background-color: #fff;
+}
+
+.sets-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.set-box {
+    width: 18em;
+    height: auto;
+    background-color: rgba(53, 158, 158, 0.24);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0.7em;
+    overflow-y: hidden;
+}
+
+.set-box:hover {
+    cursor: pointer;
+    background-color: rgba(53, 158, 158, 0.50);
+}
+
+.set-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    position: relative;
+}
+
+.set-description {
+    text-align: justify;
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+.flashcards {
+    max-height: 8em;
+    overflow-y: auto;
+}
+
+.flashcard-set {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flashcard-set h3 {
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .actions-div {
+        display: flex;
+        flex-direction: column;
+    }
+    .my-sets-div {
+        display: flex;
+        margin-right: 0;
+    }
+    .my-sets-div button {
+        margin: 0 1em 0.5em;
+    }
+    .filter-div {
+        margin-right: 0;
+    }
+}

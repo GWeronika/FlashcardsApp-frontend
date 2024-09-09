@@ -1,0 +1,24 @@
+.menu {
+    text-align: right;
+    margin: 0 5%;
+}
+
+.menu ul {
+    list-style-type: none;
+}
+
+.menu ul li {
+    display: inline;
+    margin: 0 1rem;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #919191;
+}
+
+.menu ul li a:hover {
+    text-decoration: underline;
+    color: #919191;
+    cursor: pointer;
+}

@@ -1,0 +1,88 @@
+.my-account-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.my-account-page-center {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    gap: 1em;
+}
+
+.left-column {
+    flex: 1;
+    background-color: rgba(53, 158, 158, 0.24);
+    padding: 1em;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.right-column {
+    flex: 2;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-info h2 {
+    font-size: 1.5em;
+}
+
+.user-info p {
+    margin-top: -1em;
+    font-size: 1em;
+}
+
+.edit-button,
+.change-password-button {
+    padding: 1em 2em;
+    margin: 1em 0 0.5em;
+    background-color: #359E9E;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    width: 20em;
+    text-align: center;
+}
+
+.change-password-button i,
+.edit-button i {
+    margin-right: 1em;
+}
+
+.edit-button:hover,
+.change-password-button:hover {
+    background-color: #2d8b8b;
+}
+
+.my-sets-box {
+    background-color: rgba(53, 158, 158, 0.24);
+    padding: 1em;
+    border-radius: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 30em;
+    overflow-y: auto;
+}
+
+@media (max-width: 1150px) {
+    .my-account-page-center {
+        flex-direction: column;
+    }
+    .user-info h2 {
+        margin-top: 0;
+    }
+    .my-sets-box {
+        height: 17em;
+    }
+}
