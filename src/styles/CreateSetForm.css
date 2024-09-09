@@ -240,6 +240,48 @@
     border-radius: 5px;
 }
 
+.new-category-modal {
+    background-color: #fff;
+    padding: 4rem;
+    border-radius: 10px;
+}
+
+.new-category-modal h2 {
+    margin-bottom: 3rem;
+}
+
+.new-category-modal Button {
+    margin: 1rem;
+}
+
+.new-category-icon {
+    margin: 0 0 3rem 0;
+}
+
+.new-category-inputs {
+    display: flex;
+}
+
+.color-picker-container {
+    margin-top: 20px;
+    position: relative;
+}
+
+.color-picker-container .sketch-picker {
+    position: absolute;
+    z-index: 1100;
+}
+
+.color-preview {
+    width: 50px;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: -15px;
+    margin-left: 1rem;
+}
+
 @media (min-width: 1200px) {
     .flashcard-container {
         display: grid;

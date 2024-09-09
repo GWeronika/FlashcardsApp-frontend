@@ -62,7 +62,6 @@ const CreateSetModal = ({ isOpen, title, setName, setDescription, setCategory, o
                     value={selectedCategory || ''}
                     onChange={handleCategoryChange}
                 >
-                    <option value="">All categories</option>
                     {categories.map((category) => (
                         <option key={category.categoryId} value={category.categoryId}>
                             {category.name}
