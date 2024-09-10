@@ -88,7 +88,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                     />
                 </div>
                 {error && <p className="error-message">{error}</p>}
-                <div className="modal-buttons">
+                <div className="edit-modal-buttons">
                     <button className="confirm-button" onClick={handleSave}>Confirm</button>
                     <button className="cancel-button" onClick={onClose}>Cancel</button>
                 </div>

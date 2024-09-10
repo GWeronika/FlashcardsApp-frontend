@@ -47,7 +47,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
                         onChange={handleEmailChange}
                     />
                 </div>
-                <div className="modal-buttons">
+                <div className="edit-modal-buttons">
                     <button className="confirm-button" onClick={handleSave}>Confirm</button>
                     <button className="cancel-button" onClick={onClose}>Cancel</button>
                 </div>

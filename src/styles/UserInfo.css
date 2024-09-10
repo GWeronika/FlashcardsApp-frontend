@@ -41,10 +41,6 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-}
-
-.confirm-button,
-.cancel-button {
     background-color: #359E9E;
     color: white;
 }
