@@ -192,7 +192,7 @@ class App extends React.Component {
                     <FlashcardPage
                         currentUser={currentUser}
                         selectedSet={selectedSet}
-                        onBackClick={() => this.handlePageChange("sets")}
+                        onBackClick={() => this.handlePageChange("options", { selectedSet })}
                     />
                 )}
                 {currentPage === "write" && selectedSet && (
@@ -205,6 +205,7 @@ class App extends React.Component {
                     <TestPage
                         selectedSet={selectedSet}
                         onBackClick={() => this.handlePageChange("options", { selectedSet })}
+                        onAnotherClick={() => this.handlePageChange("sets")}
                     />
                 )}
                 {currentPage === "create" && (

@@ -94,14 +94,6 @@
     margin-bottom: 1.5em;
 }
 
-.incorrect-list {
-    margin-top: 1.5em;
-}
-
-.incorrect-list ul {
-    list-style-type: disc;
-    margin: 0;
-    padding-left: 1.5em;
-    overflow-y: auto;
-    max-height: 30vh;
+.incorrect-list-result {
+    background-color: rgba(220, 67, 69, 0.32);
 }

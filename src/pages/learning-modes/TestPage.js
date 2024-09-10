@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/TestPage.css";
 import TextField from "@mui/material/TextField";
 
-const TestPage = ({ selectedSet, onBackClick }) => {
+const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
     const [userAnswers, setUserAnswers] = useState({});
     const [showResults, setShowResults] = useState(false);
     const [correctCount, setCorrectCount] = useState(0);
@@ -91,13 +91,15 @@ const TestPage = ({ selectedSet, onBackClick }) => {
                     {incorrectWords.length > 0 && (
                         <div className="incorrect-list">
                             <div>Incorrect Words:</div>
-                            <ul>
+                            <div className="flashcards">
                                 {incorrectWords.map((flashcard, index) => (
-                                    <li key={index}>{`${flashcard.word} - ${flashcard.description}`}</li>
-                                ))}
-                            </ul>
+                                    <div key={index} className="flashcard-set incorrect-list-result">
+                                        <h3>{flashcard.word}</h3>
+                                        <div>{flashcard.description}</div>
+                                    </div>                                ))}
+                            </div>
                             <div className="completion-message">
-                                <button onClick={onBackClick}>Another set</button>
+                                <button onClick={onAnotherClick}>Another set</button>
                             </div>
                         </div>
                     )}
