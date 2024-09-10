@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import '../styles/LoginForm.css';
 import Button from "../components/Button";
 import ResetPasswordForm from "./password-reset/ResetPasswordForm";
-import TextField from '@mui/material/TextField'; // Import Material UI TextField
+import TextField from '@mui/material/TextField';
 
 const LoginForm = ({ onClose, onLogin, onRegister }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+    const [errors, setErrors] = useState({ username: '', password: '' });
 
     const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
+        const newUsername = event.target.value;
+        setUsername(newUsername);
+        validateUsername(newUsername);
     };
 
     const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
+        const newPassword = event.target.value;
+        setPassword(newPassword);
+        validatePassword(newPassword);
     };
 
     const handleForgotPasswordClick = () => {
@@ -23,6 +28,10 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        validateUsername(username);
+        validatePassword(password);
+
         try {
             const formData = new URLSearchParams();
             formData.append('username', username);
@@ -52,6 +61,25 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
         }
     };
 
+    const validateUsername = (username) => {
+        if (!username.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, username: 'Username is required.' }));
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, username: '' }));
+        }
+    };
+
+    const validatePassword = (password) => {
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$/;
+        if (!password.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required.' }));
+        } else if (!passwordPattern.test(password)) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password does not meet the requirements.' }));
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+        }
+    };
+
     return (
         <div className="login-form-container">
             {isForgotPasswordOpen && (
@@ -72,6 +100,8 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
                     value={username}
                     onChange={handleUsernameChange}
                     fullWidth
+                    error={!!errors.username}
+                    helperText={errors.username}
                 />
                 <TextField
                     id="password"
@@ -81,23 +111,33 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
                     value={password}
                     onChange={handlePasswordChange}
                     fullWidth
+                    error={!!errors.password}
+                    helperText={errors.password}
                 />
                 <Button text="Log in" />
                 <div className="login-form-options">
                     <div className="login-form-option">
                         <label htmlFor="register">
                             Don't have an account?
-                            <a onClick={onRegister}>
+                            <button
+                                type="button"
+                                onClick={onRegister}
+                                className="link-button"
+                            >
                                 Register
-                            </a>
+                            </button>
                         </label>
                     </div>
                     <div className="login-form-option">
                         <label htmlFor="forgot-password">
                             Forgot your password?
-                            <a onClick={handleForgotPasswordClick}>
+                            <button
+                                type="button"
+                                onClick={handleForgotPasswordClick}
+                                className="link-button"
+                            >
                                 Forgot password
-                            </a>
+                            </button>
                         </label>
                     </div>
                 </div>

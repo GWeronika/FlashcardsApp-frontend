@@ -73,12 +73,18 @@
     font-size: 0.7em;
 }
 
-.login-form-option a {
-    color: #216262;
-    text-decoration: none;
+.login-form-option button {
+    background-color: #ffffff;
+    border: none;
+    color: #266e6e;
+    cursor: pointer;
+    padding: 0 3px;
+    font: inherit;
 }
 
-.login-form-option a:hover {
+.login-form-option button:hover {
+    background-color: #ffffff;
+    color: #174141;
     text-decoration: underline;
 }
 
