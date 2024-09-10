@@ -26,15 +26,31 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.updateOptions(this.state.currentPage);
-        const token = localStorage.getItem('token');
         const currentUser = localStorage.getItem('currentUser');
-        if (token && currentUser) {
-            this.setState({ isLoggedIn: true, currentUser: JSON.parse(currentUser) });
+        let savedPage = localStorage.getItem('currentPage');
+
+        if (savedPage === "options" || savedPage === "flashcards" || savedPage === "write" || savedPage === "test") {
+            savedPage = "sets";
         }
+
+        if (currentUser) {
+            this.setState({
+                isLoggedIn: true,
+                currentUser: JSON.parse(currentUser),
+                currentPage: savedPage || "home"
+            });
+        } else {
+            this.setState({
+                currentPage: savedPage || "home"
+            });
+        }
+        this.updateOptions(savedPage || "home");
     }
 
     handleLogin = (user) => {
+        // localStorage.setItem('token', user.token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+
         this.setState(() => ({
             isLoggedIn: true,
             currentUser: user
@@ -44,9 +60,11 @@ class App extends React.Component {
     }
 
     handleLogout = () => {
-        localStorage.removeItem('token');
+        // localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
-        this.setState({ isLoggedIn: false, currentUser: null }, () => {
+        localStorage.removeItem('currentPage');
+
+        this.setState({ isLoggedIn: false, currentUser: null, currentPage: "home" }, () => {
             this.updateOptions("home");
             this.handlePageChange("home");
         });
@@ -78,6 +96,7 @@ class App extends React.Component {
                 break;
             case "sets":
             case "create":
+            case "account":
                 options = baseOptions;
                 break;
             case "register":
@@ -94,7 +113,11 @@ class App extends React.Component {
     }
 
     handlePageChange = (page, extraParams = {}) => {
-        this.setState({ currentPage: page, ...extraParams });
+        localStorage.setItem('currentPage', page);
+
+        this.setState({ currentPage: page, ...extraParams }, () => {
+            this.updateOptions(page);
+        });
     }
 
     render() {
@@ -117,9 +140,19 @@ class App extends React.Component {
                         </main>
                         <footer>
                             <section>
-                                <Button text={<><strong className="bold-text">Register</strong> to discover new possibilities</>} onClick={() => this.handlePageChange("register")} />
-                                <Button text={<><strong className="bold-text">Log in</strong> to make progress</>} onClick={() => this.handlePageChange("login")} />
-                                <Button text={<><strong className="bold-text">Create a set</strong> to go all the way</>} onClick={() => this.handlePageChange("create")} />
+                                {isLoggedIn ? (
+                                    <>
+                                        <Button text={<><strong className="bold-text">Browse sets</strong> to find something for you</>} onClick={() => this.handlePageChange("sets")} />
+                                        <Button text={<><strong className="bold-text">Create a set</strong> to go all the way</>} onClick={() => this.handlePageChange("create")} />
+                                        <Button text={<><strong className="bold-text">Check an account</strong> to stay up to date</>} onClick={() => this.handlePageChange("account")} />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button text={<><strong className="bold-text">Register</strong> to discover new possibilities</>} onClick={() => this.handlePageChange("register")} />
+                                        <Button text={<><strong className="bold-text">Log in</strong> to make progress</>} onClick={() => this.handlePageChange("login")} />
+                                        <Button text={<><strong className="bold-text">Create a set</strong> to go all the way</>} onClick={() => this.handlePageChange("create")} />
+                                    </>
+                                )}
                             </section>
                         </footer>
                     </>

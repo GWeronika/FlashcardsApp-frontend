@@ -19,6 +19,5 @@
 
 .menu ul li a:hover {
     text-decoration: underline;
-    color: #919191;
     cursor: pointer;
 }
