@@ -7,6 +7,7 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
     const [newCategoryName, setNewCategoryName] = useState('');
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [selectedColor, setSelectedColor] = useState('rgba(207, 232, 232, 0.76)');
+    const [error, setError] = useState('');
     const colorPickerRef = useRef(null);
 
     const handleCategoryNameChange = (e) => setNewCategoryName(e.target.value);
@@ -28,9 +29,11 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
 
     const handleCreateCategory = async () => {
         if (!newCategoryName.trim()) {
-            alert('Category name cannot be empty');
+            setError('Category name cannot be empty');
             return;
         }
+
+        setError('');
 
         const formData = new URLSearchParams();
         formData.append('name', newCategoryName);
@@ -72,6 +75,8 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
                         value={newCategoryName}
                         onChange={handleCategoryNameChange}
                         fullWidth
+                        error={!!error}
+                        helperText={error}
                     />
                     <div className="color-picker-container">
                         <div

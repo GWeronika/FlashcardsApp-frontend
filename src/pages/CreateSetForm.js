@@ -42,7 +42,6 @@ const CreateSetForm = ({ isLoggedIn, currentUser, onRedirect, onRedirectToSetsPa
                 }
                 const result = await response.json();
                 setSetObject(result);
-                // Hide the modal and show EditSetPage
             } catch (error) {
                 alert(`Failed to add set: ${error.message}`);
             }

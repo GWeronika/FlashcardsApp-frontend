@@ -56,7 +56,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                 console.error(`HTTP error! status: ${response.status}`);
             }
             const flashcardsData = await response.json();
-            setFlashcards(flashcardsData);
+            setFlashcards(Array.isArray(flashcardsData) ? flashcardsData : []);
         } catch (error) {
             console.error(`Failed to fetch flashcards: ${error.message}`);
         }
