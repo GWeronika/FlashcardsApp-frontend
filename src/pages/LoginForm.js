@@ -70,7 +70,7 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
     };
 
     const validatePassword = (password) => {
-        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$/;
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
         if (!password.trim()) {
             setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required.' }));
         } else if (!passwordPattern.test(password)) {
