@@ -37,20 +37,26 @@
     max-height: 47vh;
 }
 
+.test-flashcard-box p {
+    margin-bottom: 2.5em;
+    font-weight: bold;
+    margin-left: 1.5rem;
+}
+
 .test-flashcard-box form {
     height: 400px;
 }
 
 .test-flashcard-box div {
     display: flex;
-    justify-content: center;
+    justify-content: left;
 }
 
 .test-flashcard-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin: 1em;
+    justify-content: flex-start;
 }
 
 .test-flashcard-word {

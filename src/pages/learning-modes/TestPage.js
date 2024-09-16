@@ -65,6 +65,7 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
             </div>
             {!showResults ? (
                 <div className="test-flashcard-box">
+                    <p>Fill in the blanks with the appropriate translations</p>
                     <form>
                         {selectedSet.flashcards.map((flashcard, index) => (
                             <div key={index} className="test-flashcard-row">
@@ -73,7 +74,7 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
                                 </div>
                                 <TextField
                                     id="test-flashcard-input"
-                                    label={languageMode === "en-pl" ? flashcard.word : flashcard.description}
+                                    label={languageMode === "en-pl" ? "Translation" : "Tłumaczenie"}
                                     variant="outlined"
                                     value={userAnswers[flashcard.word] || ""}
                                     onChange={(e) => handleInputChange(e, flashcard.word)}

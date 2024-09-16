@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import Button from "../../components/Button";
+import Button from '@mui/material/Button';
+import Button2 from '../../components/Button';
 
 const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     const [newFlashcard, setNewFlashcard] = useState({ word: '', description: '' });
@@ -236,7 +237,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                 console.error(`HTTP error! status: ${response.status}`);
                 alert('Wystąpił błąd podczas importowania pliku.');
             } else {
-                alert('Plik został zaimportowany pomyślnie.');
+                alert('ortowany pomyślnie.');
                 await fetchFlashcardsBySetId(setObject.setId);
             }
         } catch (error) {
@@ -259,6 +260,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                             label="Word"
                             variant="outlined"
                             value={editingFlashcard.word}
+                            required
                             onChange={(e) =>
                                 setEditingFlashcard({
                                     ...editingFlashcard,
@@ -272,6 +274,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                             label="Description"
                             variant="outlined"
                             value={editingFlashcard.description}
+                            required
                             onChange={(e) =>
                                 setEditingFlashcard({
                                     ...editingFlashcard,
@@ -281,8 +284,20 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                             fullWidth
                         />
                         <div className="modal-buttons">
-                            <button onClick={handleUpdateFlashcardConfirm}>Update</button>
-                            <button onClick={closeEditModal}>Cancel</button>
+                            <Button
+                                variant="outlined"
+                                onClick={closeEditModal}
+                                sx={{ borderColor: '#359E9E', color: '#359E9E' }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleUpdateFlashcardConfirm}
+                                sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
+                            >
+                                Update
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -304,6 +319,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                         variant="outlined"
                                         value={setName}
                                         onChange={handleSetNameChange}
+                                        required
                                         fullWidth
                                     />
                                     <TextField
@@ -311,6 +327,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                         variant="outlined"
                                         value={setDescription}
                                         onChange={handleSetDescriptionChange}
+                                        required
                                         multiline
                                         fullWidth
                                     />
@@ -335,6 +352,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                     value={newFlashcard.word}
                                     onChange={handleSetWordChange}
                                     fullWidth
+                                    required
                                 />
                                 <TextField
                                     label="Definition"
@@ -342,13 +360,14 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                     value={newFlashcard.description}
                                     onChange={handleSetDefinitionChange}
                                     fullWidth
+                                    required
                                 />
                                 <div className="create-form-buttons">
-                                    <Button
+                                    <Button2
                                         text={<>Add</>}
                                         onClick={handleAddFlashcard}
                                     />
-                                    <Button
+                                    <Button2
                                         text={<>Finish</>}
                                         onClick={handleConfirmFlashcard}
                                     />

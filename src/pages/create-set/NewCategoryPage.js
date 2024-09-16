@@ -97,8 +97,20 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
                     </div>
                 </div>
                 <div className="modal-buttons">
-                    <Button onClick={handleCreateCategory}>Create</Button>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button
+                        variant="outlined"
+                        onClick={onClose}
+                        sx={{ borderColor: '#359E9E', color: '#359E9E' }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleCreateCategory}
+                        sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
+                    >
+                        Save
+                    </Button>
                 </div>
             </div>
         </div>

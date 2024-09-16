@@ -136,7 +136,8 @@
 
 .flashcards {
     max-height: 8em;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-color: #359E9E #fff;
 }
 
 .flashcard-set {
@@ -153,6 +154,21 @@
 
 .flashcard-set h3 {
     margin: 0;
+}
+
+.no-sets-message {
+    text-align: center;
+    margin: 2em 0;
+}
+
+.create-set-button {
+    padding: 0.8em 1.7em;
+    background-color: #359E9E;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    cursor: pointer;
+    margin-top: 1em;
 }
 
 @media (max-width: 900px) {

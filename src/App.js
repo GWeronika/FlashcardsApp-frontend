@@ -11,6 +11,7 @@ import FlashcardPage from "./pages/learning-modes/FlashcardPage";
 import WritePage from "./pages/learning-modes/WritePage";
 import TestPage from './pages/learning-modes/TestPage';
 import EditSetPage from "./pages/edit-set/EditSetPage";
+import ResetPasswordForm from "./pages/password-reset/ResetPasswordForm";
 
 class App extends React.Component {
     constructor(props) {
@@ -48,7 +49,6 @@ class App extends React.Component {
     }
 
     handleLogin = (user) => {
-        // localStorage.setItem('token', user.token);
         localStorage.setItem('currentUser', JSON.stringify(user));
 
         this.setState(() => ({
@@ -60,7 +60,6 @@ class App extends React.Component {
     }
 
     handleLogout = () => {
-        // localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
         localStorage.removeItem('currentPage');
 
@@ -91,8 +90,7 @@ class App extends React.Component {
             case "login":
                 options = [
                     { onClick: () => this.handlePageChange("register"), icon: "fa-solid fa-address-card", text: "Register" },
-                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" }
-                ];
+                    { onClick: () => this.handlePageChange("forgot"), icon: "fa-solid fa-key", text: "Recover password" }                ];
                 break;
             case "sets":
             case "create":
@@ -100,6 +98,7 @@ class App extends React.Component {
             case "flashcards":
             case "write":
             case "test":
+            case "options":
                 options = baseOptions;
                 break;
             case "register":
@@ -172,6 +171,7 @@ class App extends React.Component {
                         isLoggedIn={isLoggedIn}
                         currentUser={currentUser}
                         onSetClick={(set) => this.handlePageChange("options", { selectedSet: set })}
+                        onCreateSetClick={() => this.handlePageChange("create")}
                     />
                 )}
                 {currentPage === "options" && selectedSet && (
@@ -228,6 +228,12 @@ class App extends React.Component {
                     <AccountPage
                         user={currentUser}
                         onSetClick={(set) => this.handlePageChange("options", { selectedSet: set })}
+                    />
+                )}
+                {currentPage === "forgot" && (
+                    <ResetPasswordForm
+                        show={true}
+                        handleClose={() => this.handlePageChange("login")}
                     />
                 )}
             </div>

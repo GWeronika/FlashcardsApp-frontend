@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import '../styles/LoginForm.css';
 import Button from "../components/Button";
 import TextField from "@mui/material/TextField";
@@ -8,6 +8,7 @@ const RegisterForm = ({ onClose }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeat_password, setRepeatPassword] = useState('');
+    const [errors, setErrors] = useState({ username: '', password: '' });
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -24,31 +25,107 @@ const RegisterForm = ({ onClose }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!username || !email || !password || !repeat_password) {
-            alert("Please fill in all the fields.");
-            return;
+
+        const isUsernameValid = await validateUsername(username);
+        const isEmailValid = await validateEmail(email);
+        const isPasswordValid = validatePassword(password);
+        const isRepeatPasswordValid = password === repeat_password;
+
+        if (!isRepeatPasswordValid) {
+            alert("Passwords do not match.");
         }
-        if (password !== repeat_password) {
-            alert("Passwords do not match");
-            return;
-        }
-        try {
-            const response = await fetch('/api/user/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-                body: new URLSearchParams({
-                    name: username,
-                    email: email,
-                    password: password,
-                })
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+
+        if (isUsernameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
+            try {
+                const response = await fetch('/api/user/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+                    body: new URLSearchParams({
+                        name: username,
+                        email: email,
+                        password: password,
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                alert("User registered successfully. Go to log in.");
+                onClose();
+            } catch (error) {
+                alert(`Failed to register user: ${error.message}`);
             }
-            alert("User registered successfully. Go to log in.");
-            onClose();
+        }
+    };
+
+    const validateUsername = async (username) => {
+        if (!username.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, username: 'Username is required.' }));
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, username: '' }));
+        }
+
+        const usernameExists = await checkUsernameInDatabase(username);
+        if (usernameExists) {
+            setErrors(prevErrors => ({ ...prevErrors, username: 'Username already exists.' }));
+            return false;
+        }
+        setErrors(prevErrors => ({ ...prevErrors, username: '' }));
+        return true;
+    };
+
+    const validateEmail = async (email) => {
+        const emailRegex = /^[a-z][a-z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!email.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, email: 'Email is required.' }));
+            return false;
+        } else if (!emailRegex.test(email)) {
+            setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid email format.' }));
+            return false;
+        }
+
+        const emailExists = await checkEmailInDatabase(email);
+        if (emailExists) {
+            setErrors(prevErrors => ({ ...prevErrors, email: 'Email already exists.' }));
+            return false;
+        }
+        setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+        return true;
+    };
+
+    const validatePassword = (password) => {
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
+        if (!password.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required.' }));
+            return false;
+        } else if (!passwordPattern.test(password)) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password does not meet the requirements.' }));
+            return false;
+        }
+        setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+        return true;
+    };
+
+    const checkUsernameInDatabase = async (username) => {
+        try {
+            const response = await fetch('/api/user/select/all');
+            const users = await response.json();
+
+            return users.some(user => user.name === username);
         } catch (error) {
-            alert(`Failed to register user: ${error.message}`);
+            console.error("Error checking username:", error);
+            return false;
+        }
+    };
+
+    const checkEmailInDatabase = async (email) => {
+        try {
+            const response = await fetch('/api/user/select/all');
+            const users = await response.json();
+
+            return users.some(user => user.email === email);
+        } catch (error) {
+            console.error("Error checking email:", error);
+            return false;
         }
     };
 
@@ -66,6 +143,8 @@ const RegisterForm = ({ onClose }) => {
                     onChange={handleUsernameChange}
                     fullWidth
                     required
+                    error={!!errors.username}
+                    helperText={errors.username}
                 />
                 <TextField
                     label="Email"
@@ -74,25 +153,33 @@ const RegisterForm = ({ onClose }) => {
                     onChange={handleEmailChange}
                     fullWidth
                     required
+                    error={!!errors.email}
+                    helperText={errors.email}
                 />
                 <TextField
                     label="Password"
                     variant="outlined"
+                    type="password"
                     value={password}
                     onChange={handlePasswordChange}
                     fullWidth
                     required
+                    error={!!errors.password}
+                    helperText={errors.password}
                 />
                 <TextField
-                    label="RepeatPassword"
+                    label="Repeat Password"
                     variant="outlined"
+                    type="password"
                     value={repeat_password}
                     onChange={handleRepeatPasswordChange}
                     fullWidth
                     required
+                    error={!password || password !== repeat_password}
+                    helperText={!password || password !== repeat_password ? "Passwords do not match" : ""}
                 />
                 <div className="change-color-button">
-                    <Button text={<>Register</>} onClick={() => console.log('Button clicked')} />
+                    <Button text={<>Register</>} onClick={() => {}} />
                 </div>
             </form>
         </div>

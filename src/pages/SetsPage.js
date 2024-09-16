@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
 import '../styles/SetsPage.css';
 
-const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick }) => {
+const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick, onCreateSetClick }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sets, setSets] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -90,6 +90,13 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
         fetchCategories();
     }, []);
 
+    const handleSetClick = (set) => {
+        if (!isLoggedIn) {
+            alert('To use this set, you need to be logged in.');
+        } else {
+            onSetClick(set);
+        }
+    };
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -160,20 +167,27 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
                 </div>
             )}
             <div className="sets-div">
-                {currentSets.map((set) => (
-                    <div key={set.setId} className="set-box" onClick={() => onSetClick(set)} style={{ backgroundColor: set.category?.colour || 'white' }}>
-                        <div className="set-title">{set.name}</div>
-                        <div className="set-title set-description">{set.description}</div>
-                        <div className="flashcards">
-                            {set.flashcards && set.flashcards.map((flashcard, index) => (
-                                <div key={index} className="flashcard-set">
-                                    <h3>{flashcard.word}</h3>
-                                    <div>{flashcard.description}</div>
-                                </div>
-                            ))}
-                        </div>
+                {showMySets && sets.length === 0 ? (
+                    <div className="no-sets-message">
+                        <p>You don't have any sets.</p>
+                        <button onClick={onCreateSetClick} className="create-set-button">Create a set</button>
                     </div>
-                ))}
+                ) : (
+                    currentSets.map((set) => (
+                        <div key={set.setId} className="set-box" onClick={() => handleSetClick(set)} style={{ backgroundColor: set.category?.colour || 'white' }}>
+                            <div className="set-title">{set.name}</div>
+                            <div className="set-description">{set.description}</div>
+                            <div className="flashcards">
+                                {set.flashcards && set.flashcards.map((flashcard, index) => (
+                                    <div key={index} className="flashcard-set">
+                                        <h3>{flashcard.word}</h3>
+                                        <div>{flashcard.description}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
             <Pagination
                 setsPerPage={setsPerPage}
@@ -183,7 +197,6 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
             />
         </div>
     );
-
 };
 
 export default SetsPage;

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import TextField from "@mui/material/TextField";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const ChangePasswordModal = ({ user, onClose, onSave }) => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState({ oldPassword: '', newPassword: '', repeatPassword: '' });
 
     const handleOldPasswordChange = (event) => {
         setOldPassword(event.target.value);
@@ -20,9 +21,23 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
     };
 
     const handleSave = async () => {
-        if (newPassword !== repeatPassword) {
-            setError('New passwords do not match');
+        const isNewPasswordValid = validatePassword(newPassword);
+        const isRepeatPasswordValid = newPassword === repeatPassword;
+        const isOldPasswordValid = oldPassword.trim() !== '';
+
+        if (!isOldPasswordValid) {
+            setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Current password is required.' }));
             return;
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, oldPassword: '' }));
+        }
+
+        if (!isNewPasswordValid) return;
+        if (!isRepeatPasswordValid) {
+            setErrors(prevErrors => ({ ...prevErrors, repeatPassword: 'New passwords do not match' }));
+            return;
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, repeatPassword: '' }));
         }
 
         try {
@@ -43,18 +58,31 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         onSave(newPassword);
                         onClose();
                     } else {
-                        setError('Error updating password');
+                        setErrors(prevErrors => ({ ...prevErrors, general: 'Error updating password' }));
                     }
                 } else {
-                    setError('Old password is incorrect');
+                    setErrors(prevErrors => ({ ...prevErrors, oldPassword: 'Old password is incorrect' }));
                 }
             } else {
-                setError('Error verifying old password');
+                setErrors(prevErrors => ({ ...prevErrors, general: 'Error verifying old password' }));
             }
         } catch (error) {
             console.error('Error changing password:', error);
-            setError('Error changing password');
+            setErrors(prevErrors => ({ ...prevErrors, general: 'Error changing password' }));
         }
+    };
+
+    const validatePassword = (password) => {
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
+        if (!password.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, newPassword: 'New password is required.' }));
+            return false;
+        } else if (!passwordPattern.test(password)) {
+            setErrors(prevErrors => ({ ...prevErrors, newPassword: 'Password does not meet the requirements.' }));
+            return false;
+        }
+        setErrors(prevErrors => ({ ...prevErrors, newPassword: '' }));
+        return true;
     };
 
     return (
@@ -68,6 +96,8 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         variant="outlined"
                         value={oldPassword}
                         onChange={handleOldPasswordChange}
+                        error={Boolean(errors.oldPassword)}
+                        helperText={errors.oldPassword}
                         required
                     />
                     <TextField
@@ -76,6 +106,8 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         variant="outlined"
                         value={newPassword}
                         onChange={handleNewPasswordChange}
+                        error={Boolean(errors.newPassword)}
+                        helperText={errors.newPassword}
                         required
                     />
                     <TextField
@@ -84,13 +116,27 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         variant="outlined"
                         value={repeatPassword}
                         onChange={handleRepeatPasswordChange}
+                        error={Boolean(errors.repeatPassword)}
+                        helperText={errors.repeatPassword}
                         required
                     />
                 </div>
-                {error && <p className="error-message">{error}</p>}
+                {errors.general && <p className="error-message">{errors.general}</p>}
                 <div className="edit-modal-buttons">
-                    <button className="confirm-button" onClick={handleSave}>Confirm</button>
-                    <button className="cancel-button" onClick={onClose}>Cancel</button>
+                    <Button
+                        variant="outlined"
+                        onClick={onClose}
+                        sx={{ borderColor: '#359E9E', color: '#359E9E' }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleSave}
+                        sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
+                    >
+                        Save
+                    </Button>
                 </div>
             </div>
         </div>

@@ -32,6 +32,11 @@
     margin: 1rem 0;
 }
 
+.modal-field .MuiFormHelperText-root {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
 .confirm-button,
 .cancel-button {
     width: 8em;
@@ -48,4 +53,9 @@
 .confirm-button:hover,
 .cancel-button:hover {
     background-color: #2d8b8b;
+}
+
+.edit-modal-buttons Button {
+    margin: 0 10px;
+    width: 8rem;
 }
