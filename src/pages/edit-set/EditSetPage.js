@@ -200,16 +200,14 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
         }
     };
 
-        const handleFileChange = async (event) => {
+    const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
             const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
             if (allowedTypes.includes(file.type)) {
-                setTimeout(() => {
-                    handleFileUpload(file);
-                }, 0);
+                await handleFileUpload(file);
             } else {
-                alert('Nieprawidłowy format pliku. Proszę wybrać plik Excel (.xlsx).');
+                alert('Invalid file format. Please select an Excel (.xlsx) file.');
             }
         }
     };
@@ -220,7 +218,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
 
     const handleFileUpload = async (file) => {
         if (!file || !setObject) {
-            alert('Nie wybrano pliku lub nie wybrano zestawu.');
+            alert('No file selected or set not chosen.');
             return;
         }
 
@@ -235,14 +233,14 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
             });
             if (!response.ok) {
                 console.error(`HTTP error! status: ${response.status}`);
-                alert('Wystąpił błąd podczas importowania pliku.');
+                alert('An error occurred while importing the file.');
             } else {
-                alert('ortowany pomyślnie.');
+                alert('File imported successfully.');
                 await fetchFlashcardsBySetId(setObject.setId);
             }
         } catch (error) {
             console.error(`Failed to upload file: ${error.message}`);
-            alert('Wystąpił błąd podczas przesyłania pliku.');
+            alert('An error occurred during file upload.');
         }
     };
 
