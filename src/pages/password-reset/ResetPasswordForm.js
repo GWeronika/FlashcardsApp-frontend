@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../styles/ResetPasswordForm.css';
 import TextField from "@mui/material/TextField";
+import Button from '@mui/material/Button';
 
 const ResetPasswordForm = ({ show, handleClose }) => {
     const [email, setEmail] = useState('');
@@ -145,8 +146,20 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                         />
                         {!isLoading ? (
                             <div className="button-container">
-                                <button type="submit">Send code</button>
-                                <button type="button" onClick={handleClose}>Close</button>
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleClose}
+                                    sx={{ borderColor: '#359E9E', color: '#359E9E' }}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    onClick={handleEmailSubmit}
+                                    sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
+                                >
+                                    Send code
+                                </Button>
                             </div>
                         ) : (
                             <div className="loading-container">
@@ -169,8 +182,20 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             required
                         />
                         <div className="button-container">
-                            <button type="submit">Verify Code</button>
-                            <button type="button" onClick={handleClose}>Close</button>
+                            <Button
+                                variant="outlined"
+                                onClick={handleClose}
+                                sx={{ borderColor: '#359E9E', color: '#359E9E' }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleVerificationSubmit}
+                                sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
+                            >
+                                Verify
+                            </Button>
                         </div>
                     </form>
                 ) : step === 3 ? (
@@ -196,8 +221,20 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             required
                         />
                         <div className="button-container">
-                            <button type="submit">Reset Password</button>
-                            <button type="button" onClick={handleClose}>Close</button>
+                            <Button
+                                variant="outlined"
+                                onClick={handleClose}
+                                sx={{ borderColor: '#359E9E', color: '#359E9E' }}
+                            >
+                                CANCEL
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handlePasswordResetSubmit}
+                                sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
+                            >
+                                SAVE
+                            </Button>
                         </div>
                     </form>
                 ) : null}

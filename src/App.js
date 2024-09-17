@@ -99,6 +99,7 @@ class App extends React.Component {
             case "write":
             case "test":
             case "options":
+            case "edit":
                 options = baseOptions;
                 break;
             case "register":
