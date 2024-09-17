@@ -132,7 +132,7 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
-                    <button onClick={() => console.log(" ")}>
+                    <button onClick={() => {}}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>

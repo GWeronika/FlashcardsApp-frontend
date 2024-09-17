@@ -77,6 +77,7 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
                         fullWidth
                         error={!!error}
                         helperText={error}
+                        inputProps={{ maxLength: 255 }}
                     />
                     <div className="color-picker-container">
                         <div

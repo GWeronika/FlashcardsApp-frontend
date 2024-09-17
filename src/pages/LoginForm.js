@@ -64,6 +64,8 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
     const validateUsername = (username) => {
         if (!username.trim()) {
             setErrors(prevErrors => ({ ...prevErrors, username: 'Username is required.' }));
+        } else if (username.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, username: 'Username cannot exceed 255 characters.' }));
         } else {
             setErrors(prevErrors => ({ ...prevErrors, username: '' }));
         }
@@ -73,6 +75,8 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
         const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
         if (!password.trim()) {
             setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required.' }));
+        } else if (password.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password cannot exceed 255 characters.' }));
         } else if (!passwordPattern.test(password)) {
             setErrors(prevErrors => ({ ...prevErrors, password: 'Password does not meet the requirements.' }));
         } else {
@@ -102,6 +106,7 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
                     fullWidth
                     error={!!errors.username}
                     helperText={errors.username}
+                    inputProps={{ maxLength: 255 }}
                 />
                 <TextField
                     id="password"
@@ -113,8 +118,9 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
                     fullWidth
                     error={!!errors.password}
                     helperText={errors.password}
+                    inputProps={{ maxLength: 255 }}
                 />
-                <Button text="Log in" />
+                <Button text="LOG IN" />
                 <div className="login-form-options">
                     <div className="login-form-option">
                         <label htmlFor="register">

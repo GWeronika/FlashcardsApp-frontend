@@ -46,16 +46,16 @@ const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet, onFlashc
                     ))}
                 </div>
                 <div className="options-set">
-                    <button className="option-button" onClick={onFlashcards}>Flashcards</button>
-                    <button className="option-button" onClick={onWrite}>Write</button>
-                    <button className="option-button" onClick={onTest}>Test</button>
+                    <button className="option-button" onClick={onFlashcards}>FLASHCARDS</button>
+                    <button className="option-button" onClick={onWrite}>WRITE</button>
+                    <button className="option-button" onClick={onTest}>TEST</button>
                     {selectedSet.user.userId === currentUser.userId && (
-                        <button className="option-button" onClick={handleEditClick}>Edit</button>
+                        <button className="option-button" onClick={handleEditClick}>EDIT</button>
                     )}
                 </div>
             </div>
             <div className="close-button-container">
-                <button className="close-button" onClick={onClose}>Close</button>
+                <button className="close-button" onClick={onClose}>CLOSE</button>
             </div>
         </div>
     );

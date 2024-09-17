@@ -52,6 +52,11 @@
     justify-content: left;
 }
 
+.test-flashcard-box p {
+    display: flex;
+    justify-content: center;
+}
+
 .test-flashcard-row {
     display: flex;
     align-items: center;
@@ -70,6 +75,7 @@
 }
 
 .finish-btn {
+    width: 40%;
     padding: 0.8em 2em;
     font-size: 1em;
     color: white;

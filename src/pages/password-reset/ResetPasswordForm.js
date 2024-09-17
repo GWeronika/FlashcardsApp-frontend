@@ -11,6 +11,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
     const [step, setStep] = useState(1);
     const [userId, setUserId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState({ username: '', password: '' });
 
     const checkUserExists = async (email) => {
         try {
@@ -90,8 +91,23 @@ const ResetPasswordForm = ({ show, handleClose }) => {
         }
     };
 
+    const validatePassword = (password) => {
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
+        if (!password.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password is required.' }));
+        } else if (password.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password cannot exceed 255 characters.' }));
+        } else if (!passwordPattern.test(password)) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password does not meet the requirements.' }));
+        } else {
+            setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+        }
+    };
+
     const handlePasswordResetSubmit = async (e) => {
         e.preventDefault();
+
+        validatePassword(newPassword);
 
         if (newPassword !== repeatPassword) {
             alert('Passwords do not match!');
@@ -143,6 +159,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setEmail(e.target.value)}
                             fullWidth
                             required
+                            inputProps={{ maxLength: 255 }}
                         />
                         {!isLoading ? (
                             <div className="button-container">
@@ -180,6 +197,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setVerificationCode(e.target.value)}
                             fullWidth
                             required
+                            inputProps={{ maxLength: 1000 }}
                         />
                         <div className="button-container">
                             <Button
@@ -210,6 +228,9 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setNewPassword(e.target.value)}
                             fullWidth
                             required
+                            error={!!errors.username}
+                            helperText={errors.username}
+                            inputProps={{ maxLength: 255 }}
                         />
                         <TextField
                             id="repeat"
@@ -219,6 +240,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setRepeatPassword(e.target.value)}
                             fullWidth
                             required
+                            inputProps={{ maxLength: 255 }}
                         />
                         <div className="button-container">
                             <Button

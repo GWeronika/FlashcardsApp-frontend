@@ -46,7 +46,7 @@
 }
 
 .option-button {
-    width: 170%;
+    width: 150%;
     padding: 10px;
     border: none;
     color: white;
@@ -68,8 +68,9 @@
 }
 
 .close-button {
+    width: 25%;
     padding: 10px;
-    margin-top: 1em;
+    margin-top: 2em;
     border: none;
     background-color: #2d8b8b;
     color: white;

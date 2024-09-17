@@ -46,11 +46,11 @@ const UserInfo = ({ user, updateUser }) => {
             <p>{user.email}</p>
             <button className="edit-button" onClick={handleOpenEditModal}>
                 <i className="fa-solid fa-pen-to-square"></i>
-                Edit profile
+                EDIT PROFILE
             </button>
             <button className="change-password-button" onClick={handleOpenPasswordModal}>
                 <i className="fa-solid fa-key"></i>
-                Change password
+                CHANGE PASSWORD
             </button>
             {isEditModalOpen && (
                 <EditProfileModal

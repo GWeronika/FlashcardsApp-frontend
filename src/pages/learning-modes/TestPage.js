@@ -37,7 +37,6 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
             }
         });
 
-        console.log("Incorrect Flashcards: ", incorrect);
         setCorrectCount(correct);
         setIncorrectWords(incorrect);
         setShowResults(true);
@@ -78,20 +77,21 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
                                     variant="outlined"
                                     value={userAnswers[flashcard.word] || ""}
                                     onChange={(e) => handleInputChange(e, flashcard.word)}
+                                    inputProps={{ maxLength: 255 }}
                                 />
                             </div>
                         ))}
-                    <div><button className="finish-btn" onClick={handleFinish}>Finish</button></div>
+                    <p><button className="finish-btn" onClick={handleFinish}>FINISH</button></p>
                     </form>
                 </div>
             ) : (
                 <div className="results-box">
                     <div className="results-summary">
-                        Correct Answers: {correctCount}/{selectedSet.flashcards.length}
+                        Your score is {correctCount}/{selectedSet.flashcards.length}
                     </div>
                     {incorrectWords.length > 0 && (
                         <div className="incorrect-list">
-                            <div>Incorrect Words:</div>
+                            <div>INCORRECT WORDS</div>
                             <div className="flashcards">
                                 {incorrectWords.map((flashcard, index) => (
                                     <div key={index} className="flashcard-set incorrect-list-result">
@@ -100,7 +100,7 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
                                     </div>                                ))}
                             </div>
                             <div className="completion-message">
-                                <button onClick={onAnotherClick}>Another set</button>
+                                <button onClick={onAnotherClick}>ANOTHER SET</button>
                             </div>
                         </div>
                     )}

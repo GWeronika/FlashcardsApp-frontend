@@ -60,6 +60,8 @@ const RegisterForm = ({ onClose }) => {
     const validateUsername = async (username) => {
         if (!username.trim()) {
             setErrors(prevErrors => ({ ...prevErrors, username: 'Username is required.' }));
+        } else if (username.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, username: 'Username cannot exceed 255 characters.' }));
         } else {
             setErrors(prevErrors => ({ ...prevErrors, username: '' }));
         }
@@ -81,6 +83,8 @@ const RegisterForm = ({ onClose }) => {
         } else if (!emailRegex.test(email)) {
             setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid email format.' }));
             return false;
+        } else if (username.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, username: 'Email cannot exceed 255 characters.' }));
         }
 
         const emailExists = await checkEmailInDatabase(email);
@@ -100,6 +104,8 @@ const RegisterForm = ({ onClose }) => {
         } else if (!passwordPattern.test(password)) {
             setErrors(prevErrors => ({ ...prevErrors, password: 'Password does not meet the requirements.' }));
             return false;
+        } else if (password.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password cannot exceed 255 characters.' }));
         }
         setErrors(prevErrors => ({ ...prevErrors, password: '' }));
         return true;
@@ -145,6 +151,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!!errors.username}
                     helperText={errors.username}
+                    inputProps={{ maxLength: 255 }}
                 />
                 <TextField
                     label="Email"
@@ -155,6 +162,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!!errors.email}
                     helperText={errors.email}
+                    inputProps={{ maxLength: 255 }}
                 />
                 <TextField
                     label="Password"
@@ -166,6 +174,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!!errors.password}
                     helperText={errors.password}
+                    inputProps={{ maxLength: 255 }}
                 />
                 <TextField
                     label="Repeat Password"
@@ -177,9 +186,10 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!password || password !== repeat_password}
                     helperText={!password || password !== repeat_password ? "Passwords do not match" : ""}
+                    inputProps={{ maxLength: 255 }}
                 />
                 <div className="change-color-button">
-                    <Button text={<>Register</>} onClick={() => {}} />
+                    <Button text={<>REGISTER</>} onClick={() => {}} />
                 </div>
             </form>
         </div>

@@ -80,6 +80,8 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
         } else if (!passwordPattern.test(password)) {
             setErrors(prevErrors => ({ ...prevErrors, newPassword: 'Password does not meet the requirements.' }));
             return false;
+        } else if (password.length > 255) {
+            setErrors(prevErrors => ({ ...prevErrors, password: 'Password cannot exceed 255 characters.' }));
         }
         setErrors(prevErrors => ({ ...prevErrors, newPassword: '' }));
         return true;
@@ -99,6 +101,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         error={Boolean(errors.oldPassword)}
                         helperText={errors.oldPassword}
                         required
+                        inputProps={{ maxLength: 255 }}
                     />
                     <TextField
                         label="New password"
@@ -109,6 +112,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         error={Boolean(errors.newPassword)}
                         helperText={errors.newPassword}
                         required
+                        inputProps={{ maxLength: 255 }}
                     />
                     <TextField
                         label="Repeat password"
@@ -119,6 +123,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         error={Boolean(errors.repeatPassword)}
                         helperText={errors.repeatPassword}
                         required
+                        inputProps={{ maxLength: 255 }}
                     />
                 </div>
                 {errors.general && <p className="error-message">{errors.general}</p>}

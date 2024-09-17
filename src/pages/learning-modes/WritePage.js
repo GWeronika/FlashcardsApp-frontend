@@ -92,10 +92,11 @@ const WritePage = ({ selectedSet, onBackClick }) => {
                                 value={userInput}
                                 onChange={(e) => setUserInput(e.target.value)}
                                 fullWidth
+                                inputProps={{ maxLength: 255 }}
                             />
                         )}
                         {!feedback && (
-                            <button className="check-btn" onClick={handleCheck}>Check</button>
+                            <button className="check-btn" onClick={handleCheck}>CHECK</button>
                         )}
                         {feedback && (
                             <div className="feedback-message" dangerouslySetInnerHTML={{ __html: feedback }}></div>
