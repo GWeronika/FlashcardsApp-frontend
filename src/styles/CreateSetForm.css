@@ -2,7 +2,7 @@
     width: 60%;
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(43, 128, 128, 0.35);
+    background-color: rgba(53, 158, 158, 0.24);
     border-radius: 5px;
 }
 
@@ -17,6 +17,10 @@
 .change-modal {
     color: #646464;
     border-radius: 5px;
+}
+
+.modal h2 {
+    margin-top: -10px;
 }
 
 .flashcard,
@@ -234,6 +238,10 @@
 
 .new-category-icon {
     margin: 0 0 3rem 0;
+}
+
+.new-category-icon img {
+    width: 10rem;
 }
 
 .new-category-inputs {

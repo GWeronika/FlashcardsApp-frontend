@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import crayonsImage from "../../images/crayons.png";
 
 const ChangePasswordModal = ({ user, onClose, onSave }) => {
     const [oldPassword, setOldPassword] = useState('');
@@ -90,6 +91,9 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
+                <div className="login-form-icon new-category-icon">
+                    <img src={crayonsImage} alt="Crayons illustration" className="login-image" />
+                </div>
                 <h2>Change Password</h2>
                 <div className="modal-field">
                     <TextField

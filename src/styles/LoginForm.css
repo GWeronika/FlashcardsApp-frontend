@@ -15,7 +15,7 @@
     flex-direction: column;
     background-color: white;
     border-radius: 1em;
-    padding: 20px 40px 20px 20px;
+    padding: 5px 30px 20px 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 30%;
     align-content: center;
@@ -28,9 +28,8 @@
     margin: 2rem;
 }
 
-.login-form-icon i {
-    color: #216262;
-    font-size: 3rem;
+.login-form-icon img {
+    width: 8rem;
 }
 
 .register-form-icon i {
@@ -39,6 +38,7 @@
 
 .login-form h2 {
     text-align: center;
+    margin-top: -1px;
 }
 
 .login-form .MuiTextField-root {

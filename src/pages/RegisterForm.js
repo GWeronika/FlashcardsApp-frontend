@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import '../styles/LoginForm.css';
 import Button from "../components/Button";
 import TextField from "@mui/material/TextField";
+import registerImage from '../images/register-image.png';
 
 const RegisterForm = ({ onClose }) => {
     const [username, setUsername] = useState('');
@@ -139,7 +140,7 @@ const RegisterForm = ({ onClose }) => {
         <div className="login-form-container change-color">
             <form onSubmit={handleSubmit} className="login-form">
                 <div className="login-form-icon register-form-icon">
-                    <i className="fa-solid fa-id-card"></i>
+                    <img src={registerImage} alt="Register illustration" className="login-image" />
                 </div>
                 <h2>Register</h2>
                 <TextField

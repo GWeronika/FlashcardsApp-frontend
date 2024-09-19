@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/ResetPasswordForm.css';
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
+import crayonsImage from "../../images/crayons.png";
 
 const ResetPasswordForm = ({ show, handleClose }) => {
     const [email, setEmail] = useState('');
@@ -145,9 +146,8 @@ const ResetPasswordForm = ({ show, handleClose }) => {
             <div className="reset-password-form">
                 {step === 1 ? (
                     <form onSubmit={handleEmailSubmit}>
-
-                        <div className='reset-password-form-icon'>
-                            <i className="fa-solid fa-chalkboard-user"></i>
+                        <div className="login-form-icon new-category-icon">
+                            <img src={crayonsImage} alt="Crayons illustration" className="login-image" />
                         </div>
                         <div className="form-one"><h2>Reset Password</h2></div>
                         <div className="reset-info-text">You will receive a verification code on the entered email address</div>
@@ -188,6 +188,9 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                     </form>
                 ) : step === 2 ? (
                     <form onSubmit={handleVerificationSubmit}>
+                        <div className="login-form-icon new-category-icon">
+                            <img src={crayonsImage} alt="Crayons illustration" className="login-image" />
+                        </div>
                         <div className="form-one"><h2>Verify Code</h2></div>
                         <div className="reset-info-text">If you did not receive the code, please check your spam folder</div>
                         <TextField
@@ -218,6 +221,9 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                     </form>
                 ) : step === 3 ? (
                     <form onSubmit={handlePasswordResetSubmit}>
+                        <div className="login-form-icon new-category-icon">
+                            <img src={crayonsImage} alt="Crayons illustration" className="login-image" />
+                        </div>
                         <div className="form-one"><h2>Reset Password</h2></div>
                         <div className="reset-info-text">If you did not receive the code, please check your spam folder</div>
                         <TextField

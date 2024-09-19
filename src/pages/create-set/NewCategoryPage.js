@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { SketchPicker } from 'react-color';
+import crayonsImage from "../../images/crayons.png";
 
 const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
     const [newCategoryName, setNewCategoryName] = useState('');
@@ -65,7 +66,7 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
         <div className="modal-overlay">
             <div className="new-category-modal">
                 <div className="login-form-icon new-category-icon">
-                    <i className="fa-solid fa-palette"></i>
+                    <img src={crayonsImage} alt="Crayons illustration" className="login-image" />
                 </div>
                 <h2>Create new category</h2>
                 <div className="new-category-inputs">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import EditProfileModal from './EditProfileModal';
 import ChangePasswordModal from './ChangePasswordModal';
 import '../../styles/UserInfo.css';
+import registerImage from "../../images/register-image-blue.png";
 
 const UserInfo = ({ user, updateUser }) => {
     const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -40,7 +41,7 @@ const UserInfo = ({ user, updateUser }) => {
     return (
         <div className="user-info">
             <div className="login-form-icon">
-                <i className="fa-solid fa-address-card"></i>
+                <img src={registerImage} alt="Account illustration" className="login-image" />
             </div>
             <h2>{user.name}</h2>
             <p>{user.email}</p>
