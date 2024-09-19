@@ -14,7 +14,9 @@ const WritePage = ({ selectedSet, onBackClick }) => {
 
     const handleCheck = () => {
         const flashcard = unlearnedCards[currentCardIndex];
-        if (userInput.trim() === flashcard.description) {
+        const correctAnswer = languageMode === "en-pl" ? flashcard.description : flashcard.word;
+
+        if (userInput.trim() === correctAnswer) {
             setFeedback("Correct!");
             handleDrop(true);
         } else {
