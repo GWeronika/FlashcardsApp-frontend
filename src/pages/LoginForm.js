@@ -3,6 +3,7 @@ import '../styles/LoginForm.css';
 import Button from "../components/Button";
 import ResetPasswordForm from "./password-reset/ResetPasswordForm";
 import TextField from '@mui/material/TextField';
+import loginImage from '../images/log-in-image.webp';
 
 const LoginForm = ({ onClose, onLogin, onRegister }) => {
     const [username, setUsername] = useState('');
@@ -94,7 +95,7 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
             )}
             <form onSubmit={handleSubmit} className="login-form">
                 <div className="login-form-icon">
-                    <i className="fa-solid fa-circle-user"></i>
+                    <img src={loginImage} alt="Login illustration" className="login-image" />
                 </div>
                 <h2>Log in</h2>
                 <TextField

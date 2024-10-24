@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import '../../styles/CreateSetForm.css';
 import TextField from "@mui/material/TextField";
 import NewCategoryPage from "./NewCategoryPage";
+import registerImage from "../../images/register-image-blue.png";
 
 const CreateSetModal = ({ isOpen, title, setName, setDescription, setCategory, onSetNameChange,
                             onSetDescriptionChange, onSetCategoryChange, onSubmit, onCancel,
@@ -56,7 +57,7 @@ const CreateSetModal = ({ isOpen, title, setName, setDescription, setCategory, o
         <div className="create-form-container">
             <div className="modal">
                 <div className="login-form-icon">
-                    <i className="fa-solid fa-square-plus"></i>
+                    <img src={registerImage} alt="Create set illustration" className="login-image" />
                 </div>
                 <h2>{title}</h2>
                 <TextField

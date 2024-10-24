@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Button2 from '../../components/Button';
+import registerImage from "../../images/register-image-blue.png";
 
 const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     const [newFlashcard, setNewFlashcard] = useState({ word: '', description: '' });
@@ -311,6 +312,9 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
             />
             <div className="create-form-container">
                     <>
+                        <div className="login-form-icon">
+                            <img src={registerImage} alt="Create set illustration" className="login-image" />
+                        </div>
                         <div className="create-form-inner">
                             <div className="name-form">
                                 <div className="name-form-left">
