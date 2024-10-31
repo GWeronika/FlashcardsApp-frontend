@@ -25,22 +25,22 @@ const CreateSetModal = ({ isOpen, title, setName, setDescription, setCategory, o
 
             if (uncategorized) {
                 setCategories(categoriesData);
-                setSelectedCategory(uncategorized.categoryId);
-                if (!setCategory) {
+                if (!setCategory && !selectedCategory) {
+                    setSelectedCategory(uncategorized.categoryId);
                     onSetCategoryChange({ target: { value: uncategorized.categoryId } });
                 }
             } else {
                 const uncategorizedCategory = { categoryId: 'uncategorized', name: 'Uncategorized' };
                 setCategories([...categoriesData, uncategorizedCategory]);
-                setSelectedCategory(uncategorizedCategory.categoryId);
-                if (!setCategory) {
+                if (!setCategory && !selectedCategory) {
+                    setSelectedCategory(uncategorizedCategory.categoryId);
                     onSetCategoryChange({ target: { value: uncategorizedCategory.categoryId } });
                 }
             }
         } catch (error) {
             console.error(`Failed to fetch categories: ${error.message}`);
         }
-    }, [onSetCategoryChange, setCategory]);
+    }, [onSetCategoryChange, setCategory, selectedCategory]);
 
     useEffect(() => {
         if (isOpen) {
