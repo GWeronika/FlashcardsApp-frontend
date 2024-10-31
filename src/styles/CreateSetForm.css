@@ -64,11 +64,11 @@
 .modal select {
     clear: both;
     font-family: "Helvetica", system-ui;
-    color: #646464;
+    color: #359E9E;
     padding: 6px 20px;
     height: 40px;
     width: 10rem;
-    border: rgba(100, 100, 100, 0.41) solid 1px;
+    border: #359E9E solid 1px;
     border-radius: 5px;
     margin-right: 1em;
     background-color: #fff;
@@ -258,11 +258,19 @@
 
 .new-category-inputs {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.new-category-inputs .MuiTextField-root {
+    flex: 1 1 80%;
 }
 
 .color-picker-container {
-    margin-top: 20px;
-    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 0 1 10%;
 }
 
 .color-picker-container .sketch-picker {
@@ -271,13 +279,12 @@
 }
 
 .color-preview {
-    width: 50px;
-    height: 45px;
+    width: 53px;
+    height: 53px;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: -15px;
-    margin-left: 1rem;
+    margin-top: -11px;
 }
 
 @media (min-width: 1200px) {

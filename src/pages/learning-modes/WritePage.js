@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../styles/WritePage.css";
 import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
 
 const WritePage = ({ selectedSet, onBackClick }) => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -61,18 +62,22 @@ const WritePage = ({ selectedSet, onBackClick }) => {
     return (
         <div className="write-page-container">
             <div className="top-bar">
-                <button
-                    className="settings-btn"
-                    onClick={toggleLanguageMode}
-                >
-                    <i className="fa-solid fa-rotate"></i>
-                </button>
-                <button
-                    className="back-btn"
-                    onClick={onBackClick}
-                >
-                    <i className="fa-solid fa-right-long"></i>
-                </button>
+                <Tooltip title="Change language" arrow>
+                    <button
+                        className="settings-btn"
+                        onClick={toggleLanguageMode}
+                    >
+                        <i className="fa-solid fa-rotate"></i>
+                    </button>
+                </Tooltip>
+                <Tooltip title="Go back" arrow>
+                    <button
+                        className="back-btn"
+                        onClick={onBackClick}
+                    >
+                        <i className="fa-solid fa-right-long"></i>
+                    </button>
+                </Tooltip>
             </div>
             <div className="flashcard-box write-page-box">
                 {learnedCount === totalCards ? (

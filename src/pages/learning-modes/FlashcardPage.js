@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/FlashcardPage.css";
+import Tooltip from '@mui/material/Tooltip';
 
 const FlashcardPage = ({ selectedSet, onBackClick }) => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -57,24 +58,22 @@ const FlashcardPage = ({ selectedSet, onBackClick }) => {
     return (
         <div className="flashcard-page-container">
             <div className="top-bar">
-                <button
-                    className="settings-btn"
-                    onClick={toggleLanguageMode}
-                    onMouseEnter={() => setHoveredSide("settings")}
-                    onMouseLeave={() => setHoveredSide(null)}
-                >
-                    {hoveredSide === "settings" && <div className="tooltip">Change language</div>}
-                    <i className="fa-solid fa-rotate"></i>
-                </button>
-                <button
-                    className="back-btn"
-                    onClick={onBackClick}
-                    onMouseEnter={() => setHoveredSide("back")}
-                    onMouseLeave={() => setHoveredSide(null)}
-                >
-                    {hoveredSide === "back" && <div className="tooltip">Go back</div>}
-                    <i className="fa-solid fa-right-long"></i>
-                </button>
+                <Tooltip title="Change language" arrow>
+                    <button
+                        className="settings-btn"
+                        onClick={toggleLanguageMode}
+                    >
+                        <i className="fa-solid fa-rotate"></i>
+                    </button>
+                </Tooltip>
+                <Tooltip title="Go back" arrow>
+                    <button
+                        className="back-btn"
+                        onClick={onBackClick}
+                    >
+                        <i className="fa-solid fa-right-long"></i>
+                    </button>
+                </Tooltip>
             </div>
             <div className="side-boxes">
                 <div

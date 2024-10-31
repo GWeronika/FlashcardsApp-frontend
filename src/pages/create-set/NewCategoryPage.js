@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import { SketchPicker } from 'react-color';
 import crayonsImage from "../../images/crayons.png";
 
@@ -81,13 +82,13 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
                         inputProps={{ maxLength: 255 }}
                     />
                     <div className="color-picker-container">
-                        <div
-                            className="color-preview"
-                            style={{ backgroundColor: selectedColor }}
-                            onClick={() => setShowColorPicker(!showColorPicker)}
-                        >
-                            {selectedColor !== 'rgba(207, 232, 232, 0.76)'}
-                        </div>
+                        <Tooltip title="Choose color" arrow>
+                            <div
+                                className="color-preview"
+                                style={{ backgroundColor: selectedColor }}
+                                onClick={() => setShowColorPicker(!showColorPicker)}
+                            />
+                        </Tooltip>
                         {showColorPicker && (
                             <div ref={colorPickerRef}>
                                 <SketchPicker
