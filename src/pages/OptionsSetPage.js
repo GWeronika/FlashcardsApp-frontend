@@ -39,7 +39,7 @@ const OptionsSetPage = ({ selectedSet, onClose, currentUser, onEditSet, onFlashc
             <div className="options-set-page-bottom">
                 <div className="flashcards-set">
                     {flashcards.map((flashcard, index) => (
-                        <div key={index} className="flashcard">
+                        <div key={index} className="flashcard options-flashcard">
                             <h3>{flashcard.word}</h3>
                             <div>{flashcard.description}</div>
                         </div>

@@ -168,14 +168,14 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                                     onClick={handleClose}
                                     sx={{ borderColor: '#359E9E', color: '#359E9E' }}
                                 >
-                                    Cancel
+                                    CANCEL
                                 </Button>
                                 <Button
                                     variant="contained"
                                     onClick={handleEmailSubmit}
                                     sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
                                 >
-                                    Send code
+                                    SEND CODE
                                 </Button>
                             </div>
                         ) : (
@@ -208,14 +208,14 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                                 onClick={handleClose}
                                 sx={{ borderColor: '#359E9E', color: '#359E9E' }}
                             >
-                                Cancel
+                                CANCEL
                             </Button>
                             <Button
                                 variant="contained"
                                 onClick={handleVerificationSubmit}
                                 sx={{ backgroundColor: '#359E9E', '&:hover': { backgroundColor: '#2c7d7d' } }}
                             >
-                                Verify
+                                VERIFY
                             </Button>
                         </div>
                     </form>

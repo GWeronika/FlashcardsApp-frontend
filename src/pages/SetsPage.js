@@ -158,10 +158,10 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
                     </div>
                     <div className="my-sets-div">
                         <button onClick={handleMySetsClick}>
-                            <i className="fa-solid fa-book-bookmark"></i> My Sets
+                            <i className="fa-solid fa-book-bookmark"></i> MY SETS
                         </button>
                         <button onClick={handleAllSetsClick}>
-                            <i className="fa-solid fa-book-bookmark"></i> All Sets
+                            <i className="fa-solid fa-book-bookmark"></i> ALL SETS
                         </button>
                     </div>
                 </div>
