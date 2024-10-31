@@ -101,6 +101,11 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     };
 
     const handleConfirmFlashcard = async () => {
+        if (flashcards.length === 0) {
+            alert('Set cannot be empty');
+            return;
+        }
+
         await updateSetName();
         await updateSetDescription();
         alert('Successfully added and updated');
@@ -191,11 +196,16 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     const handleDeleteButtonClick = async () => {
         setIsLoading(true);
         try {
-            await handleDeleteFlashcardsInSet();
-            await handleDeleteSet();
+            if (flashcards.length === 0) {
+                await handleDeleteSet();
+            } else {
+                await handleDeleteFlashcardsInSet();
+                await handleDeleteSet();
+            }
+
             await onRedirectToSetsPage();
         } catch (error) {
-            console.error(`Failed to delete set and flashcards: ${error.message}`);
+            console.error(`Failed to delete set and/or flashcards: ${error.message}`);
         } finally {
             setIsLoading(false);
         }
