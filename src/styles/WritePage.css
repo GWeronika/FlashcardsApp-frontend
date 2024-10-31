@@ -17,7 +17,6 @@
 
 .settings-btn,
 .back-btn {
-    position: relative;
     background-color: #359E9E;
     color: white;
     border: none;
@@ -47,6 +46,7 @@
 
 .flashcard-content .MuiTextField-root {
     margin-bottom: 6rem;
+    width: 90%;
 }
 
 .check-btn {
@@ -65,6 +65,21 @@
     background-color: rgb(43, 128, 128);
 }
 
+.result-box {
+    width: 90%;
+    max-width: 700px;
+}
+
+.incorrect-list-result {
+    background-color: rgba(220, 67, 69, 0.1);
+    padding: 1em;
+    margin: 0.5em 0;
+    border-radius: 8px;
+    color: #DC4345;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 .ok-btn {
     padding: 0.5em 1em;
     font-size: 1em;
@@ -74,7 +89,7 @@
     border-radius: 0.5em;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 2em 0;
+    margin-top: 1em;
 }
 
 .ok-btn:hover {

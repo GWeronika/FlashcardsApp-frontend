@@ -101,10 +101,16 @@ const WritePage = ({ selectedSet, onBackClick }) => {
                             <button className="check-btn" onClick={handleCheck}>CHECK</button>
                         )}
                         {feedback && (
-                            <div className="feedback-message" dangerouslySetInnerHTML={{ __html: feedback }}></div>
+                            <div className="results-box">
+                                <div
+                                    className="incorrect-list-result"
+                                    dangerouslySetInnerHTML={{ __html: feedback }}
+                                ></div>
+                                <button className="ok-btn" onClick={handleOkClick}>OK</button>
+                            </div>
                         )}
-                        {feedback && (
-                            <button className="ok-btn" onClick={handleOkClick}>OK</button>
+                        {!feedback && learnedCount !== totalCards && (
+                            <div className="help-text" onClick={handleHelp}>I need help!</div>
                         )}
                     </div>
                 )}

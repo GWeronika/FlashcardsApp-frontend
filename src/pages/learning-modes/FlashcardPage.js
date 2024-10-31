@@ -85,7 +85,7 @@ const FlashcardPage = ({ selectedSet, onBackClick }) => {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={() => handleDrop(false)}
                 >
-                    <div className="side-button-content">I don't know</div>
+                    <div className="side-button-content">I DON'T KNOW</div>
                 </div>
                 <div
                     className={`flashcard-box ${flipped ? "flipped" : ""}`}
@@ -116,7 +116,7 @@ const FlashcardPage = ({ selectedSet, onBackClick }) => {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={() => handleDrop(true)}
                 >
-                    <div className="side-button-content">I know</div>
+                    <div className="side-button-content">I KNOW</div>
                 </div>
             </div>
             <div className="counter">

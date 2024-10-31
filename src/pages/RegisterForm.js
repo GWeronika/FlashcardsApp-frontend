@@ -185,8 +185,8 @@ const RegisterForm = ({ onClose }) => {
                     onChange={handleRepeatPasswordChange}
                     fullWidth
                     required
-                    error={!password || password !== repeat_password}
-                    helperText={!password || password !== repeat_password ? "Passwords do not match" : ""}
+                    error={password !== repeat_password}
+                    helperText={password !== repeat_password ? "Passwords do not match" : ""}
                     inputProps={{ maxLength: 255 }}
                 />
                 <div className="change-color-button">

@@ -8,13 +8,13 @@
     border-radius: 0.8rem;
     padding: 3.5rem 1rem;
     margin: 0.5rem;
-    color: #3A1E0A;
+    color: #000;
     font-size: 1rem;
     background-color: #DC4345;
     min-width: 31%;
 }
 
 .main-button:hover {
-    background-color: #DC4345;
+    background-color: #b6393a;
     cursor: pointer;
 }

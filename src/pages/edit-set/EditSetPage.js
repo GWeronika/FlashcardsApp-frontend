@@ -372,11 +372,11 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                 />
                                 <div className="create-form-buttons">
                                     <Button2
-                                        text={<>Add</>}
+                                        text={<>ADD</>}
                                         onClick={handleAddFlashcard}
                                     />
                                     <Button2
-                                        text={<>Finish</>}
+                                        text={<>FINISH</>}
                                         onClick={handleConfirmFlashcard}
                                     />
                                 </div>

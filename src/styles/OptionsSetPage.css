@@ -36,6 +36,7 @@
     overflow-y: auto;
     border: none;
     padding: 10px;
+    scrollbar-color: #3A1E0A #fff;
 }
 
 .options-set {
@@ -43,6 +44,10 @@
     flex-direction: column;
     gap: 15px;
     margin: 10px;
+}
+
+.options-flashcard {
+    padding-bottom: 10px;
 }
 
 .option-button {
@@ -57,8 +62,7 @@
 }
 
 .option-button:hover {
-    background-color: rgba(43, 128, 128, 0.35);
-    text-decoration: underline;
+    background-color: #236767;
 }
 
 .close-button-container {
@@ -71,14 +75,14 @@
     width: 25%;
     padding: 10px;
     margin-top: 2em;
-    border: none;
-    background-color: #2d8b8b;
-    color: white;
+    border: solid 1px #2d8b8b;
+    background-color: #fff;
+    color: #2d8b8b;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 .close-button:hover {
-    background-color: #216262;
+    background-color: rgb(247, 253, 253);
 }

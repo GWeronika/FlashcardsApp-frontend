@@ -72,7 +72,7 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
                                     {languageMode === "en-pl" ? flashcard.word : flashcard.description}
                                 </div>
                                 <TextField
-                                    id="test-flashcard-input"
+                                    className="test-flashcard-input"
                                     label={languageMode === "en-pl" ? "Translation" : "Tłumaczenie"}
                                     variant="outlined"
                                     value={userAnswers[flashcard.word] || ""}
@@ -81,7 +81,7 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
                                 />
                             </div>
                         ))}
-                    <p><button className="finish-btn" onClick={handleFinish}>FINISH</button></p>
+                    <section><button className="finish-btn" onClick={handleFinish}>FINISH</button></section>
                     </form>
                 </div>
             ) : (
