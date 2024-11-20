@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Button2 from '../../components/Button';
-import registerImage from "../../images/register-image-blue.png";
 
 const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     const [newFlashcard, setNewFlashcard] = useState({ word: '', description: '' });
@@ -12,12 +11,36 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
     const [setName, setSetName] = useState(setObject?.name || '');
     const [setDescription, setSetDescription] = useState(setObject?.description || '');
     const [isLoading, setIsLoading] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(setObject?.category?.categoryId || '');
 
     useEffect(() => {
         if (setObject) {
             fetchFlashcardsBySetId(setObject.setId);
         }
     }, [setObject]);
+
+    const fetchCategories = useCallback(async () => {
+        try {
+            const response = await fetch('/api/category/select/all');
+            if (!response.ok) {
+                console.error(`HTTP error! status: ${response.status}`);
+                return;
+            }
+            const categoriesData = await response.json();
+            setCategories(categoriesData);
+            if (!selectedCategory && setObject?.category) {
+                setSelectedCategory(setObject.category.categoryId);
+            }
+        } catch (error) {
+            console.error(`Failed to fetch categories: ${error.message}`);
+        }
+    }, [setObject, selectedCategory]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]);
+
 
     const handleSetWordChange = (e) => setNewFlashcard({ ...newFlashcard, word: e.target.value });
     const handleSetDefinitionChange = (e) => setNewFlashcard({ ...newFlashcard, description: e.target.value });
@@ -77,6 +100,36 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
             await fetchFlashcardsBySetId(setObject.setId);
         } catch (error) {
             console.error(`Failed to delete flashcard: ${error.message}`);
+        }
+    };
+
+    const updateSetCategory = async (setId, categoryId) => {
+        try {
+            const response = await fetch('/api/set/edit/category', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ setId, categoryId }),
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                console.error(`Error updating category: ${errorMessage}`);
+                alert(`Failed to update category: ${errorMessage}`);
+            } else {
+                alert('Category updated successfully');
+            }
+        } catch (error) {
+            console.error(`An error occurred: ${error.message}`);
+            alert('An unexpected error occurred while updating the category.');
+        }
+    };
+
+    const handleCategoryChange = async (e) => {
+        const newCategoryId = e.target.value;
+        setSelectedCategory(newCategoryId);
+
+        if (setObject?.setId) {
+            await updateSetCategory(setObject.setId, newCategoryId);
         }
     };
 
@@ -322,9 +375,6 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
             />
             <div className="create-form-container">
                     <>
-                        <div className="login-form-icon">
-                            <img src={registerImage} alt="Create set illustration" className="login-image" />
-                        </div>
                         <div className="create-form-inner">
                             <div className="name-form">
                                 <div className="name-form-left">
@@ -349,6 +399,17 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                     />
                                 </div>
                                 <div className="name-form-right">
+                                    <select
+                                        value={selectedCategory}
+                                        onChange={handleCategoryChange}
+                                        className="category-select"
+                                    >
+                                        {categories.map((category) => (
+                                            <option key={category.categoryId} value={category.categoryId}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                     <i
                                         className="fa-solid fa-ellipsis-vertical"
                                         onClick={toggleOptionsList}
@@ -395,29 +456,24 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                         {!isLoading ? (
                             <div className="flashcard-container">
                                 {flashcards.map((flashcard) => (
-                                    <div
-                                        key={flashcard.flashcardId}
-                                        className="flashcard"
-                                    >
-                                        <h3 className="flashcard-title">
-                                            {flashcard.word}
-                                        </h3>
-                                        <p className="flashcard-description">
-                                            {flashcard.description}
-                                        </p>
+                                    <div key={flashcard.flashcardId} className="flashcard">
+                                        <div className="flashcard-data">
+                                            <h3 className="flashcard-title">{flashcard.word}</h3>
+                                            <p className="flashcard-description">{flashcard.description}</p>
+                                        </div>
                                         <div className="flashcard-options">
-                                            <i className="fa-solid fa-trash-can"
-                                               onClick={() =>
-                                                   handleDeleteFlashcard(
-                                                       flashcard.flashcardId
-                                                   )
-                                               }
-                                            ></i>
-                                            <i className="fa-solid fa-pen"
-                                               onClick={() =>
-                                                   openEditModal(flashcard)
-                                               }
-                                            ></i>
+                                            <div
+                                                className="option"
+                                                onClick={() => handleDeleteFlashcard(flashcard.flashcardId)}
+                                            >
+                                                <i className="fa-solid fa-trash-can"></i>
+                                            </div>
+                                            <div
+                                                className="option"
+                                                onClick={() => openEditModal(flashcard)}
+                                            >
+                                                <i className="fa-solid fa-pen"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
