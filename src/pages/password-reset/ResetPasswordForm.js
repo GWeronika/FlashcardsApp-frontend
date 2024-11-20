@@ -159,7 +159,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setEmail(e.target.value)}
                             fullWidth
                             required
-                            inputProps={{ maxLength: 255 }}
+                            slotProps={{ input: { maxLength: 255 } }}
                         />
                         {!isLoading ? (
                             <div className="button-container">
@@ -200,7 +200,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setVerificationCode(e.target.value)}
                             fullWidth
                             required
-                            inputProps={{ maxLength: 1000 }}
+                            slotProps={{ input: { maxLength: 255 } }}
                         />
                         <div className="button-container">
                             <Button
@@ -236,7 +236,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             required
                             error={!!errors.username}
                             helperText={errors.username}
-                            inputProps={{ maxLength: 255 }}
+                            slotProps={{ input: { maxLength: 255 } }}
                         />
                         <TextField
                             id="repeat"
@@ -246,7 +246,7 @@ const ResetPasswordForm = ({ show, handleClose }) => {
                             onChange={(e) => setRepeatPassword(e.target.value)}
                             fullWidth
                             required
-                            inputProps={{ maxLength: 255 }}
+                            slotProps={{ input: { maxLength: 255 } }}
                         />
                         <div className="button-container">
                             <Button

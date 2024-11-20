@@ -79,7 +79,7 @@ const NewCategoryPage = ({ onClose, onCategoryCreated }) => {
                         fullWidth
                         error={!!error}
                         helperText={error}
-                        inputProps={{ maxLength: 255 }}
+                        slotProps={{ input: { maxLength: 255 } }}
                     />
                     <div className="color-picker-container">
                         <Tooltip title="Choose color" arrow>

@@ -105,7 +105,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         error={Boolean(errors.oldPassword)}
                         helperText={errors.oldPassword}
                         required
-                        inputProps={{ maxLength: 255 }}
+                        slotProps={{ input: { maxLength: 255 } }}
                     />
                     <TextField
                         label="New password"
@@ -116,7 +116,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         error={Boolean(errors.newPassword)}
                         helperText={errors.newPassword}
                         required
-                        inputProps={{ maxLength: 255 }}
+                        slotProps={{ input: { maxLength: 255 } }}
                     />
                     <TextField
                         label="Repeat password"
@@ -127,7 +127,7 @@ const ChangePasswordModal = ({ user, onClose, onSave }) => {
                         error={Boolean(errors.repeatPassword)}
                         helperText={errors.repeatPassword}
                         required
-                        inputProps={{ maxLength: 255 }}
+                        slotProps={{ input: { maxLength: 255 } }}
                     />
                 </div>
                 {errors.general && <p className="error-message">{errors.general}</p>}

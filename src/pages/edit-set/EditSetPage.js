@@ -330,7 +330,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                 })
                             }
                             fullWidth
-                            inputProps={{ maxLength: 255 }}
+                            slotProps={{ input: { maxLength: 255 } }}
                         />
                         <TextField
                             id="description"
@@ -345,7 +345,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                 })
                             }
                             fullWidth
-                            inputProps={{ maxLength: 1000 }}
+                            slotProps={{ input: { maxLength: 1000 } }}
                         />
                         <div className="modal-buttons">
                             <Button
@@ -385,7 +385,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                         onChange={handleSetNameChange}
                                         required
                                         fullWidth
-                                        inputProps={{ maxLength: 255 }}
+                                        slotProps={{ input: { maxLength: 255 } }}
                                     />
                                     <TextField
                                         label="Description"
@@ -395,7 +395,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                         required
                                         multiline
                                         fullWidth
-                                        inputProps={{ maxLength: 1000 }}
+                                        slotProps={{ input: { maxLength: 255 } }}
                                     />
                                 </div>
                                 <div className="name-form-right">
@@ -430,7 +430,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                     onChange={handleSetWordChange}
                                     fullWidth
                                     required
-                                    inputProps={{ maxLength: 255 }}
+                                    slotProps={{ input: { maxLength: 255 } }}
                                 />
                                 <TextField
                                     label="Definition"
@@ -439,7 +439,7 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
                                     onChange={handleSetDefinitionChange}
                                     fullWidth
                                     required
-                                    inputProps={{ maxLength: 255 }}
+                                    slotProps={{ input: { maxLength: 255 } }}
                                 />
                                 <div className="create-form-buttons">
                                     <Button2

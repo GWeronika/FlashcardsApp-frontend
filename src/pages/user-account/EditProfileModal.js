@@ -121,7 +121,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
                         onChange={handleUsernameChange}
                         error={Boolean(errors.username)}
                         helperText={errors.username}
-                        inputProps={{ maxLength: 255 }}
+                        slotProps={{ input: { maxLength: 255 } }}
                     />
                     <TextField
                         label="Email"
@@ -131,7 +131,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
                         onChange={handleEmailChange}
                         error={Boolean(errors.email)}
                         helperText={errors.email}
-                        inputProps={{ maxLength: 255 }}
+                        slotProps={{ input: { maxLength: 255 } }}
                     />
                 </div>
                 <div className="edit-modal-buttons">

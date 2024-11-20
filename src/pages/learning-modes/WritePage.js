@@ -99,7 +99,7 @@ const WritePage = ({ selectedSet, onBackClick }) => {
                                 value={userInput}
                                 onChange={(e) => setUserInput(e.target.value)}
                                 fullWidth
-                                inputProps={{ maxLength: 255 }}
+                                slotProps={{ input: { maxLength: 255 } }}
                             />
                         )}
                         {!feedback && (

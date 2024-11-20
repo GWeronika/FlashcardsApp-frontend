@@ -82,7 +82,7 @@ const TestPage = ({ selectedSet, onBackClick, onAnotherClick }) => {
                                     variant="outlined"
                                     value={userAnswers[flashcard.word] || ""}
                                     onChange={(e) => handleInputChange(e, flashcard.word)}
-                                    inputProps={{ maxLength: 255 }}
+                                    slotProps={{ input: { maxLength: 255 } }}
                                 />
                             </div>
                         ))}

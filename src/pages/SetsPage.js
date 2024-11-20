@@ -39,7 +39,8 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                alert(`HTTP error! status: ${response.status}`);
+                return;
             }
 
             const setsData = await response.json();
@@ -77,7 +78,8 @@ const SetsPage = ({ isLoggedIn, currentUser, hideActions, mySetsOnly, onSetClick
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    alert(`HTTP error! status: ${response.status}`);
+                    return;
                 }
 
                 const categoriesData = await response.json();

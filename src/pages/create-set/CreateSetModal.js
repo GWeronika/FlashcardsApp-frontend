@@ -67,7 +67,7 @@ const CreateSetModal = ({ isOpen, title, setName, setDescription, setCategory, o
                     onChange={onSetNameChange}
                     fullWidth
                     required
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <TextField
                     label="Description"
@@ -77,7 +77,7 @@ const CreateSetModal = ({ isOpen, title, setName, setDescription, setCategory, o
                     multiline
                     fullWidth
                     required
-                    inputProps={{ maxLength: 1000 }}
+                    slotProps={{ input: { maxLength: 1000 } }}
                 />
                 <div className="modal-additional-box">
                     <select

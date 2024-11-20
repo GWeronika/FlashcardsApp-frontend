@@ -48,7 +48,8 @@ const RegisterForm = ({ onClose }) => {
                     })
                 });
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    alert(`HTTP error! status: ${response.status}`);
+                    return;
                 }
                 alert("User registered successfully. Go to log in.");
                 onClose();
@@ -152,7 +153,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!!errors.username}
                     helperText={errors.username}
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <TextField
                     label="Email"
@@ -163,7 +164,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!!errors.email}
                     helperText={errors.email}
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <TextField
                     label="Password"
@@ -175,7 +176,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={!!errors.password}
                     helperText={errors.password}
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <TextField
                     label="Repeat Password"
@@ -187,7 +188,7 @@ const RegisterForm = ({ onClose }) => {
                     required
                     error={password !== repeat_password}
                     helperText={password !== repeat_password ? "Passwords do not match" : ""}
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <div className="change-color-button">
                     <Button text={<>REGISTER</>} onClick={() => {}} />

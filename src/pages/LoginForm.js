@@ -107,7 +107,7 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
                     fullWidth
                     error={!!errors.username}
                     helperText={errors.username}
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <TextField
                     id="password"
@@ -119,7 +119,7 @@ const LoginForm = ({ onClose, onLogin, onRegister }) => {
                     fullWidth
                     error={!!errors.password}
                     helperText={errors.password}
-                    inputProps={{ maxLength: 255 }}
+                    slotProps={{ input: { maxLength: 255 } }}
                 />
                 <Button text="LOG IN" />
                 <div className="login-form-options">
