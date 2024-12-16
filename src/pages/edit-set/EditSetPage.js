@@ -52,6 +52,9 @@ const EditSetPage = ({ setObject, onRedirectToSetsPage }) => {
             alert('Set object is not available. Create a set first.');
             return;
         }
+        if (!newFlashcard.word.trim() || !newFlashcard.description.trim()) {
+            return;
+        }
 
         const params = new URLSearchParams();
         params.append('word', newFlashcard.word);
