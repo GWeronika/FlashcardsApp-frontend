@@ -191,6 +191,9 @@
         display: flex;
         flex-direction: column;
     }
+    .actions-div {
+        width: 98%;
+    }
     .my-sets-div {
         display: flex;
         margin-right: 0;
@@ -199,6 +202,11 @@
         margin: 0 1em 0.5em;
     }
     .filter-div {
-        margin-right: 0;
+        margin-right: -27px;
+    }
+    .filter-div select {
+        width: 134px;
+        margin-right: 27px;
+        border-radius: 0.5em;
     }
 }
